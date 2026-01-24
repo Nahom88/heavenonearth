@@ -1,0 +1,142 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "events": "Events",
+    "ministries": "Ministries",
+    "partnership": "Partnership",
+    "prayer": "Prayer",
+    "gallery": "Gallery",
+    "giving": "Giving",
+    "resources": "Resources"
+  },
+  "hero": {
+    "title": "Heaven on Earth Kingdom Family Ministries",
+    "subtitle": "Your kingdom come, your will be done, on earth as it is in heaven.",
+    "scripture": "Matthew 6:10",
+    "cta": "Join Our Family",
+    "ctaSecondary": "Learn More"
+  },
+  "welcome": {
+    "title": "Welcome to Our Church",
+    "subtitle": "A Place of Faith, Love, and Community",
+    "description": "We are a family of believers dedicated to spreading the Gospel of Jesus Christ, nurturing spiritual growth, and serving our community in Addis Ababa and beyond. Join us as we seek to bring heaven to earth through prayer, worship, and love.",
+    "cta": "Discover Our Story"
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "To make disciples of all nations, teaching them to observe all that Christ has commanded, and bringing the Kingdom of God to every home and community."
+  },
+  "vision": {
+    "title": "Our Vision",
+    "description": "To see families transformed by the power of the Gospel, communities renewed by the love of Christ, and nations reached with the message of salvation."
+  },
+  "ministries": {
+    "title": "Our Ministries",
+    "subtitle": "Serving God, Serving People",
+    "prayer": {
+      "title": "Prayer Ministry",
+      "description": "24/7 prayer coverage, prayer vigils, and intercession for families and nations."
+    },
+    "outreach": {
+      "title": "Community Outreach",
+      "description": "Food distribution, helping the needy, and showing Christ's love through action."
+    },
+    "discipleship": {
+      "title": "Discipleship",
+      "description": "Bible studies, small groups, and spiritual mentoring for growth in faith."
+    },
+    "youth": {
+      "title": "Youth Ministry",
+      "description": "Weekly meetings, mentorship, and activities for young believers."
+    },
+    "children": {
+      "title": "Children's Ministry",
+      "description": "Sunday School, Bible stories, and nurturing the faith of our little ones."
+    }
+  },
+  "events": {
+    "title": "Upcoming Events",
+    "subtitle": "Join Us in Worship and Fellowship",
+    "serviceTimes": "Service Times",
+    "sunday": "Sunday Service",
+    "wednesday": "Wednesday Prayer",
+    "friday": "Friday Bible Study"
+  },
+  "prayer": {
+    "title": "Prayer Requests",
+    "subtitle": "The prayer of a righteous person is powerful and effective.",
+    "scripture": "James 5:16",
+    "formTitle": "Submit Your Prayer Request",
+    "namePlaceholder": "Your Name",
+    "emailPlaceholder": "Your Email",
+    "requestPlaceholder": "Share your prayer request...",
+    "anonymous": "Submit Anonymously",
+    "submit": "Submit Prayer Request",
+    "wall": "Prayer Wall",
+    "schedule": "Prayer Schedule"
+  },
+  "partnership": {
+    "title": "Partner With Us",
+    "subtitle": "Together We Can Do More",
+    "description": "Join us in advancing the Kingdom of God through prayer, giving, and service.",
+    "financial": "Financial Partnership",
+    "volunteer": "Volunteer Opportunities",
+    "material": "Material Support"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd Love to Hear From You",
+    "phone": "Phone",
+    "email": "Email",
+    "telegram": "Telegram",
+    "location": "Location",
+    "hours": "Office Hours",
+    "formTitle": "Send Us a Message",
+    "namePlaceholder": "Your Name",
+    "emailPlaceholder": "Your Email",
+    "subjectPlaceholder": "Subject",
+    "messagePlaceholder": "Your Message",
+    "submit": "Send Message"
+  },
+  "giving": {
+    "title": "Giving",
+    "subtitle": "Honor the Lord with your wealth",
+    "scripture": "Proverbs 3:9",
+    "description": "Your generous giving helps us continue our mission of spreading the Gospel and serving our community.",
+    "bankDetails": "Bank Details",
+    "bank": "Commercial Bank of Ethiopia",
+    "account": "Account Number",
+    "swift": "SWIFT Code"
+  },
+  "newsletter": {
+    "title": "Stay Connected",
+    "subtitle": "Subscribe to our newsletter for updates and encouragement",
+    "placeholder": "Enter your email",
+    "submit": "Subscribe"
+  },
+  "help": {
+    "title": "How You Can Help",
+    "pray": "Pray for our ministry and community",
+    "give": "Give financially to support our work",
+    "volunteer": "Volunteer your time and talents",
+    "share": "Share the Gospel with others",
+    "connect": "Connect with us on social media"
+  },
+  "footer": {
+    "about": "Heaven on Earth Kingdom Family Ministries is an evangelical church in Addis Ababa, Ethiopia, dedicated to bringing the Kingdom of God to families and communities.",
+    "quickLinks": "Quick Links",
+    "connect": "Connect With Us",
+    "copyright": "© 2024 Heaven on Earth Kingdom Family Ministries. All rights reserved."
+  },
+  "common": {
+    "learnMore": "Learn More",
+    "readMore": "Read More",
+    "viewAll": "View All",
+    "submit": "Submit",
+    "success": "Success!",
+    "error": "Error",
+    "loading": "Loading..."
+  }
+}

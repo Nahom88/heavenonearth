@@ -1,0 +1,144 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { Calendar, Clock, MapPin } from 'lucide-react';
+import EventCard from '@/components/EventCard';
+import { serviceTimes, upcomingEvents, hero, eventCategories } from './data';
+
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  description: string;
+  image: string;
+  featured: boolean;
+  category?: string;
+}
+
+const Events = () => {
+  const { t } = useTranslation();
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const filteredEvents = activeCategory === 'all' 
+    ? upcomingEvents 
+    : upcomingEvents.filter((event: Event) => event.category === activeCategory);
+
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-primary via-primary/95 to-primary/90 py-20 md:py-28">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center text-white"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{hero.title}</h1>
+            <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
+              {hero.subtitle}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Service Times */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto"
+          >
+            <h2 className="text-3xl font-bold text-center mb-8">Service Times</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {serviceTimes.map((time, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-card p-6 rounded-lg shadow-sm border border-border"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <time.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold">{time.day}</h3>
+                      <p className="text-muted-foreground">{time.service}</p>
+                      <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                        <Clock className="w-4 h-4" />
+                        {time.time}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Upcoming Events */}
+      <section className="py-16 bg-muted/20">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-6xl mx-auto"
+          >
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+              <h2 className="text-3xl font-bold">Upcoming Events</h2>
+              <div className="flex gap-2 mt-4 md:mt-0">
+                {eventCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setActiveCategory(category.id)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      activeCategory === category.id
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted hover:bg-muted/80'
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredEvents.map((event, index) => (
+                <motion.div
+                  key={event.id || index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <EventCard 
+                    key={event.id}
+                    title={event.title}
+                    date={event.date}
+                    time={event.time}
+                    location={event.location}
+                    description={event.description}
+                    image={event.image}
+                    featured={event.featured}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Events;
