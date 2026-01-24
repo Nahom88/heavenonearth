@@ -1,13 +1,38 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /dashboard/
+Disallow: /*.json$
+Disallow: /*?*
+
+# Sitemap location
+Sitemap: https://heavenonearth.et/sitemap.xml
+
+# Crawl-delay: 10
+
+# Specific bot rules
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 10
 
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
+Allow: /
+
+# Block AI scrapers
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
 Allow: /
 
 User-agent: *

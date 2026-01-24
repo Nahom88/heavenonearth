@@ -1,24 +1,93 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kingdom Project</title>
-    <meta name="description" content="Kingdom Project - A modern web application" />
-    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Heaven on Earth Kingdom Family Ministries | Transformative Christian Ministry</title>
+    <meta name="description" content="Experience God's love and transformation at Heaven on Earth Kingdom Family Ministries. Join our vibrant Christian community for worship, prayer, and spiritual growth in Addis Ababa, Ethiopia." />
+    <meta name="keywords" content="Christian ministry, church Ethiopia, worship, prayer, Bible study, spiritual growth, Addis Ababa church, Ethiopian Christian community" />
+    <meta name="author" content="Heaven on Earth Kingdom Family Ministries" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://heavenonearth.et" />
 
-    <meta property="og:title" content="Kingdom Project" />
-    <meta property="og:description" content="Kingdom Project - A modern web application" />
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/opengraph-image.png" />
+    <meta property="og:url" content="https://heavenonearth.et/" />
+    <meta property="og:title" content="Heaven on Earth Kingdom Family Ministries | Transformative Christian Ministry" />
+    <meta property="og:description" content="Join our vibrant Christian community for worship, prayer, and spiritual growth in Addis Ababa, Ethiopia." />
+    <meta property="og:image" content="https://heavenonearth.et/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Heaven on Earth Kingdom Family Ministries" />
+    <meta property="og:locale" content="en_US" />
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="" />
-    <meta name="twitter:image" content="/opengraph-image.png" />
+    <meta name="twitter:site" content="@heavenonearth_et" />
+    <meta name="twitter:creator" content="@heavenonearth_et" />
+    <meta name="twitter:title" content="Heaven on Earth Kingdom Family Ministries" />
+    <meta name="twitter:description" content="Join our vibrant Christian community for worship, prayer, and spiritual growth in Addis Ababa, Ethiopia." />
+    <meta name="twitter:image" content="https://heavenonearth.et/images/twitter-card.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1a365d" />
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/fonts/your-main-font.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   </head>
 
   <body>
     <div id="root"></div>
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Heaven on Earth Kingdom Family Ministries",
+      "url": "https://heavenonearth.et",
+      "logo": "https://heavenonearth.et/logo.png",
+      "description": "A vibrant Christian community in Addis Ababa, Ethiopia, dedicated to worship, prayer, and spiritual growth.",
+      "sameAs": [
+        "https://www.facebook.com/heavenonearthministries",
+        "https://t.me/kingdomfamilyyy",
+        "https://www.youtube.com/@heavenonearthministries"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+251905543858",
+        "contactType": "customer service",
+        "email": "heavenonearthkingdomfamily@gmail.com",
+        "availableLanguage": ["English", "Amharic"]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bole Road",
+        "addressLocality": "Addis Ababa",
+        "addressCountry": "ET"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Heaven on Earth Kingdom Family Ministries",
+      "url": "https://heavenonearth.et",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://heavenonearth.et/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
