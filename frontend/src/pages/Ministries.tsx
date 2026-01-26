@@ -1,10 +1,17 @@
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Heart, Users, BookOpen, Calendar, HandHeart, Music, Baby, Globe } from 'lucide-react';
 import MinistryCard from '@/components/MinistryCard';
 
+const truncateText = (text: string, maxLength: number) => {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+};
+
 const Ministries = () => {
   const { t } = useTranslation();
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const ministries = [
     {
@@ -97,6 +104,10 @@ const Ministries = () => {
     },
   ];
 
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -141,14 +152,24 @@ const Ministries = () => {
                 <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   {ministry.description}
                 </p>
-                <ul className="space-y-2">
-                  {ministry.details.map((detail, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-foreground">
-                      <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0" />
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
+                {expandedIndex === index && (
+                  <ul className="space-y-2 mb-4">
+                    {ministry.details.map((detail, i) => (
+                      <li key={i} className="flex items-center gap-2 text-sm text-foreground">
+                        <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0" />
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {ministry.details.length > 0 && (
+                  <button
+                    onClick={() => toggleExpand(index)}
+                    className="text-secondary hover:underline"
+                  >
+                    {expandedIndex === index ? 'Read Less' : 'Read More'}
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}
