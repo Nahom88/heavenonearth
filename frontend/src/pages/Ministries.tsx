@@ -140,7 +140,7 @@ const Ministries = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-card rounded-xl shadow-card border border-border hover:border-secondary/30 transition-all duration-300 overflow-hidden group"
+              className={`bg-card rounded-xl shadow-card border border-border hover:border-secondary/30 transition-all duration-300 overflow-hidden group max-w-max ${expandedIndex === index ? 'w-full' : ''}`}
             >
               <div className="p-6">
                 <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
