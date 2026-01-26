@@ -99,25 +99,34 @@ export const rateLimit = (windowMs = 15 * 60 * 1000, max = 100): RequestHandler 
  * Error handling middleware for security-related errors
  */
 export const securityErrorHandler: RequestHandler = (err: any, req, res, next) => {
-  // Prevent leaking stack traces in production
-  const errorResponse = {
-    error: 'Internal Server Error',
-    ...(process.env.NODE_ENV !== 'production' && { message: err.message }),
+  const isDevelopment = process.env.NODE_ENV !== 'production';
+  
+  const errorResponses = {
+    UnauthorizedError: {
+      status: 401,
+      body: { error: 'Invalid or missing token' }
+    },
+    RateLimitExceeded: {
+      status: 429,
+      body: {
+        error: 'Too Many Requests',
+        message: 'Rate limit exceeded. Please try again later.'
+      }
+    },
+    default: {
+      status: 500,
+      body: {
+        error: 'Internal Server Error',
+        ...(isDevelopment && { message: err.message })
+      }
+    }
   };
 
-  // Handle different types of errors
-  if (err.name === 'UnauthorizedError') {
-    return res.status(401).json({ error: 'Invalid or missing token' });
+  const response = errorResponses[err.name as keyof typeof errorResponses] || errorResponses.default;
+  
+  if (isDevelopment) {
+    console.error('Security Error:', err);
   }
-
-  if (err.name === 'RateLimitExceeded') {
-    return res.status(429).json({
-      error: 'Too Many Requests',
-      message: 'Rate limit exceeded. Please try again later.',
-    });
-  }
-
-  // Default error response
-  console.error('Security Error:', err);
-  res.status(500).json(errorResponse);
+  
+  res.status(response.status).json(response.body);
 };
