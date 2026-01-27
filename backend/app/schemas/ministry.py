@@ -64,6 +64,10 @@ class MinistryUpdate(BaseModel):
     is_active: Optional[bool] = None
     is_featured: Optional[bool] = None
     display_order: Optional[int] = None
+    ministry_key: Optional[str] = Field(
+        default=None,
+        pattern="(?i)^[a-z0-9_-]+$"
+    )
 
 
 class MinistryResponse(MinistryBase):

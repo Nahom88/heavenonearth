@@ -184,8 +184,12 @@ export default function AdminMinistries() {
                                     value={formData.ministry_key || ""}
                                     onChange={(e) => setFormData({ ...formData, ministry_key: e.target.value })}
                                     disabled={!!editingMinistry}
+                                    placeholder="e.g. youth_ministry"
                                     required
                                 />
+                                <p className="text-[10px] text-muted-foreground">
+                                    Lowercase letters, numbers, underscores or hyphens only.
+                                </p>
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="desc">Description</Label>
@@ -193,6 +197,7 @@ export default function AdminMinistries() {
                                     id="desc"
                                     value={formData.description || ""}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                    required
                                 />
                             </div>
                             <div className="flex items-center justify-between">
