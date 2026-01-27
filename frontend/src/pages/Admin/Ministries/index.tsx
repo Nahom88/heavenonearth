@@ -22,7 +22,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Church } from "lucide-react";
+import { Plus, Pencil, Trash2, Church, Loader2 } from "lucide-react";
+import { LoadingButton } from "@/components/ui/loading-button";
 
 interface Ministry {
     id: string;
@@ -39,13 +40,19 @@ export default function AdminMinistries() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingMinistry, setEditingMinistry] = useState<Ministry | null>(null);
     const [formData, setFormData] = useState<Partial<Ministry>>({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false);
 
     const fetchMinistries = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Ministry[] }>("/ministries?page_size=100");
             setMinistries(data.items);
         } catch (error) {
             console.error("Failed to fetch ministries", error);
+            toast.error("Failed to load ministries");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -67,17 +74,21 @@ export default function AdminMinistries() {
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this ministry?")) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/ministries/${id}`, { method: "DELETE" });
             toast.success("Ministry deleted");
             fetchMinistries();
         } catch (error) {
             toast.error("Failed to delete ministry");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsActionLoading(true);
         try {
             if (editingMinistry) {
                 await apiRequest(`/ministries/${editingMinistry.id}`, {
@@ -96,6 +107,8 @@ export default function AdminMinistries() {
             fetchMinistries();
         } catch (error) {
             toast.error("Failed to save ministry");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
