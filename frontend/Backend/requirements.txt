@@ -1,0 +1,63 @@
+# Heaven on Earth CMS Backend - Requirements
+# ==========================================
+
+# Core Framework
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+gunicorn==21.2.0
+
+# Database
+sqlalchemy[asyncio]==2.0.25
+asyncpg==0.29.0
+alembic==1.13.1
+
+# Validation & Serialization
+pydantic==2.6.1
+pydantic-settings==2.1.0
+email-validator==2.1.0.post1
+
+# Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.9
+
+# HTTP Client (for webhooks, etc.)
+httpx==0.26.0
+
+# CORS
+# (included in FastAPI)
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# Logging
+structlog==24.1.0
+
+# Rate Limiting
+slowapi==0.1.9
+
+# File Handling
+aiofiles==23.2.1
+python-magic==0.4.27
+Pillow==10.2.0
+
+# Date & Time
+python-dateutil==2.8.2
+
+# Testing
+pytest==8.0.0
+pytest-asyncio==0.23.4
+pytest-cov==4.1.0
+httpx==0.26.0
+
+# Development Tools
+black==24.1.1
+isort==5.13.2
+flake8==7.0.0
+mypy==1.8.0
+
+# Email (optional)
+aiosmtplib==3.0.1
+
+# UUID generation
+uuid6==2024.1.12
