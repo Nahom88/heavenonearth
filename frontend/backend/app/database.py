@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.pool import NullPool
 
 from app.config import settings
 
@@ -21,16 +22,14 @@ class Base(DeclarativeBase):
     pass
 
 
-# Create async engine with connection pooling
+# Create async engine optimized for PgBouncer (Transaction Mode)
+# We use NullPool and statement_cache_size=0 to avoid prepared statement issues
 engine = create_async_engine(
     settings.database_url,
-    pool_size=settings.database_pool_size,
-    max_overflow=settings.database_max_overflow,
-    pool_pre_ping=True,  # Enable connection health checks
+    poolclass=NullPool,
     echo=settings.debug,  # Log SQL queries in debug mode
     connect_args={
-        "statement_cache_size": 0,
-        "prepared_statement_cache_size": 0
+        "statement_cache_size": 0
     }
 )
 
@@ -47,11 +46,6 @@ async_session_maker = async_sessionmaker(
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Dependency that provides a database session.
-    
-    Usage:
-        @app.get("/items")
-        async def get_items(db: AsyncSession = Depends(get_db)):
-            ...
     """
     async with async_session_maker() as session:
         try:
@@ -67,9 +61,6 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 async def init_db() -> None:
     """
     Initialize database tables.
-    
-    This should be called on application startup.
-    In production, use Alembic migrations instead.
     """
     async with engine.begin() as conn:
         # Import all models to ensure they're registered with Base
@@ -90,7 +81,5 @@ async def init_db() -> None:
 async def close_db() -> None:
     """
     Close database connections.
-    
-    This should be called on application shutdown.
     """
     await engine.dispose()
