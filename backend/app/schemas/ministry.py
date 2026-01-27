@@ -78,7 +78,7 @@ class MinistryResponse(MinistryBase):
     leader_email: Optional[str] = None
     leader_phone: Optional[str] = None
     image_url: Optional[str] = None
-    activities: Optional[Dict[str, Any]] = None
+    activities: Optional[Any] = None
     schedule: Optional[Dict[str, Any]] = None
     is_active: bool
     is_featured: bool
@@ -111,7 +111,7 @@ class MinistryPublic(BaseModel):
     icon_name: str
     ministry_key: str
     image_url: Optional[str] = None
-    activities: Optional[Dict[str, Any]] = None
+    activities: Optional[Any] = None
     schedule: Optional[Dict[str, Any]] = None
     
     class Config:
