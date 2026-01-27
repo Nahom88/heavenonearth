@@ -24,7 +24,7 @@ class GalleryItemBase(BaseModel):
     )
     category: str = Field(
         default="general",
-        pattern="^(worship|outreach|youth|events|general)$"
+        pattern="(?i)^(worship|outreach|youth|events|general)$"
     )
 
 
@@ -53,7 +53,7 @@ class GalleryItemUpdate(BaseModel):
     alt_text: Optional[str] = Field(default=None, min_length=1, max_length=255)
     category: Optional[str] = Field(
         default=None,
-        pattern="^(worship|outreach|youth|events|general)$"
+        pattern="(?i)^(worship|outreach|youth|events|general)$"
     )
     event_date: Optional[datetime] = None
     is_featured: Optional[bool] = None

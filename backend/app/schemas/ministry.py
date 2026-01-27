@@ -22,8 +22,8 @@ class MinistryBase(BaseModel):
     ministry_key: str = Field(
         min_length=1, 
         max_length=50,
-        pattern="^[a-z_]+$",
-        description="Unique key for frontend reference (lowercase with underscores)"
+        pattern="(?i)^[a-z0-9_-]+$",
+        description="Unique key for frontend reference (slug format)"
     )
 
 

@@ -25,7 +25,7 @@ class EventBase(BaseModel):
     location_am: Optional[str] = Field(default=None, max_length=255)
     category: str = Field(
         default="general",
-        pattern="^(worship|prayer|biblestudy|youth|special|general)$"
+        pattern="(?i)^(worship|prayer|biblestudy|youth|special|general)$"
     )
     is_featured: bool = False
     is_recurring: bool = False
@@ -57,7 +57,7 @@ class EventUpdate(BaseModel):
     location_am: Optional[str] = Field(default=None, max_length=255)
     category: Optional[str] = Field(
         default=None,
-        pattern="^(worship|prayer|biblestudy|youth|special|general)$"
+        pattern="(?i)^(worship|prayer|biblestudy|youth|special|general)$"
     )
     is_featured: Optional[bool] = None
     is_recurring: Optional[bool] = None
