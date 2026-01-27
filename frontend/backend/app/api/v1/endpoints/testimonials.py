@@ -4,7 +4,7 @@ Heaven on Earth CMS Backend - Testimonial Endpoints
 Handles testimonial submissions and management.
 """
 
-from typing import Annotated, Optional
+from typing import Annotated, Optional, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query

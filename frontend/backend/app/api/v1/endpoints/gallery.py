@@ -4,7 +4,7 @@ Heaven on Earth CMS Backend - Gallery Endpoints
 Handles gallery media management for the website.
 """
 
-from typing import Annotated, Optional
+from typing import Annotated, Optional, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query

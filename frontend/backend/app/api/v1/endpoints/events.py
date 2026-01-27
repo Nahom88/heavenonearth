@@ -5,7 +5,7 @@ Handles event management for the website.
 """
 
 from datetime import date
-from typing import Annotated, Optional
+from typing import Annotated, Optional, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
