@@ -43,7 +43,8 @@ export default function AdminLogin() {
             formData.append("username", values.username);
             formData.append("password", values.password);
 
-            const response = await fetch("http://localhost:8000/api/v1/auth/login", {
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+            const response = await fetch(`${API_URL}/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",

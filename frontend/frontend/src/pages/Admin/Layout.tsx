@@ -13,7 +13,7 @@ import {
     Heart
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getAuthToken, removeAuthToken } from "@/services/api";
+import { getAuthToken, removeAuthToken, validateToken } from "@/services/api";
 import { cn } from "@/lib/utils";
 
 const SidebarItem = ({ icon: Icon, label, path, active }: { icon: any, label: string, path: string, active: boolean }) => (
@@ -36,12 +36,25 @@ export default function AdminLayout() {
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const [isValidating, setIsValidating] = useState(true);
 
     useEffect(() => {
-        const token = getAuthToken();
-        if (!token) {
-            navigate("/admin/login");
-        }
+        const checkAuth = async () => {
+            const token = getAuthToken();
+            if (!token) {
+                navigate("/admin/login");
+                return;
+            }
+
+            const isValid = await validateToken();
+            if (!isValid) {
+                removeAuthToken();
+                navigate("/admin/login");
+            }
+            setIsValidating(false);
+        };
+
+        checkAuth();
 
         const handleResize = () => {
             if (window.innerWidth < 1024) {
@@ -62,6 +75,12 @@ export default function AdminLayout() {
         removeAuthToken();
         navigate("/admin/login");
     };
+
+    if (isValidating) {
+        return <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
+        </div>;
+    }
 
     const navItems = [
         { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },

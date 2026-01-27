@@ -39,3 +39,12 @@ export const apiRequest = async <T>(endpoint: string, options: FetchOptions = {}
 
     return response.json();
 };
+
+export const validateToken = async (): Promise<boolean> => {
+    try {
+        await apiRequest("/admins/me");
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
