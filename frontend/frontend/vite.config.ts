@@ -1,17 +1,16 @@
 import { defineConfig, loadEnv, type ConfigEnv, type UserConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
-import { componentTagger } from 'lovable-tagger';
 import type { PluginOption } from 'vite';
 
 // Dynamic imports for production-only dependencies
 const getProductionPlugins = (env: Record<string, string>) => {
   const plugins: PluginOption[] = [];
-  
+
   // Production plugins will be added here
-  
+
   return plugins;
-  
+
   return plugins;
 };
 
@@ -19,13 +18,13 @@ const getProductionPlugins = (env: Record<string, string>) => {
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   // Load env variables based on mode
   const env = loadEnv(mode, process.cwd(), '');
-  
+
   const isProduction = mode === 'production';
-  
+
   return {
     // Base public path when served in production
     base: '/',
-    
+
     // Build configuration
     build: {
       target: 'esnext',
@@ -49,7 +48,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
       },
     },
-    
+
     // Server configuration
     server: {
       host: '::',
@@ -64,7 +63,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         'X-XSS-Protection': '1; mode=block',
       },
     },
-    
+
     // Preview server configuration
     preview: {
       port: 8081,
@@ -75,38 +74,38 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         'X-XSS-Protection': '1; mode=block',
       },
     },
-    
+
     // Plugins
     plugins: [
       react(),
-      
+
       // Development-only plugins
-      ...(mode !== 'production' ? [componentTagger()] : []),
-      
+      // ...(mode !== 'production' ? [componentTagger()] : []),
+
       // Production plugins
       ...(mode === 'production' ? [
         // Add production plugins here
       ] : []),
-      
+
     ].filter(Boolean),
-    
+
     // Resolve configuration
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
       },
     },
-    
+
     // CSS configuration
     css: {
       devSourcemap: !isProduction,
       modules: {
-        generateScopedName: isProduction 
-          ? '[hash:base64:8]' 
+        generateScopedName: isProduction
+          ? '[hash:base64:8]'
           : '[name]__[local]__[hash:base64:5]',
       },
     },
-    
+
     // Environment variables
     define: {
       'process.env': {},
