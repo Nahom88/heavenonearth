@@ -37,7 +37,7 @@ router = APIRouter(prefix="/prayers", tags=["Prayer Requests"])
 @router.get("", response_model=PaginatedResponse[PrayerRequestResponse])
 async def list_prayer_requests(
     db: Annotated[AsyncSession, Depends(get_db)],
-    current_admin: Annotated[Admin, Depends(get_current_active_admin)],
+    current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     status: Optional[str] = None,
@@ -48,9 +48,14 @@ async def list_prayer_requests(
     """
     List all prayer requests with pagination and filtering.
     
-    Requires admin authentication.
+    Unauthenticated users only see public prayer requests.
+    Admins can see all requests.
     """
     skip = (page - 1) * page_size
+    
+    # Non-admins can only see public requests
+    if not current_admin:
+        is_public = True
     
     requests, total = await get_prayer_requests(
         db,

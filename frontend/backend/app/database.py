@@ -29,7 +29,8 @@ class Base(DeclarativeBase):
 engine = create_async_engine(
     settings.database_url,
     poolclass=NullPool,
-    echo=settings.debug,  # Log SQL queries in debug mode
+    echo=settings.debug,
+    connect_args={"prepare_threshold": None},
 )
 
 # Create async session factory
