@@ -28,6 +28,10 @@ engine = create_async_engine(
     max_overflow=settings.database_max_overflow,
     pool_pre_ping=True,  # Enable connection health checks
     echo=settings.debug,  # Log SQL queries in debug mode
+    connect_args={
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0
+    }
 )
 
 # Create async session factory
