@@ -11,6 +11,7 @@ from app.models.event import Event
 from app.models.gallery import GalleryItem
 from app.models.testimonial import Testimonial
 from app.models.prayer import PrayerRequest
+from app.models.partnership import Partnership
 from app.security import get_password_hash
 from app.config import settings
 
@@ -214,6 +215,69 @@ async def seed_data():
                 print(f"Seeding testimonial from: {t_data['name']}")
                 testimonial = Testimonial(**t_data)
                 db.add(testimonial)
+
+        # 6. Seed Prayer Requests
+        prayers_data = [
+            {
+                "name": "Dawit Tesfaye",
+                "email": "dawit@example.com",
+                "request": "Please pray for my mother's health. She is undergoing surgery next week.",
+                "is_anonymous": False,
+                "is_public": True,
+                "status": "pending",
+                "prayer_count": 5
+            },
+            {
+                "name": "Anonymous",
+                "request": "ለሀገራችን ሰላም እንዲሆን እንጸልይ። እግዚአብሔር ኢትዮጵያን ይባርክ።",
+                "is_anonymous": True,
+                "is_public": True,
+                "status": "pending",
+                "prayer_count": 12
+            },
+            {
+                "name": "Sara Girma",
+                "request": "ስለ አዲሱ ስራዬ እግዚአብሔርን አመሰግናለሁ። በስራዬ ውጤታማ እንድሆን ጸልዩልኝ።",
+                "is_anonymous": False,
+                "is_public": True,
+                "status": "pending",
+                "prayer_count": 3
+            }
+        ]
+
+        for p_data in prayers_data:
+            result = await db.execute(select(PrayerRequest).where(PrayerRequest.request == p_data["request"]))
+            if not result.scalar_one_or_none():
+                print(f"Seeding prayer request: {p_data['request'][:30]}...")
+                prayer = PrayerRequest(**p_data)
+                db.add(prayer)
+
+        # 7. Seed Partnerships
+        partnerships_data = [
+            {
+                "name": "Global Outreach Foundation",
+                "email": "info@globaloutreach.org",
+                "phone": "+1234567890",
+                "partnership_type": "financial",
+                "message": "We are interested in supporting your community outreach programs in Ethiopia.",
+                "status": "pending"
+            },
+            {
+                "name": "አዲስ ተስፋ ማህበር",
+                "email": "addis@example.com",
+                "phone": "0911223344",
+                "partnership_type": "volunteer",
+                "message": "ከእናንተ ጋር በበጎ ፈቃደኝነት ማገልገል እንፈልጋለን። በተለይ በወጣቶች አገልግሎት ላይ።",
+                "status": "pending"
+            }
+        ]
+
+        for part_data in partnerships_data:
+            result = await db.execute(select(Partnership).where(Partnership.name == part_data["name"]))
+            if not result.scalar_one_or_none():
+                print(f"Seeding partnership: {part_data['name']}")
+                partnership = Partnership(**part_data)
+                db.add(partnership)
 
         await db.commit()
         print("Seeding completed successfully!")

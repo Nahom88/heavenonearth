@@ -25,8 +25,7 @@ import { Label } from "@/components/ui/label";
 
 interface Partnership {
     id: string;
-    organization_name: string;
-    contact_person: string;
+    name: string;
     email: string;
     phone: string;
     partnership_type: string;
@@ -109,8 +108,8 @@ export default function AdminPartnerships() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Organization</TableHead>
-                            <TableHead>Contact Person</TableHead>
+                            <TableHead>Name / Organization</TableHead>
+                            <TableHead>Email</TableHead>
                             <TableHead>Type</TableHead>
                             <TableHead>Date</TableHead>
                             <TableHead>Status</TableHead>
@@ -137,10 +136,10 @@ export default function AdminPartnerships() {
                                     <TableCell className="font-medium">
                                         <div className="flex items-center gap-2">
                                             <Building2 className="w-4 h-4 text-gray-400" />
-                                            {p.organization_name}
+                                            {p.name}
                                         </div>
                                     </TableCell>
-                                    <TableCell>{p.contact_person}</TableCell>
+                                    <TableCell>{p.email}</TableCell>
                                     <TableCell className="capitalize">{p.partnership_type}</TableCell>
                                     <TableCell>{format(new Date(p.created_at), "MMM d, yyyy")}</TableCell>
                                     <TableCell>
@@ -174,12 +173,12 @@ export default function AdminPartnerships() {
                         <div className="space-y-6 py-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <Label className="text-muted-foreground">Organization</Label>
-                                    <p className="font-medium">{selectedPartnership.organization_name}</p>
+                                    <Label className="text-muted-foreground">Name / Organization</Label>
+                                    <p className="font-medium">{selectedPartnership.name}</p>
                                 </div>
                                 <div className="space-y-1">
-                                    <Label className="text-muted-foreground">Contact Person</Label>
-                                    <p className="font-medium">{selectedPartnership.contact_person}</p>
+                                    <Label className="text-muted-foreground">Type</Label>
+                                    <p className="font-medium capitalize">{selectedPartnership.partnership_type}</p>
                                 </div>
                                 <div className="space-y-1">
                                     <Label className="text-muted-foreground">Email</Label>

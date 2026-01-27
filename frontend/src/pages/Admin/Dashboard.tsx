@@ -6,7 +6,9 @@ import {
     MessageSquare,
     ArrowUpRight,
     Users,
-    Loader2
+    Loader2,
+    Heart,
+    Handshake
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/services/api";
@@ -45,7 +47,8 @@ export default function AdminDashboard() {
         events: 0,
         gallery: 0,
         testimonials: 0,
-        partnerships: 0
+        partnerships: 0,
+        prayers: 0
     });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -53,11 +56,13 @@ export default function AdminDashboard() {
         const fetchStats = async () => {
             setIsLoading(true);
             try {
-                const [ministries, events, gallery, testimonials] = await Promise.all([
+                const [ministries, events, gallery, testimonials, partnerships, prayers] = await Promise.all([
                     apiRequest<{ total: number }>("/ministries?page_size=1"),
                     apiRequest<{ total: number }>("/events?page_size=1"),
                     apiRequest<{ total: number }>("/gallery?page_size=1"),
                     apiRequest<{ total: number }>("/testimonials?page_size=1"),
+                    apiRequest<{ total: number }>("/partnerships?page_size=1"),
+                    apiRequest<{ total: number }>("/prayers?page_size=1"),
                 ]);
 
                 setStats({
@@ -65,7 +70,8 @@ export default function AdminDashboard() {
                     events: events.total,
                     gallery: gallery.total,
                     testimonials: testimonials.total,
-                    partnerships: 0 // Placeholder until endpoint is ready
+                    partnerships: partnerships.total,
+                    prayers: prayers.total
                 });
             } catch (error) {
                 console.error("Failed to fetch stats", error);
@@ -84,16 +90,16 @@ export default function AdminDashboard() {
                 <p className="text-muted-foreground">Welcome back to the Heaven CMS control panel.</p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
                 {isLoading ? (
-                    Array(4).fill(0).map((_, i) => (
+                    Array(6).fill(0).map((_, i) => (
                         <Card key={i} className="animate-pulse">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                                <div className="h-4 w-20 bg-gray-200 rounded"></div>
                                 <div className="h-4 w-4 bg-gray-200 rounded"></div>
                             </CardHeader>
                             <CardContent>
-                                <div className="h-8 w-12 bg-gray-200 rounded"></div>
+                                <div className="h-8 w-10 bg-gray-200 rounded"></div>
                             </CardContent>
                         </Card>
                     ))
@@ -122,8 +128,19 @@ export default function AdminDashboard() {
                             title="Testimonials"
                             value={stats.testimonials}
                             icon={MessageSquare}
-                            trend="Pending review"
                             color="#f59e0b"
+                        />
+                        <StatCard
+                            title="Prayer Requests"
+                            value={stats.prayers}
+                            icon={Heart}
+                            color="#ec4899"
+                        />
+                        <StatCard
+                            title="Partnerships"
+                            value={stats.partnerships}
+                            icon={Handshake}
+                            color="#6366f1"
                         />
                     </>
                 )}

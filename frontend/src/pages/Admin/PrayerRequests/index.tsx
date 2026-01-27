@@ -27,9 +27,8 @@ import { Switch } from "@/components/ui/switch";
 
 interface PrayerRequest {
     id: string;
-    request_content: string;
-    first_name?: string;
-    last_name?: string;
+    request: string;
+    name?: string;
     email?: string;
     phone?: string;
     is_anonymous: boolean;
@@ -179,13 +178,13 @@ export default function AdminPrayerRequests() {
                             requests.map((r) => (
                                 <TableRow key={r.id}>
                                     <TableCell className="font-medium max-w-xs truncate">
-                                        {r.request_content}
+                                        {r.request}
                                     </TableCell>
                                     <TableCell>
                                         {r.is_anonymous ? (
                                             <span className="text-muted-foreground italic">Anonymous</span>
                                         ) : (
-                                            <span>{r.first_name} {r.last_name}</span>
+                                            <span>{r.name}</span>
                                         )}
                                     </TableCell>
                                     <TableCell>{format(new Date(r.created_at), "MMM d, yyyy")}</TableCell>
@@ -232,11 +231,11 @@ export default function AdminPrayerRequests() {
                             <div className="bg-gray-50 p-4 rounded-lg space-y-2">
                                 <div className="flex justify-between text-sm text-muted-foreground mb-2">
                                     <span>
-                                        {selectedRequest.is_anonymous ? "Anonymous" : `${selectedRequest.first_name} ${selectedRequest.last_name}`}
+                                        {selectedRequest.is_anonymous ? "Anonymous" : selectedRequest.name}
                                     </span>
                                     <span>{format(new Date(selectedRequest.created_at), "PPP")}</span>
                                 </div>
-                                <p className="text-gray-800 text-lg">{selectedRequest.request_content}</p>
+                                <p className="text-gray-800 text-lg">{selectedRequest.request}</p>
 
                                 {!selectedRequest.is_anonymous && (
                                     <div className="mt-4 pt-4 border-t text-sm space-y-1">
