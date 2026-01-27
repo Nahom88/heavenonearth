@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Loader2, Lock, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/loading-button";
 import {
     Form,
     FormControl,
@@ -121,20 +122,14 @@ export default function AdminLogin() {
                                     </FormItem>
                                 )}
                             />
-                            <Button
+                            <LoadingButton
                                 type="submit"
                                 className="w-full bg-navy hover:bg-navy-light text-white transition-all duration-300"
-                                disabled={isLoading}
+                                isLoading={isLoading}
+                                loadingText="Signing in..."
                             >
-                                {isLoading ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Signing in...
-                                    </>
-                                ) : (
-                                    "Sign In"
-                                )}
-                            </Button>
+                                Sign In
+                            </LoadingButton>
                         </form>
                     </Form>
                 </CardContent>
