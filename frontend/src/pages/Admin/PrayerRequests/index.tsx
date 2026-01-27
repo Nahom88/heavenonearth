@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Trash2, Eye, MessageCircle, Heart } from "lucide-react";
+import { Trash2, Eye, MessageCircle, Heart, Loader2 } from "lucide-react";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { format } from "date-fns";
 import {
     Dialog,
@@ -44,13 +45,19 @@ export default function AdminPrayerRequests() {
     const [selectedRequest, setSelectedRequest] = useState<PrayerRequest | null>(null);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const [responseMessage, setResponseMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false);
 
     const fetchRequests = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: PrayerRequest[] }>("/prayers?page_size=100");
             setRequests(data.items);
         } catch (error) {
             console.error("Failed to fetch prayer requests", error);
+            toast.error("Failed to load prayer requests");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -66,17 +73,21 @@ export default function AdminPrayerRequests() {
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this prayer request?")) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/prayers/${id}`, { method: "DELETE" });
             toast.success("Prayer request deleted");
             fetchRequests();
         } catch (error) {
             toast.error("Failed to delete prayer request");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const handleUpdateStatus = async (status: string) => {
         if (!selectedRequest) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/prayers/${selectedRequest.id}`, {
                 method: "PUT",
@@ -87,11 +98,14 @@ export default function AdminPrayerRequests() {
             setIsDetailsOpen(false);
         } catch (error) {
             toast.error("Failed to update status");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const handleRespond = async () => {
         if (!selectedRequest) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/prayers/${selectedRequest.id}/respond`, {
                 method: "POST",
@@ -102,11 +116,14 @@ export default function AdminPrayerRequests() {
             setIsDetailsOpen(false);
         } catch (error) {
             toast.error("Failed to record response");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const togglePublic = async (isPublic: boolean) => {
         if (!selectedRequest) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/prayers/${selectedRequest.id}`, {
                 method: "PUT",
@@ -117,6 +134,8 @@ export default function AdminPrayerRequests() {
             fetchRequests();
         } catch (error) {
             toast.error("Failed to update visibility");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
@@ -143,46 +162,61 @@ export default function AdminPrayerRequests() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {requests.map((r) => (
-                            <TableRow key={r.id}>
-                                <TableCell className="font-medium max-w-xs truncate">
-                                    {r.request_content}
-                                </TableCell>
-                                <TableCell>
-                                    {r.is_anonymous ? (
-                                        <span className="text-muted-foreground italic">Anonymous</span>
-                                    ) : (
-                                        <span>{r.first_name} {r.last_name}</span>
-                                    )}
-                                </TableCell>
-                                <TableCell>{format(new Date(r.created_at), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-1">
-                                        <Heart className="w-3 h-3 text-red-500 fill-red-500" />
-                                        {r.prayer_count}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant={r.status === 'answered' ? 'default' : 'secondary'}
-                                        className={r.status === 'answered' ? 'bg-green-600' : 'bg-yellow-100 text-yellow-800'}>
-                                        {r.status}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant="outline">
-                                        {r.is_public ? "Public" : "Private"}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleView(r)}>
-                                        <Eye className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(r.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="h-32 text-center">
+                                    <Loader2 className="w-8 h-8 animate-spin mx-auto text-gold" />
+                                    <p className="text-sm text-muted-foreground mt-2">Loading prayer requests...</p>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : requests.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
+                                    No prayer requests found.
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            requests.map((r) => (
+                                <TableRow key={r.id}>
+                                    <TableCell className="font-medium max-w-xs truncate">
+                                        {r.request_content}
+                                    </TableCell>
+                                    <TableCell>
+                                        {r.is_anonymous ? (
+                                            <span className="text-muted-foreground italic">Anonymous</span>
+                                        ) : (
+                                            <span>{r.first_name} {r.last_name}</span>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>{format(new Date(r.created_at), "MMM d, yyyy")}</TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center gap-1">
+                                            <Heart className="w-3 h-3 text-red-500 fill-red-500" />
+                                            {r.prayer_count}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant={r.status === 'answered' ? 'default' : 'secondary'}
+                                            className={r.status === 'answered' ? 'bg-green-600' : 'bg-yellow-100 text-yellow-800'}>
+                                            {r.status}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant="outline">
+                                            {r.is_public ? "Public" : "Private"}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                        <Button variant="ghost" size="icon" onClick={() => handleView(r)} disabled={isActionLoading}>
+                                            <Eye className="w-4 h-4" />
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(r.id)} disabled={isActionLoading}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>
@@ -230,21 +264,37 @@ export default function AdminPrayerRequests() {
                                     onChange={(e) => setResponseMessage(e.target.value)}
                                     placeholder="Record a response or internal note..."
                                 />
-                                <Button size="sm" onClick={handleRespond} className="w-full mt-2">
+                                <LoadingButton
+                                    size="sm"
+                                    onClick={handleRespond}
+                                    className="w-full mt-2"
+                                    isLoading={isActionLoading}
+                                    loadingText="Saving Response..."
+                                >
                                     <MessageCircle className="w-4 h-4 mr-2" />
                                     Save Response
-                                </Button>
+                                </LoadingButton>
                             </div>
                         </div>
                     )}
 
                     <DialogFooter className="gap-2 sm:gap-0">
-                        <Button variant="outline" onClick={() => handleUpdateStatus("pending")}>
+                        <LoadingButton
+                            variant="outline"
+                            onClick={() => handleUpdateStatus("pending")}
+                            isLoading={isActionLoading}
+                            loadingText="Updating..."
+                        >
                             Mark Pending
-                        </Button>
-                        <Button className="bg-green-600 hover:bg-green-700" onClick={() => handleUpdateStatus("answered")}>
+                        </LoadingButton>
+                        <LoadingButton
+                            className="bg-green-600 hover:bg-green-700"
+                            onClick={() => handleUpdateStatus("answered")}
+                            isLoading={isActionLoading}
+                            loadingText="Updating..."
+                        >
                             Mark Answered
-                        </Button>
+                        </LoadingButton>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getAuthToken, removeAuthToken, validateToken } from "@/services/api";
 import { cn } from "@/lib/utils";
+import { AdminSplashScreen } from "@/components/AdminSplashScreen";
 
 const SidebarItem = ({ icon: Icon, label, path, active }: { icon: any, label: string, path: string, active: boolean }) => (
     <Link
@@ -77,9 +78,7 @@ export default function AdminLayout() {
     };
 
     if (isValidating) {
-        return <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy"></div>
-        </div>;
+        return <AdminSplashScreen />;
     }
 
     const navItems = [

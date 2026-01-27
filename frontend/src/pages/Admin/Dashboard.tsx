@@ -5,7 +5,8 @@ import {
     Image as ImageIcon,
     MessageSquare,
     ArrowUpRight,
-    Users
+    Users,
+    Loader2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/services/api";
@@ -46,9 +47,11 @@ export default function AdminDashboard() {
         testimonials: 0,
         partnerships: 0
     });
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchStats = async () => {
+            setIsLoading(true);
             try {
                 const [ministries, events, gallery, testimonials] = await Promise.all([
                     apiRequest<{ total: number }>("/ministries?page_size=1"),
@@ -66,6 +69,8 @@ export default function AdminDashboard() {
                 });
             } catch (error) {
                 console.error("Failed to fetch stats", error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -80,32 +85,48 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <StatCard
-                    title="Active Ministries"
-                    value={stats.ministries}
-                    icon={Church}
-                    color="hsl(var(--gold))"
-                />
-                <StatCard
-                    title="Upcoming Events"
-                    value={stats.events}
-                    icon={Calendar}
-                    trend="+2 this week"
-                    color="hsl(var(--navy))"
-                />
-                <StatCard
-                    title="Gallery Items"
-                    value={stats.gallery}
-                    icon={ImageIcon}
-                    color="#10b981"
-                />
-                <StatCard
-                    title="Testimonials"
-                    value={stats.testimonials}
-                    icon={MessageSquare}
-                    trend="Pending review"
-                    color="#f59e0b"
-                />
+                {isLoading ? (
+                    Array(4).fill(0).map((_, i) => (
+                        <Card key={i} className="animate-pulse">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                                <div className="h-4 w-4 bg-gray-200 rounded"></div>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="h-8 w-12 bg-gray-200 rounded"></div>
+                            </CardContent>
+                        </Card>
+                    ))
+                ) : (
+                    <>
+                        <StatCard
+                            title="Active Ministries"
+                            value={stats.ministries}
+                            icon={Church}
+                            color="hsl(var(--gold))"
+                        />
+                        <StatCard
+                            title="Upcoming Events"
+                            value={stats.events}
+                            icon={Calendar}
+                            trend="+2 this week"
+                            color="hsl(var(--navy))"
+                        />
+                        <StatCard
+                            title="Gallery Items"
+                            value={stats.gallery}
+                            icon={ImageIcon}
+                            color="#10b981"
+                        />
+                        <StatCard
+                            title="Testimonials"
+                            value={stats.testimonials}
+                            icon={MessageSquare}
+                            trend="Pending review"
+                            color="#f59e0b"
+                        />
+                    </>
+                )}
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
