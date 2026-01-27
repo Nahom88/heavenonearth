@@ -1,0 +1,16 @@
+{
+    "name": "Heaven on Earth Kingdom Family Ministries",
+    "short_name": "Heaven on Earth",
+    "description": "Transformative Christian Ministry",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1a365d",
+    "icons": [
+        {
+            "src": "/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        }
+    ]
+}
