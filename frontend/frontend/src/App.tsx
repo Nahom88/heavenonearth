@@ -27,6 +27,7 @@ import AdminEvents from "./pages/Admin/Events";
 import AdminGallery from "./pages/Admin/Gallery";
 import AdminTestimonials from "./pages/Admin/Testimonials";
 import AdminPartnerships from "./pages/Admin/Partnerships";
+import AdminPrayerRequests from "./pages/Admin/PrayerRequests";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="events" element={<AdminEvents />} />
             <Route path="gallery" element={<AdminGallery />} />
             <Route path="testimonials" element={<AdminTestimonials />} />
+            <Route path="prayers" element={<AdminPrayerRequests />} />
             <Route path="partnerships" element={<AdminPartnerships />} />
           </Route>
 

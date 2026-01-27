@@ -9,7 +9,8 @@ import {
     Handshake,
     LogOut,
     Menu,
-    X
+    X,
+    Heart
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAuthToken, removeAuthToken } from "@/services/api";
@@ -68,6 +69,7 @@ export default function AdminLayout() {
         { icon: Calendar, label: "Events", path: "/admin/events" },
         { icon: ImageIcon, label: "Gallery", path: "/admin/gallery" },
         { icon: MessageSquare, label: "Testimonials", path: "/admin/testimonials" },
+        { icon: Heart, label: "Prayer Requests", path: "/admin/prayers" },
         { icon: Handshake, label: "Partnerships", path: "/admin/partnerships" },
     ];
 
