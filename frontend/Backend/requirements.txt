@@ -1,7 +1,6 @@
-# Heaven on Earth CMS Backend - Requirements
-# ==========================================
 
-# Core Framework
+
+# Core 
 fastapi==0.109.2
 uvicorn[standard]==0.27.1
 gunicorn==21.2.0
@@ -24,10 +23,7 @@ python-multipart==0.0.9
 # HTTP Client (for webhooks, etc.)
 httpx==0.26.0
 
-# CORS
-# (included in FastAPI)
-
-# Environment Variables
+#
 python-dotenv==1.0.1
 
 # Logging
