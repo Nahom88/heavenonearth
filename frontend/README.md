@@ -1,26 +1,24 @@
-# Heaven on Earth Kingdom Family Ministries
-
-This is the main repository for the Heaven on Earth Kingdom Family Ministries project.
-
-## Project Structure
-
-- **frontend/**: React + Vite + TailwindCSS application.
-- **backend/**: FastAPI + PostgreSQL + SQLAlchemy CMS backend.
+# Kingdom Project
 
 ## Getting Started
 
-### Frontend
+### Clone the repository
+
 ```bash
-cd frontend
+git clone https://github.com/your-username/kingdom-project.git
+cd kingdom-project/frontend
+```
+
+### Install dependencies
+
+```bash
 npm install
+```
+
+### Run the development server
+
+```bash
 npm run dev
 ```
 
-### Backend
-```bash
-cd backend
-# Follow instructions in backend/README.md
-```
-
-## Documentation
-Additional documentation can be found in the `heavenonearth/` folder.
+Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
