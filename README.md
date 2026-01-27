@@ -24,3 +24,4 @@ cd backend
 
 ## Documentation
 Additional documentation can be found in the `heavenonearth/` folder.
+Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
