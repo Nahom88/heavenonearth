@@ -51,6 +51,7 @@ class TestimonialReview(BaseModel):
     status: str = Field(pattern="^(approved|rejected)$")
     review_notes: Optional[str] = Field(default=None, max_length=1000)
     edited_content: Optional[str] = Field(default=None, max_length=5000)
+    is_featured: bool = False
 
 
 class TestimonialResponse(TestimonialBase):

@@ -162,6 +162,7 @@ async def review_testimonial_submission(
         status=review_in.status,
         review_notes=review_in.review_notes,
         edited_content=review_in.edited_content,
+        is_featured=review_in.is_featured,
     )
 
 

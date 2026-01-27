@@ -111,9 +111,11 @@ async def approve_testimonial(
     status: str = "approved",
     review_notes: Optional[str] = None,
     edited_content: Optional[str] = None,
+    is_featured: bool = False,
 ) -> Testimonial:
     """Approve or reject a testimonial."""
     testimonial.status = status
+    testimonial.is_featured = is_featured
     testimonial.reviewed_by_id = admin_id
     testimonial.reviewed_at = datetime.now(timezone.utc)
     testimonial.review_notes = review_notes
