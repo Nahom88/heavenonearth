@@ -1,7 +1,8 @@
 """
 Heaven on Earth CMS Backend - Database Module
 
-Handles async database connection using SQLAlchemy 2.0 with asyncpg.
+Handles async database connection using SQLAlchemy 2.0.
+Supports both asyncpg and psycopg drivers.
 """
 
 from typing import AsyncGenerator
@@ -23,14 +24,12 @@ class Base(DeclarativeBase):
 
 
 # Create async engine optimized for PgBouncer (Transaction Mode)
-# We use NullPool and statement_cache_size=0 to avoid prepared statement issues
+# We use NullPool to avoid connection state issues in transaction mode.
+# The driver (asyncpg or psycopg) is determined by the DATABASE_URL.
 engine = create_async_engine(
     settings.database_url,
     poolclass=NullPool,
     echo=settings.debug,  # Log SQL queries in debug mode
-    connect_args={
-        "statement_cache_size": 0
-    }
 )
 
 # Create async session factory
