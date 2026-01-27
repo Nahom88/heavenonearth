@@ -1,6 +1,10 @@
 import { toast } from "sonner";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) {
+    console.error("VITE_API_URL is not defined in environment variables");
+}
 
 export const getAuthToken = () => localStorage.getItem("admin_token");
 export const setAuthToken = (token: string) => localStorage.setItem("admin_token", token);
