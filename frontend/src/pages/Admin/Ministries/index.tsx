@@ -137,31 +137,46 @@ export default function AdminMinistries() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {ministries.map((m) => (
-                            <TableRow key={m.id}>
-                                <TableCell className="font-medium flex items-center gap-2">
-                                    <Church className="w-4 h-4 text-gold" />
-                                    {m.title}
-                                </TableCell>
-                                <TableCell className="font-mono text-xs">{m.ministry_key}</TableCell>
-                                <TableCell>
-                                    <Badge variant={m.is_active ? "default" : "secondary"} className={m.is_active ? "bg-green-600" : ""}>
-                                        {m.is_active ? "Active" : "Inactive"}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {m.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(m)}>
-                                        <Pencil className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(m.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={5} className="h-32 text-center">
+                                    <Loader2 className="w-8 h-8 animate-spin mx-auto text-gold" />
+                                    <p className="text-sm text-muted-foreground mt-2">Loading ministries...</p>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : ministries.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
+                                    No ministries found.
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            ministries.map((m) => (
+                                <TableRow key={m.id}>
+                                    <TableCell className="font-medium flex items-center gap-2">
+                                        <Church className="w-4 h-4 text-gold" />
+                                        {m.title}
+                                    </TableCell>
+                                    <TableCell className="font-mono text-xs">{m.ministry_key}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={m.is_active ? "default" : "secondary"} className={m.is_active ? "bg-green-600" : ""}>
+                                            {m.is_active ? "Active" : "Inactive"}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {m.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
+                                    </TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                        <Button variant="ghost" size="icon" onClick={() => handleEdit(m)} disabled={isActionLoading}>
+                                            <Pencil className="w-4 h-4" />
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(m.id)} disabled={isActionLoading}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>
@@ -231,7 +246,14 @@ export default function AdminMinistries() {
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button type="submit" className="bg-navy hover:bg-navy-light">Save Changes</Button>
+                            <LoadingButton
+                                type="submit"
+                                className="bg-navy hover:bg-navy-light"
+                                isLoading={isActionLoading}
+                                loadingText="Saving..."
+                            >
+                                Save Changes
+                            </LoadingButton>
                         </DialogFooter>
                     </form>
                 </DialogContent>

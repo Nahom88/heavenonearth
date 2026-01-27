@@ -21,7 +21,8 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Check, X, Star, Eye } from "lucide-react";
+import { Check, X, Star, Eye, Loader2 } from "lucide-react";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { format } from "date-fns";
 
 interface Testimonial {
@@ -37,16 +38,22 @@ interface Testimonial {
 export default function AdminTestimonials() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false);
     const [isReviewOpen, setIsReviewOpen] = useState(false);
     const [reviewNotes, setReviewNotes] = useState("");
     const [isFeatured, setIsFeatured] = useState(false);
 
     const fetchTestimonials = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Testimonial[] }>("/testimonials?page_size=100");
             setTestimonials(data.items);
         } catch (error) {
             console.error("Failed to fetch testimonials", error);
+            toast.error("Failed to load testimonials");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -63,7 +70,7 @@ export default function AdminTestimonials() {
 
     const submitReview = async (status: "approved" | "rejected") => {
         if (!selectedTestimonial) return;
-
+        setIsActionLoading(true);
         try {
             await apiRequest(`/testimonials/${selectedTestimonial.id}/review`, {
                 method: "POST",
@@ -79,6 +86,8 @@ export default function AdminTestimonials() {
             fetchTestimonials();
         } catch (error) {
             toast.error("Failed to submit review");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
@@ -113,27 +122,42 @@ export default function AdminTestimonials() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {testimonials.map((t) => (
-                            <TableRow key={t.id}>
-                                <TableCell className="font-medium">{t.name}</TableCell>
-                                <TableCell>{t.category}</TableCell>
-                                <TableCell>{format(new Date(t.created_at), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <Badge variant="outline" className={getStatusColor(t.status)}>
-                                        {t.status}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {t.is_featured && <Star className="w-4 h-4 text-gold fill-gold" />}
-                                </TableCell>
-                                <TableCell className="text-right">
-                                    <Button variant="ghost" size="sm" onClick={() => handleReview(t)}>
-                                        <Eye className="w-4 h-4 mr-2" />
-                                        Review
-                                    </Button>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-32 text-center">
+                                    <Loader2 className="w-8 h-8 animate-spin mx-auto text-gold" />
+                                    <p className="text-sm text-muted-foreground mt-2">Loading testimonials...</p>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : testimonials.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
+                                    No testimonials found.
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            testimonials.map((t) => (
+                                <TableRow key={t.id}>
+                                    <TableCell className="font-medium">{t.name}</TableCell>
+                                    <TableCell>{t.category}</TableCell>
+                                    <TableCell>{format(new Date(t.created_at), "MMM d, yyyy")}</TableCell>
+                                    <TableCell>
+                                        <Badge variant="outline" className={getStatusColor(t.status)}>
+                                            {t.status}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {t.is_featured && <Star className="w-4 h-4 text-gold fill-gold" />}
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <Button variant="ghost" size="sm" onClick={() => handleReview(t)} disabled={isActionLoading}>
+                                            <Eye className="w-4 h-4 mr-2" />
+                                            Review
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>
@@ -178,14 +202,24 @@ export default function AdminTestimonials() {
                     )}
 
                     <DialogFooter className="gap-2 sm:gap-0">
-                        <Button variant="destructive" onClick={() => submitReview("rejected")}>
+                        <LoadingButton
+                            variant="destructive"
+                            onClick={() => submitReview("rejected")}
+                            isLoading={isActionLoading}
+                            loadingText="Rejecting..."
+                        >
                             <X className="w-4 h-4 mr-2" />
                             Reject
-                        </Button>
-                        <Button className="bg-green-600 hover:bg-green-700" onClick={() => submitReview("approved")}>
+                        </LoadingButton>
+                        <LoadingButton
+                            className="bg-green-600 hover:bg-green-700"
+                            onClick={() => submitReview("approved")}
+                            isLoading={isActionLoading}
+                            loadingText="Approving..."
+                        >
                             <Check className="w-4 h-4 mr-2" />
                             Approve & Publish
-                        </Button>
+                        </LoadingButton>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

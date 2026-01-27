@@ -21,7 +21,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Image as ImageIcon, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, Image as ImageIcon, ExternalLink, Loader2 } from "lucide-react";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { format } from "date-fns";
 
 interface GalleryItem {
@@ -43,12 +44,19 @@ export default function AdminGallery() {
     const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
     const [formData, setFormData] = useState<Partial<GalleryItem>>({});
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false);
+
     const fetchItems = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: GalleryItem[] }>("/gallery?page_size=100");
             setItems(data.items);
         } catch (error) {
             console.error("Failed to fetch gallery items", error);
+            toast.error("Failed to load gallery items");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -76,17 +84,21 @@ export default function AdminGallery() {
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this item?")) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/gallery/${id}`, { method: "DELETE" });
             toast.success("Item deleted");
             fetchItems();
         } catch (error) {
             toast.error("Failed to delete item");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsActionLoading(true);
         try {
             if (editingItem) {
                 await apiRequest(`/gallery/${editingItem.id}`, {
@@ -105,6 +117,8 @@ export default function AdminGallery() {
             fetchItems();
         } catch (error) {
             toast.error("Failed to save item");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
@@ -135,49 +149,64 @@ export default function AdminGallery() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {items.map((item) => (
-                            <TableRow key={item.id}>
-                                <TableCell>
-                                    <div className="w-16 h-10 bg-gray-100 rounded overflow-hidden relative group">
-                                        {item.media_type === 'image' ? (
-                                            <img
-                                                src={item.src_url}
-                                                alt={item.title}
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => {
-                                                    (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
-                                                }}
-                                            />
-                                        ) : (
-                                            <div className="flex items-center justify-center h-full bg-gray-200">
-                                                <ImageIcon className="w-4 h-4 text-gray-400" />
-                                            </div>
-                                        )}
-                                    </div>
-                                </TableCell>
-                                <TableCell className="font-medium">{item.title}</TableCell>
-                                <TableCell>
-                                    <Badge variant="secondary" className="capitalize">{item.category}</Badge>
-                                </TableCell>
-                                <TableCell>{format(new Date(item.event_date), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <Badge variant={item.is_published ? "default" : "secondary"} className={item.is_published ? "bg-green-600" : ""}>
-                                        {item.is_published ? "Published" : "Draft"}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {item.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
-                                        <Pencil className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(item.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="h-32 text-center">
+                                    <Loader2 className="w-8 h-8 animate-spin mx-auto text-gold" />
+                                    <p className="text-sm text-muted-foreground mt-2">Loading gallery...</p>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : items.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
+                                    No items found.
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            items.map((item) => (
+                                <TableRow key={item.id}>
+                                    <TableCell>
+                                        <div className="w-16 h-10 bg-gray-100 rounded overflow-hidden relative group">
+                                            {item.media_type === 'image' ? (
+                                                <img
+                                                    src={item.src_url}
+                                                    alt={item.title}
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => {
+                                                        (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                                                    }}
+                                                />
+                                            ) : (
+                                                <div className="flex items-center justify-center h-full bg-gray-200">
+                                                    <ImageIcon className="w-4 h-4 text-gray-400" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="font-medium">{item.title}</TableCell>
+                                    <TableCell>
+                                        <Badge variant="secondary" className="capitalize">{item.category}</Badge>
+                                    </TableCell>
+                                    <TableCell>{format(new Date(item.event_date), "MMM d, yyyy")}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={item.is_published ? "default" : "secondary"} className={item.is_published ? "bg-green-600" : ""}>
+                                            {item.is_published ? "Published" : "Draft"}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {item.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
+                                    </TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                        <Button variant="ghost" size="icon" onClick={() => handleEdit(item)} disabled={isActionLoading}>
+                                            <Pencil className="w-4 h-4" />
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(item.id)} disabled={isActionLoading}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>
@@ -262,7 +291,14 @@ export default function AdminGallery() {
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button type="submit" className="bg-navy hover:bg-navy-light">Save Changes</Button>
+                            <LoadingButton
+                                type="submit"
+                                className="bg-navy hover:bg-navy-light"
+                                isLoading={isActionLoading}
+                                loadingText="Saving..."
+                            >
+                                Save Changes
+                            </LoadingButton>
                         </DialogFooter>
                     </form>
                 </DialogContent>

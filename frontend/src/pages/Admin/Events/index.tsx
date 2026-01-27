@@ -22,7 +22,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Calendar, Plus, Pencil, Trash2, MapPin } from "lucide-react";
+import { Calendar, Plus, Pencil, Trash2, MapPin, Loader2 } from "lucide-react";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { format } from "date-fns";
 
 interface Event {
@@ -45,12 +46,19 @@ export default function AdminEvents() {
     const [editingEvent, setEditingEvent] = useState<Event | null>(null);
     const [formData, setFormData] = useState<Partial<Event>>({});
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [isActionLoading, setIsActionLoading] = useState(false);
+
     const fetchEvents = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Event[] }>("/events?page_size=100");
             setEvents(data.items);
         } catch (error) {
             console.error("Failed to fetch events", error);
+            toast.error("Failed to load events");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -80,17 +88,21 @@ export default function AdminEvents() {
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this event?")) return;
+        setIsActionLoading(true);
         try {
             await apiRequest(`/events/${id}`, { method: "DELETE" });
             toast.success("Event deleted");
             fetchEvents();
         } catch (error) {
             toast.error("Failed to delete event");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsActionLoading(true);
         try {
             const payload = {
                 ...formData,
@@ -116,6 +128,8 @@ export default function AdminEvents() {
             fetchEvents();
         } catch (error) {
             toast.error("Failed to save event");
+        } finally {
+            setIsActionLoading(false);
         }
     };
 
@@ -145,42 +159,57 @@ export default function AdminEvents() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {events.map((e) => (
-                            <TableRow key={e.id}>
-                                <TableCell className="font-medium">
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold">{e.title}</span>
-                                        {e.is_recurring && <span className="text-xs text-muted-foreground">Recurring</span>}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex flex-col text-sm">
-                                        <span>{format(new Date(e.event_date), "MMM d, yyyy")}</span>
-                                        <span className="text-muted-foreground">{e.start_time.slice(0, 5)} - {e.end_time.slice(0, 5)}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center text-sm text-muted-foreground">
-                                        <MapPin className="w-3 h-3 mr-1" />
-                                        {e.location}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant="secondary" className="capitalize">{e.category}</Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {e.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(e)}>
-                                        <Pencil className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(e.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-32 text-center">
+                                    <Loader2 className="w-8 h-8 animate-spin mx-auto text-gold" />
+                                    <p className="text-sm text-muted-foreground mt-2">Loading events...</p>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : events.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
+                                    No events found.
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            events.map((e) => (
+                                <TableRow key={e.id}>
+                                    <TableCell className="font-medium">
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold">{e.title}</span>
+                                            {e.is_recurring && <span className="text-xs text-muted-foreground">Recurring</span>}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-col text-sm">
+                                            <span>{format(new Date(e.event_date), "MMM d, yyyy")}</span>
+                                            <span className="text-muted-foreground">{e.start_time.slice(0, 5)} - {e.end_time.slice(0, 5)}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center text-sm text-muted-foreground">
+                                            <MapPin className="w-3 h-3 mr-1" />
+                                            {e.location}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant="secondary" className="capitalize">{e.category}</Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {e.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
+                                    </TableCell>
+                                    <TableCell className="text-right space-x-2">
+                                        <Button variant="ghost" size="icon" onClick={() => handleEdit(e)} disabled={isActionLoading}>
+                                            <Pencil className="w-4 h-4" />
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(e.id)} disabled={isActionLoading}>
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>
@@ -301,7 +330,14 @@ export default function AdminEvents() {
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button type="submit" className="bg-navy hover:bg-navy-light">Save Changes</Button>
+                            <LoadingButton
+                                type="submit"
+                                className="bg-navy hover:bg-navy-light"
+                                isLoading={isActionLoading}
+                                loadingText="Saving..."
+                            >
+                                Save Changes
+                            </LoadingButton>
                         </DialogFooter>
                     </form>
                 </DialogContent>
