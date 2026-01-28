@@ -43,7 +43,6 @@ class GalleryItemCreateBase(GalleryItemBase):
     """Base schema for creating a gallery item (for direct URL uploads)."""
     
     src_url: HttpUrl
-    thumbnail_url: Optional[HttpUrl] = None
     file_name: Optional[str] = Field(default=None, max_length=255)
     file_size: Optional[int] = Field(default=None, ge=0)
     mime_type: Optional[str] = Field(default=None, max_length=100)
@@ -55,7 +54,6 @@ class GalleryItemFileUpload(GalleryItemBase):
     """Schema for file upload gallery item creation."""
     
     file: UploadFile
-    thumbnail: Optional[UploadFile] = None
     
     @field_validator('file')
     @classmethod
@@ -92,7 +90,6 @@ class GalleryItemResponse(GalleryItemBase):
     
     id: UUID
     src_url: HttpUrl
-    thumbnail_url: Optional[HttpUrl] = None
     file_name: Optional[str] = None
     file_size: Optional[int] = None
     mime_type: Optional[str] = None
@@ -125,7 +122,6 @@ class GalleryItemPublic(BaseModel):
     alt_text: str
     media_type: MediaType
     src_url: HttpUrl
-    thumbnail_url: Optional[HttpUrl] = None
     category: Category
     event_date: Optional[datetime] = None
     

@@ -105,49 +105,92 @@ async def get_gallery_item(
     return item
 
 
+
+
 async def process_uploaded_file(
     file: UploadFile,
-    bucket: str = "folders"
+    bucket: str = "gallery",
+    is_thumbnail: bool = False,
+    chunk_size: int = 5 * 1024 * 1024  # 5MB chunks
 ) -> dict:
-    """Process an uploaded file and upload to Supabase."""
+    """Process an uploaded file with optimized performance using chunked uploads."""
     try:
-        # Read file content
-        content = await file.read()
+        # Generate a unique file name with extension
+        file_extension = os.path.splitext(file.filename or '')[1].lower() or '.bin'
+        file_name = f"{uuid.uuid4()}{file_extension}"
+        file_path = f"{bucket}/{file_name}"
         
-        # Get file info
-        mime_type = magic.from_buffer(content, mime=True)
-        file_size = len(content)
+        # Create an in-memory buffer for the first chunk to detect MIME type
+        first_chunk = await file.read(1024)
+        mime_type = magic.from_buffer(first_chunk, mime=True)
         
-        # For images, get dimensions
-        width = height = None
-        if mime_type.startswith('image/'):
-            with Image.open(io.BytesIO(content)) as img:
-                width, height = img.size
+        # For thumbnails, ensure it's an image
+        if is_thumbnail and not mime_type.startswith('image/'):
+            raise HTTPException(
+                status_code=400,
+                detail={"error": "invalid_thumbnail", "message": "Thumbnail must be an image file"}
+            )
         
-        # Upload to Supabase
-        file_extension = os.path.splitext(file.filename or 'file')[1].lower()
-        unique_filename = f"{uuid.uuid4()}{file_extension}"
+        # Validate file type for non-thumbnails
+        if not is_thumbnail and not (mime_type.startswith('image/') or mime_type.startswith('video/')):
+            raise HTTPException(
+                status_code=400,
+                detail={"error": "invalid_file_type", "message": "Unsupported file type. Please upload an image or video file."}
+            )
         
-        # Reset file pointer to beginning
-        await file.seek(0)
-        
-        # Upload the file
-        public_url, file_path = await supabase_storage.upload_file(
-            file=file,
+        # Initialize Supabase upload
+        uploader = supabase_storage.create_resumable_upload(
             bucket=bucket,
-            path=""
+            file_path=file_path,
+            content_type=mime_type
         )
         
+        # Process the first chunk we already read
+        await uploader.upload_chunk(first_chunk)
+        
+        # Process remaining chunks
+        while True:
+            chunk = await file.read(chunk_size)
+            if not chunk:
+                break
+            await uploader.upload_chunk(chunk)
+        
+        # Finalize the upload
+        await uploader.finalize()
+        
+        # Get file info
+        file_info = await supabase_storage.get_file_info(bucket, file_path)
+        
+        # For images, get dimensions
+        width = None
+        height = None
+        
+        if mime_type.startswith('image/'):
+            try:
+                # Download a small portion of the image to get dimensions
+                img_data = await supabase_storage.download_file(bucket, file_path, max_bytes=1024*1024)  # First 1MB
+                with Image.open(io.BytesIO(img_data)) as img:
+                    width, height = img.size
+            except Exception as e:
+                print(f"Warning: Could not get image dimensions: {e}")
+        
         return {
-            "src_url": public_url,
-            "file_name": file.filename,
-            "file_size": file_size,
+            "file_name": file_name,
+            "file_path": file_path,
+            "src_url": file_info["public_url"],
             "mime_type": mime_type,
+            "file_size": file_info["size"],
             "width": width,
-            "height": height,
-            "file_path": file_path
+            "height": height
         }
+        
     except Exception as e:
+        print(f"Error processing file: {str(e)}")
+        # Clean up any partially uploaded files
+        try:
+            await supabase_storage.delete_file(file_path)
+        except:
+            pass
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error processing file: {str(e)}"
@@ -166,8 +209,7 @@ async def create_new_gallery_item(
     is_featured: bool = Form(False),
     is_published: bool = Form(True),
     display_order: int = Form(0),
-    file: UploadFile = File(...),
-    thumbnail: Optional[UploadFile] = File(None),
+    file: UploadFile = File(..., description="Media file (image or video)"),
     db: AsyncSession = Depends(get_db),
     current_admin: Admin = Depends(get_current_active_admin)
 ):
@@ -178,47 +220,9 @@ async def create_new_gallery_item(
     Supports multipart form data for file uploads.
     """
     try:
-        # Process main file
+        # Process the main file
         file_info = await process_uploaded_file(file)
         
-        # Process thumbnail
-        thumbnail_url = None
-        thumb_info = None
-        
-        # For videos, always require a thumbnail
-        if media_type == MediaType.VIDEO and (not thumbnail or not thumbnail.filename):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="A thumbnail is required for video files"
-            )
-            
-        # Process thumbnail if provided
-        if thumbnail and thumbnail.filename:
-            try:
-                # Verify thumbnail is an image
-                if not (thumbnail.content_type and thumbnail.content_type.startswith('image/')):
-                    raise HTTPException(
-                        status_code=status.HTTP_400_BAD_REQUEST,
-                        detail="Thumbnail must be an image file"
-                    )
-                
-                # Process the thumbnail
-                thumb_info = await process_uploaded_file(thumbnail, bucket="thumbnails")
-                if thumb_info and thumb_info.get("src_url"):
-                    thumbnail_url = str(thumb_info["src_url"])
-                    
-            except HTTPException as http_err:
-                # Re-raise HTTP exceptions
-                raise http_err
-            except Exception as thumb_error:
-                print(f"Error processing thumbnail: {thumb_error}")
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail=f"Failed to process thumbnail: {str(thumb_error)}"
-                )
-        # For images, use the main file as thumbnail if none provided
-        elif media_type == MediaType.IMAGE and file_info.get("src_url"):
-            thumbnail_url = str(file_info["src_url"])
         
         # Convert HttpUrl to string for database storage
         src_url = str(file_info["src_url"]) if file_info["src_url"] else None
@@ -232,7 +236,6 @@ async def create_new_gallery_item(
             media_type=media_type.value if hasattr(media_type, 'value') else str(media_type),
             category=category.value if hasattr(category, 'value') else str(category),
             src_url=src_url,
-            thumbnail_url=thumbnail_url,
             file_name=file_info["file_name"],
             file_size=file_info["file_size"],
             mime_type=file_info["mime_type"],
