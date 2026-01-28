@@ -37,6 +37,13 @@ slowapi==0.1.9
 aiofiles==23.2.1
 python-magic==0.4.27
 Pillow==10.2.0
+supabase==2.3.4
+python-multipart==0.0.9
+gotrue==1.1.0
+httpx==0.25.0
+postgrest==0.11.0
+realtime==1.0.6
+storage3==0.7.1
 
 # Date & Time
 python-dateutil==2.8.2
@@ -58,3 +65,4 @@ aiosmtplib==3.0.1
 
 # UUID generation
 uuid6==2024.1.12
+supabase

@@ -84,8 +84,22 @@ async def create_gallery_item(
     created_by_id: UUID,
 ) -> GalleryItem:
     """Create a new gallery item."""
+    # Convert model to dict and ensure all URLs are strings
+    item_data = item_in.model_dump()
+    
+    # Convert HttpUrl objects to strings
+    for field in ['src_url', 'thumbnail_url']:
+        if field in item_data and item_data[field] is not None:
+            item_data[field] = str(item_data[field])
+    
+    # Convert enum values to strings if needed
+    for field in ['media_type', 'category']:
+        if field in item_data and item_data[field] is not None and hasattr(item_data[field], 'value'):
+            item_data[field] = item_data[field].value
+    
+    # Create the item
     item = GalleryItem(
-        **item_in.model_dump(),
+        **item_data,
         created_by_id=created_by_id,
     )
     db.add(item)

@@ -46,6 +46,11 @@ class Settings(BaseSettings):
     database_pool_size: int = Field(default=10, alias="DATABASE_POOL_SIZE")
     database_max_overflow: int = Field(default=20, alias="DATABASE_MAX_OVERFLOW")
     
+    # Supabase Configuration
+    supabase_url: str = Field(..., alias="SUPABASE_URL")
+    supabase_key: str = Field(..., alias="SUPABASE_KEY")
+    supabase_bucket: str = Field(default="gallery", alias="SUPABASE_BUCKET")
+    
     # JWT Security Settings - SENSITIVE
     jwt_secret_key: str = Field(..., alias="JWT_SECRET_KEY", min_length=32)
     jwt_algorithm: str = Field(default="HS256", alias="JWT_ALGORITHM")
