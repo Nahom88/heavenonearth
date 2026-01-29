@@ -135,7 +135,7 @@ const Ministries = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {ministries.map((ministry, index) => (
             <motion.div
-              key={ministry.title}
+              key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -153,12 +153,12 @@ const Ministries = () => {
                   {ministry.description}
                 </p>
                 {expandedIndex === index && (
-                  {ministry.details.map((detailKey, i) => (
+                  ministry.details.map((detailKey, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-foreground">
                       <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0" />
                       {t(detailKey)}
                     </li>
-                  ))}
+                  ))
                 )}
                 {ministry.details.length > 0 && (
                   <button

@@ -46,7 +46,7 @@ const Ministries = () => {
                 >
                   <div className="p-6">
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                      {ministry.icon}
+                      <ministry.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-2">{t(`ministries.${ministry.id}.title`)}</h3>
                     <p className="text-muted-foreground mb-4">{t(`ministries.${ministry.id}.description`)}</p>
