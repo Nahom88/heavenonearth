@@ -19,10 +19,10 @@ const Ministries = () => {
       title: t('ministries.prayer.title'),
       description: t('ministries.prayer.description'),
       details: [
-        '24/7 Prayer Coverage',
-        'Weekly Prayer Vigils',
-        'Intercession Team',
-        'Prayer Chain Network',
+        'ministries.prayer.details.0',
+        'ministries.prayer.details.1',
+        'ministries.prayer.details.2',
+        'ministries.prayer.details.3',
       ],
     },
     {
@@ -30,10 +30,10 @@ const Ministries = () => {
       title: t('ministries.outreach.title'),
       description: t('ministries.outreach.description'),
       details: [
-        'Food Distribution',
-        'Community Support',
-        'Hospital Visitation',
-        'Street Evangelism',
+        'ministries.outreach.details.0',
+        'ministries.outreach.details.1',
+        'ministries.outreach.details.2',
+        'ministries.outreach.details.3',
       ],
     },
     {
@@ -41,10 +41,10 @@ const Ministries = () => {
       title: t('ministries.discipleship.title'),
       description: t('ministries.discipleship.description'),
       details: [
-        'New Believers Class',
-        'Bible Study Groups',
-        'One-on-One Mentoring',
-        'Leadership Training',
+        'ministries.discipleship.details.0',
+        'ministries.discipleship.details.1',
+        'ministries.discipleship.details.2',
+        'ministries.discipleship.details.3',
       ],
     },
     {
@@ -52,10 +52,10 @@ const Ministries = () => {
       title: t('ministries.youth.title'),
       description: t('ministries.youth.description'),
       details: [
-        'Friday Youth Fellowship',
-        'Youth Choir',
-        'Mentorship Program',
-        'Annual Youth Conference',
+        'ministries.youth.details.0',
+        'ministries.youth.details.1',
+        'ministries.youth.details.2',
+        'ministries.youth.details.3',
       ],
     },
     {
@@ -63,43 +63,43 @@ const Ministries = () => {
       title: t('ministries.children.title'),
       description: t('ministries.children.description'),
       details: [
-        'Sunday School (Ages 3-12)',
-        'Children\'s Choir',
-        'Vacation Bible School',
-        'Kids Prayer Club',
+        'ministries.children.details.0',
+        'ministries.children.details.1',
+        'ministries.children.details.2',
+        'ministries.children.details.3',
       ],
     },
     {
       icon: Music,
-      title: 'Worship Ministry',
-      description: 'Leading the congregation in Spirit-filled worship through music and arts.',
+      title: t('ministries.worship.title'),
+      description: t('ministries.worship.description'),
       details: [
-        'Main Worship Team',
-        'Choir',
-        'Sound & Media Team',
-        'Dance Ministry',
+        'ministries.worship.details.0',
+        'ministries.worship.details.1',
+        'ministries.worship.details.2',
+        'ministries.worship.details.3',
       ],
     },
     {
       icon: Calendar,
-      title: 'Women\'s Ministry',
-      description: 'Empowering women to grow in faith and support one another in community.',
+      title: t('ministries.women.title'),
+      description: t('ministries.women.description'),
       details: [
-        'Women\'s Bible Study',
-        'Monthly Fellowship',
-        'Prayer Breakfasts',
-        'Annual Women\'s Retreat',
+        'ministries.women.details.0',
+        'ministries.women.details.1',
+        'ministries.women.details.2',
+        'ministries.women.details.3',
       ],
     },
     {
       icon: Globe,
-      title: 'Missions',
-      description: 'Spreading the Gospel to unreached communities in Ethiopia and beyond.',
+      title: t('ministries.missions.title'),
+      description: t('ministries.missions.description'),
       details: [
-        'Church Planting',
-        'Missionary Support',
-        'Short-term Mission Trips',
-        'Partnership with Local Churches',
+        'ministries.missions.details.0',
+        'ministries.missions.details.1',
+        'ministries.missions.details.2',
+        'ministries.missions.details.3',
       ],
     },
   ];
@@ -153,21 +153,19 @@ const Ministries = () => {
                   {ministry.description}
                 </p>
                 {expandedIndex === index && (
-                  <ul className="space-y-2 mb-4">
-                    {ministry.details.map((detail, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-foreground">
-                        <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0" />
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
+                  {ministry.details.map((detailKey, i) => (
+                    <li key={i} className="flex items-center gap-2 text-sm text-foreground">
+                      <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0" />
+                      {t(detailKey)}
+                    </li>
+                  ))}
                 )}
                 {ministry.details.length > 0 && (
                   <button
                     onClick={() => toggleExpand(index)}
                     className="text-secondary hover:underline"
                   >
-                    {expandedIndex === index ? 'Read Less' : 'Read More'}
+                    {expandedIndex === index ? t('common.readLess') : t('common.readMore')}
                   </button>
                 )}
               </div>
@@ -186,16 +184,16 @@ const Ministries = () => {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h2 className="section-title mb-4">Get Involved</h2>
+            <h2 className="section-title mb-4">{t('ministriesPage.getInvolved.title')}</h2>
             <p className="text-muted-foreground text-lg mb-8">
-              God has given each of us unique gifts and talents. We'd love to help you discover your calling and find a place to serve in our church family.
+              {t('ministriesPage.getInvolved.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="/partnership" className="btn-gold">
-                Become a Volunteer
+                {t('ministriesPage.getInvolved.volunteerCta')}
               </a>
               <a href="/contact" className="btn-navy">
-                Contact Us
+                {t('ministriesPage.getInvolved.contactCta')}
               </a>
             </div>
           </motion.div>

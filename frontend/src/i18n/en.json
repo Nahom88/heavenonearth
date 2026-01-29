@@ -37,35 +37,83 @@
     "subtitle": "Serving God, Serving People",
     "prayer": {
       "title": "Prayer Ministry",
-      "description": "24/7 prayer coverage, prayer vigils, and intercession for families and nations."
+      "description": "24/7 prayer coverage, prayer vigils, and intercession for families and nations.",
+      "details": [
+        "24/7 Prayer Coverage",
+        "Weekly Prayer Vigils",
+        "Intercession Team",
+        "Prayer Chain Network"
+      ]
     },
     "outreach": {
       "title": "Community Outreach",
-      "description": "Food distribution, helping the needy, and showing Christ's love through action."
+      "description": "Food distribution, helping the needy, and showing Christ's love through action.",
+      "details": [
+        "Food Distribution",
+        "Community Support",
+        "Hospital Visitation",
+        "Street Evangelism"
+      ]
     },
     "discipleship": {
       "title": "Discipleship",
-      "description": "Bible studies, small groups, and spiritual mentoring for growth in faith."
+      "description": "Bible studies, small groups, and spiritual mentoring for growth in faith.",
+      "details": [
+        "New Believers Class",
+        "Bible Study Groups",
+        "One-on-One Mentoring",
+        "Leadership Training"
+      ]
     },
     "youth": {
       "title": "Youth Ministry",
-      "description": "Weekly meetings, mentorship, and activities for young believers."
+      "description": "Weekly meetings, mentorship, and activities for young believers.",
+      "details": [
+        "Friday Youth Fellowship",
+        "Youth Choir",
+        "Mentorship Program",
+        "Annual Youth Conference"
+      ]
     },
     "children": {
       "title": "Children's Ministry",
-      "description": "Sunday School, Bible stories, and nurturing the faith of our little ones."
+      "description": "Sunday School, Bible stories, and nurturing the faith of our little ones.",
+      "details": [
+        "Sunday School (Ages 3-12)",
+        "Children's Choir",
+        "Vacation Bible School",
+        "Kids Prayer Club"
+      ]
     },
     "worship": {
       "title": "Worship Ministry",
-      "description": "Leading the congregation in Spirit-filled worship through music and arts."
+      "description": "Leading the congregation in Spirit-filled worship through music and arts.",
+      "details": [
+        "Main Worship Team",
+        "Choir",
+        "Sound & Media Team",
+        "Dance Ministry"
+      ]
     },
     "women": {
       "title": "Women's Ministry",
-      "description": "Empowering women to grow in faith and support one another in community."
+      "description": "Empowering women to grow in faith and support one another in community.",
+      "details": [
+        "Women's Bible Study",
+        "Monthly Fellowship",
+        "Prayer Breakfasts",
+        "Annual Women's Retreat"
+      ]
     },
     "missions": {
       "title": "Missions",
-      "description": "Spreading the Gospel to unreached communities in Ethiopia and beyond."
+      "description": "Spreading the Gospel to unreached communities in Ethiopia and beyond.",
+      "details": [
+        "Church Planting",
+        "Missionary Support",
+        "Short-term Mission Trips",
+        "Partnership with Local Churches"
+      ]
     }
   },
   "ministriesPage": {

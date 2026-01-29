@@ -7,34 +7,34 @@ export const hero = {
 export const ministries = [
   {
     id: 'youth',
-    icon: <Users className="w-6 h-6" />,
+    icon: Users,
   },
   {
     id: 'worship',
-    icon: <Music className="w-6 h-6" />,
+    icon: Music,
   },
   {
-    id: 'bible-study',
-    icon: <BookOpen className="w-6 h-6" />,
+    id: 'discipleship',
+    icon: BookOpen,
   },
   {
     id: 'prayer',
-    icon: <HeartHandshake className="w-6 h-6" />,
+    icon: HeartHandshake,
   },
   {
     id: 'outreach',
-    icon: <HeartHandshake className="w-6 h-6" />,
+    icon: HeartHandshake,
   },
   {
     id: 'children',
-    icon: <Church className="w-6 h-6" />,
+    icon: Church,
   },
   {
     id: 'women',
-    icon: <Users className="w-6 h-6" />, // Assuming Users icon for Women's Ministry
+    icon: Users,
   },
   {
     id: 'missions',
-    icon: <Mic2 className="w-6 h-6" />, // Assuming Mic2 icon for Missions
+    icon: Mic2,
   },
 ];
