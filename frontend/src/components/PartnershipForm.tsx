@@ -56,7 +56,7 @@ const PartnershipForm = () => {
       setFormData({ name: '', email: '', phone: '', partnershipType: '', message: '', volunteerAreas: '', financialCommitment: '', materialItems: '' });
     } catch (error) {
       console.error(error);
-      alert('There was an error submitting the form. Please try again later.');
+      toast.error(t('partnership.submitError'));
     } finally {
       setIsSubmitting(false);
     }
