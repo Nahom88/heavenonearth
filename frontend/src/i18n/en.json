@@ -181,5 +181,63 @@
     "submitButton": "Submit Your Testimony",
     "thankYou": "Thank You!",
     "submitSuccess": "Your testimony has been submitted successfully. It will be reviewed and published soon."
+  },
+  "aboutPage": {
+    "hero": {
+      "title": "About Our Ministry",
+      "description": "Discover our story, beliefs, and the team behind Heaven on Earth Kingdom Family Ministries"
+    },
+    "story": {
+      "title": "Our Story",
+      "description": "Heaven on Earth Kingdom Family Ministries was founded in 2005 with a vision to create a place where people can experience the love and power of God in their lives."
+    },
+    "beliefs": {
+      "title": "Our Core Beliefs",
+      "subtitle": "What we stand for and believe in",
+      "bible": {
+        "title": "The Bible",
+        "description": "We believe the Bible is the inspired, infallible Word of God, the supreme authority for faith and life."
+      },
+      "trinity": {
+        "title": "The Trinity",
+        "description": "We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit."
+      },
+      "salvation": {
+        "title": "Salvation",
+        "description": "We believe salvation is by grace through faith in Jesus Christ alone, not by works."
+      },
+      "church": {
+        "title": "The Church",
+        "description": "We believe in the universal church as the body of Christ, called to worship, fellowship, and mission."
+      },
+      "returnOfChrist": {
+        "title": "The Return of Christ",
+        "description": "We believe in the personal, visible return of Jesus Christ to establish His Kingdom."
+      }
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "subtitle": "Dedicated leaders serving our community",
+      "pastorAbraham": {
+        "name": "Pastor Abraham",
+        "role": "Senior Pastor",
+        "description": "Leading our congregation with vision and compassion for over 15 years."
+      },
+      "sisterTigist": {
+        "name": "Sister Tigist",
+        "role": "Women's Ministry Leader",
+        "description": "Dedicated to empowering women through faith and fellowship."
+      },
+      "brotherDaniel": {
+        "name": "Brother Daniel",
+        "role": "Youth Pastor",
+        "description": "Passionate about raising the next generation of believers."
+      }
+    },
+    "stats": {
+      "locations": "Locations",
+      "members": "Members",
+      "yearsOfService": "Years of Service"
+    }
   }
 }
