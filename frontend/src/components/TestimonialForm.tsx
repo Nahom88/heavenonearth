@@ -14,10 +14,6 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    phone: '',
-    location: '',
-    title: '',
     content: '',
     category: 'general',
   });
@@ -49,12 +45,8 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
-          title: formData.title || 'Personal Testimony',
           content: formData.content,
           category: formData.category,
-          ...(formData.email && { email: formData.email }),
-          ...(formData.phone && { phone: formData.phone }),
-          ...(formData.location && { location: formData.location })
         })
       });
 
