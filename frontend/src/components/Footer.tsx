@@ -68,8 +68,8 @@ const Footer = () => {
             <Link to="/" className="flex items-center gap-3 mb-4">
               <img src={logo} alt="Logo" className="h-12 w-12 rounded-full" />
               <div>
-                <h4 className="font-heading font-bold text-secondary">Heaven on Earth</h4>
-                <p className="text-xs text-primary-foreground/70">Kingdom Family Ministries</p>
+                <h4 className="font-heading font-bold text-secondary">{t('header.title')}</h4>
+                <p className="text-xs text-primary-foreground/70">{t('header.subtitle')}</p>
               </div>
             </Link>
             <p className="text-sm text-primary-foreground/80 leading-relaxed">
@@ -119,26 +119,26 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm">
                 <Phone size={18} className="text-secondary mt-0.5 flex-shrink-0" />
-                <a href="tel:+251905543858" className="text-primary-foreground/80 hover:text-secondary transition-colors">
-                  +251 90 554 3858
+                <a href={`tel:${t('contactInfo.phone')}`} className="text-primary-foreground/80 hover:text-secondary transition-colors">
+                  {t('contactInfo.phone')}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Mail size={18} className="text-secondary mt-0.5 flex-shrink-0" />
-                <a href="mailto:heavenonearthkingdomfamily@gmail.com" className="text-primary-foreground/80 hover:text-secondary transition-colors break-all">
-                  heavenonearthkingdomfamily@gmail.com
+                <a href={`mailto:${t('contactInfo.email')}`} className="text-primary-foreground/80 hover:text-secondary transition-colors break-all">
+                  {t('contactInfo.email')}
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <MapPin size={18} className="text-secondary mt-0.5 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
-                  Bole Road, Addis Ababa, Ethiopia
+                  {t('contactInfo.address')}
                 </span>
               </li>
               <li className="flex items-start gap-3 text-sm">
                 <Clock size={18} className="text-secondary mt-0.5 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
-                  Mon-Fri: 9AM-5PM<br />Sat: 10AM-2PM
+                  {t('contactInfo.monFriHours')}<br />{t('contactInfo.satHours')}
                 </span>
               </li>
             </ul>

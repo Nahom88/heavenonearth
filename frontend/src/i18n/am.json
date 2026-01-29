@@ -54,94 +54,31 @@
     "children": {
       "title": "የልጆች አገልግሎት",
       "description": "የሰንበት ትምህርት ቤት፣ የመጽሐፍ ቅዱስ ታሪኮች እና የትንንሾቻችንን እምነት ማሳደግ።"
+    },
+    "worship": {
+      "title": "የአምልኮ አገልግሎት",
+      "description": "በሙዚቃ እና በኪነጥበብ በመንፈስ የተሞላ አምልኮን መምራት።"
+    },
+    "women": {
+      "title": "የሴቶች አገልግሎት",
+      "description": "ሴቶች በእምነት እንዲያድጉ እና በማህበረሰብ ውስጥ እርስ በእርስ እንዲደጋገፉ ማብቃት።"
+    },
+    "missions": {
+      "title": "ሚሲዮኖች",
+      "description": "ወንጌልን ላልደረሱ ማህበረሰቦች በኢትዮጵያ እና ከዚያም በላይ ማሰራጨት።"
     }
   },
-  "events": {
-    "title": "መጪ ዝግጅቶች",
-    "subtitle": "በአምልኮ እና በኅብረት ተቀላቀሉን",
-    "serviceTimes": "የአገልግሎት ሰዓቶች",
-    "sunday": "የእሁድ አገልግሎት",
-    "wednesday": "የረቡዕ ጸሎት",
-    "friday": "የዓርብ የመጽሐፍ ቅዱስ ጥናት"
-  },
-  "prayer": {
-    "title": "የጸሎት ጥያቄዎች",
-    "subtitle": "የጻድቅ ሰው ጸሎት ኃይለኛ እና ውጤታማ ነው።",
-    "scripture": "ያዕቆብ 5:16",
-    "formTitle": "የጸሎት ጥያቄዎን ያስገቡ",
-    "namePlaceholder": "ስምዎ",
-    "emailPlaceholder": "ኢሜይልዎ",
-    "requestPlaceholder": "የጸሎት ጥያቄዎን ያጋሩ...",
-    "anonymous": "ማንነትን በማይገልጽ ሁኔታ ያስገቡ",
-    "submit": "የጸሎት ጥያቄ አስገባ",
-    "wall": "የጸሎት ግድግዳ",
-    "schedule": "የጸሎት መርሃ ግብር"
-  },
-  "partnership": {
-    "title": "ከእኛ ጋር ተጋሩ",
-    "subtitle": "አንድ ላይ ብዙ ማድረግ እንችላለን",
-    "description": "በጸሎት፣ በመስጠት እና በአገልግሎት የእግዚአብሔርን መንግሥት ለማራመድ ከኛ ጋር ተቀላቀሉ።",
-    "financial": "የገንዘብ አጋርነት",
-    "volunteer": "የበጎ ፈቃደኝነት ዕድሎች",
-    "material": "የቁሳቁስ ድጋፍ",
-    "type": "የአጋርነት አይነት",
-    "selectType": "የአጋርነት አይነት ይምረጡ",
-    "messagePlaceholder": "መልእክት ይጻፉ...",
-    "volunteerAreas": "ፍላጎት ያላቸው ዘርፎች (ለበጎ ፈቃደኞች)",
-    "volunteerAreasPlaceholder": "ለምሳሌ፣ የልጆች አገልግሎት፣ ሚዲያ፣ ወንጌል ተደራሽነት",
-    "financialCommitment": "የገንዘብ ድጋፍ ዝርዝሮች",
-    "financialPlaceholder": "ለምሳሌ፣ ወርሃዊ መጠን፣ የአንድ ጊዜ ስጦታ ዝርዝሮች",
-    "materialItems": "የሚለገሱ ዕቃዎች (ለቁሳቁስ ድጋፍ)",
-    "materialItemsPlaceholder": "ለምሳሌ፣ መጽሐፍ ቅዱሶች፣ ወንበሮች፣ የድምፅ መሣሪያዎች",
-    "submitButton": "አጋር ይሁኑ",
-    "successTitle": "ከእኛ ጋር ስላላችሁ እናመሰግናለን!",
-    "successMessage": "የአጋርነት ማመልከቻዎ ደርሶናል። በቅርቡ እናገኝዎታለን።",
-    "submitError": "ቅጹን በማስገባት ላይ ስህተት ነበር። እባክዎ ቆይተው እንደገና ይሞክሩ።"
-  },
-  "contact": {
-    "title": "ያግኙን",
-    "subtitle": "ከእርስዎ መስማት እንወዳለን",
-    "phone": "ስልክ",
-    "email": "ኢሜይል",
-    "telegram": "ቴሌግራም",
-    "location": "አድራሻ",
-    "hours": "የቢሮ ሰዓቶች",
-    "formTitle": "መልእክት ይላኩልን",
-    "namePlaceholder": "ስምዎ",
-    "emailPlaceholder": "ኢሜይልዎ",
-    "subjectPlaceholder": "ርዕሰ ጉዳይ",
-    "messagePlaceholder": "መልእክትዎ",
-    "submit": "መልእክት ላክ"
-  },
-  "giving": {
-    "title": "መስጠት",
-    "subtitle": "እግዚአብሔርን በሀብትህ አክብር",
-    "scripture": "ምሳሌ 3:9",
-    "description": "ልግስና የተሞላበት አስተዋጽኦዎ ወንጌልን የማስፋፋት እና ማህበረሰባችንን የማገልገል ተልእኳችንን ለመቀጠል ይረዳናል።",
-    "bankDetails": "የባንክ ዝርዝሮች",
-    "bank": "የኢትዮጵያ ንግድ ባንክ",
-    "account": "የመለያ ቁጥር",
-    "swift": "ስዊፍት ኮድ"
-  },
-  "newsletter": {
-    "title": "እንገናኝ",
-    "subtitle": "ለዝመናዎች እና ማበረታቻ በዜና መጽሔታችን ይመዝገቡ",
-    "placeholder": "ኢሜይልዎን ያስገቡ",
-    "submit": "ይመዝገቡ"
-  },
-  "help": {
-    "title": "እንዴት መርዳት ይችላሉ",
-    "pray": "ለአገልግሎታችን እና ለማህበረሰባችን ይጸልዩ",
-    "give": "ስራችንን ለመደገፍ በገንዘብ ይስጡ",
-    "volunteer": "ጊዜዎን እና ችሎታዎን በበጎ ፈቃድ ይስጡ",
-    "share": "ወንጌልን ለሌሎች ያካፍሉ",
-    "connect": "በማህበራዊ ሚዲያ ከኛ ጋር ይገናኙ"
-  },
-  "footer": {
-    "about": "ሰማይ በምድር ላይ መንግሥተ ቤተሰብ አገልግሎት በአዲስ አበባ፣ ኢትዮጵያ የሚገኝ የእግዚአብሔርን መንግሥት ወደ ቤተሰቦች እና ማህበረሰቦች ለማምጣት የተሰጠ ወንጌላዊ ቤተክርስቲያን ነው።",
-    "quickLinks": "ፈጣን አገናኞች",
-    "connect": "ከእኛ ጋር ይገናኙ",
-    "copyright": "© 2024 ሰማይ በምድር ላይ መንግሥተ ቤተሰብ አገልግሎት። መብቱ በህግ የተጠበቀ ነው።"
+  "ministriesPage": {
+    "hero": {
+      "title": "አገልግሎቶቻችን",
+      "subtitle": "እንዴት መሳተፍ እና በእምነት ጉዞዎ ማደግ እንደሚችሉ ይወቁ"
+    },
+    "getInvolved": {
+      "title": "ይሳተፉ",
+      "description": "እግዚአብሔር ለእያንዳንዳችን ልዩ ስጦታዎችን እና ችሎታዎችን ሰጥቶናል። ጥሪዎን እንዲያገኙ እና በቤተክርስቲያናችን ቤተሰብ ውስጥ የሚያገለግሉበትን ቦታ እንዲያገኙ ልንረዳዎ እንወዳለን።",
+      "volunteerCta": "በጎ ፈቃደኛ ይሁኑ",
+      "contactCta": "ያግኙን"
+    }
   },
   "common": {
     "name": "ስም",
@@ -239,5 +176,16 @@
       "members": "አባላት",
       "yearsOfService": "የአገልግሎት ዓመታት"
     }
+  },
+  "header": {
+    "title": "ሰማይ በምድር ላይ",
+    "subtitle": "መንግሥተ ቤተሰብ አገልግሎት"
+  },
+  "contactInfo": {
+    "phone": "+251 90 554 3858",
+    "email": "heavenonearthkingdomfamily@gmail.com",
+    "address": "ቦሌ መንገድ፣ አዲስ አበባ፣ ኢትዮጵያ",
+    "monFriHours": "ሰኞ-አርብ: ከጥዋቱ 3 ሰዓት - ምሽቱ 11 ሰዓት",
+    "satHours": "ቅዳሜ: ከጥዋቱ 4 ሰዓት - ምሽቱ 8 ሰዓት"
   }
 }

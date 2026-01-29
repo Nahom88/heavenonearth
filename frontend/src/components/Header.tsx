@@ -38,9 +38,9 @@ const Header = () => {
             />
             <div className="hidden sm:block">
               <h1 className="font-heading text-sm md:text-base font-bold text-primary leading-tight">
-                Heaven on Earth
+                {t('header.title')}
               </h1>
-              <p className="text-xs text-muted-foreground">Kingdom Family Ministries</p>
+              <p className="text-xs text-muted-foreground">{t('header.subtitle')}</p>
             </div>
           </Link>
 
