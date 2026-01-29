@@ -131,12 +131,41 @@
     "copyright": "© 2024 Heaven on Earth Kingdom Family Ministries. All rights reserved."
   },
   "common": {
+    "name": "Name",
+    "namePlaceholder": "Enter your full name",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email address",
+    "phone": "Phone",
+    "phonePlaceholder": "Enter your phone number",
+    "location": "Location",
+    "locationPlaceholder": "e.g. Addis Ababa, Ethiopia",
+    "title": "Title",
+    "submitting": "Submitting...",
     "learnMore": "Learn More",
     "readMore": "Read More",
     "viewAll": "View All",
     "submit": "Submit",
     "success": "Success!",
     "error": "Error",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "fillRequiredFields": "Please fill in all required fields"
+  },
+  "testimonial": {
+    "shareYourStory": "Share Your Story",
+    "category": "Category",
+    "categories": {
+      "general": "General",
+      "healing": "Healing",
+      "salvation": "Salvation",
+      "provision": "Provision",
+      "deliverance": "Deliverance"
+    },
+    "titlePlaceholder": "Title of your testimony",
+    "yourStory": "Your Story",
+    "contentPlaceholder": "Share your story here...",
+    "minLength": "Minimum {{count}} characters",
+    "submitButton": "Submit Your Testimony",
+    "thankYou": "Thank You!",
+    "submitSuccess": "Your testimony has been submitted successfully. It will be reviewed and published soon."
   }
 }

@@ -131,12 +131,41 @@
     "copyright": "© 2024 ሰማይ በምድር ላይ መንግሥተ ቤተሰብ አገልግሎት። መብቱ በህግ የተጠበቀ ነው።"
   },
   "common": {
+    "name": "ስም",
+    "namePlaceholder": "ሙሉ ስምዎን ያስገቡ",
+    "email": "ኢሜይል",
+    "emailPlaceholder": "የኢሜይል አድራሻዎን ያስገቡ",
+    "phone": "ስልክ",
+    "phonePlaceholder": "የስልክ ቁጥርዎን ያስገቡ",
+    "location": "አካባቢ",
+    "locationPlaceholder": "ለምሳሌ አዲስ አበባ፣ ኢትዮጵያ",
+    "title": "ርዕስ",
+    "submitting": "በማስገባት ላይ...",
     "learnMore": "ተጨማሪ ይወቁ",
     "readMore": "ተጨማሪ ያንብቡ",
     "viewAll": "ሁሉንም ይመልከቱ",
     "submit": "አስገባ",
     "success": "ተሳክቷል!",
     "error": "ስህተት",
-    "loading": "በመጫን ላይ..."
+    "loading": "በመጫን ላይ...",
+    "fillRequiredFields": "እባክዎ ሁሉንም አስፈላጊ መስኮች ይሙሉ"
+  },
+  "testimonial": {
+    "shareYourStory": "ታሪክዎን ያካፍሉ",
+    "category": "ምድብ",
+    "categories": {
+      "general": "አጠቃላይ",
+      "healing": "ፈውስ",
+      "salvation": "ደህንነት",
+      "provision": "አቅርቦት",
+      "deliverance": "ነጻ መውጣት"
+    },
+    "titlePlaceholder": "የምስክርነትዎ ርዕስ",
+    "yourStory": "የእርስዎ ታሪክ",
+    "contentPlaceholder": "ታሪክዎን እዚህ ያካፍሉ...",
+    "minLength": "ቢያንስ {{count}} ቁምፊዎች",
+    "submitButton": "ምስክርነትዎን ያስገቡ",
+    "thankYou": "እናመሰግናለን!",
+    "submitSuccess": "ምስክርነትዎ በተሳካ ሁኔታ ገብቷል። በቅርቡ ታይቶ ይታተማል።"
   }
 }

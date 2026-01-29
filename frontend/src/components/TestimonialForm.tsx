@@ -14,6 +14,10 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
+    phone: '',
+    location: '',
+    title: '',
     content: '',
     category: 'general',
   });
@@ -33,7 +37,7 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
     try {
       // Basic validation
       if (!formData.name || !formData.content) {
-        toast.error('Please fill in all required fields');
+        toast.error(t('common.fillRequiredFields'));
         setIsSubmitting(false);
         return;
       }
@@ -43,11 +47,7 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
       const response = await fetch('/api/v1/testimonials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          content: formData.content,
-          category: formData.category,
-        })
+        body: JSON.stringify(formData)
       });
 
       const data = await response.json();
