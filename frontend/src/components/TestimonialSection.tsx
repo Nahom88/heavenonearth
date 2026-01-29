@@ -81,6 +81,8 @@ const staticTestimonials: Testimonial[] = [
 
 export default function TestimonialSection() {
   const [testimonials] = useState<Testimonial[]>(staticTestimonials);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { t } = useTranslation();
   const isLoading = false;
   const error = null;
 
@@ -163,6 +165,19 @@ export default function TestimonialSection() {
           <p className="text-lg text-muted-foreground">
             God is doing amazing things in our community. Come and see for yourself!
           </p>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button  className="mt-6">
+                {t('testimonial.shareYourStory')}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{t('testimonial.shareYourStory')}</DialogTitle>
+              </DialogHeader>
+              <TestimonialForm onSuccess={() => setIsDialogOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </section>
