@@ -236,5 +236,65 @@
     "address": "Bole Road, Addis Ababa, Ethiopia",
     "monFriHours": "Mon-Fri: 9AM-5PM",
     "satHours": "Sat: 10AM-2PM"
-  }
+  },
+  "events": {
+    "upcomingEvents": "Upcoming Events",
+    "joinUs": "Join us for worship, prayer, and fellowship",
+    "serviceTimes": {
+      "title": "Service Times",
+      "sunday": {
+        "day": "Sunday",
+        "event": "Sunday Worship Service",
+        "time": "9:00 AM - 12:00 PM"
+      },
+      "monday": {
+        "day": "Monday",
+        "event": "Morning Prayer",
+        "time": "6:00 AM - 7:00 AM"
+      },
+      "wednesday": {
+        "day": "Wednesday",
+        "event": "Midweek Prayer Meeting",
+        "time": "6:00 PM - 8:00 PM"
+      },
+      "friday": {
+        "day": "Friday",
+        "event": "Bible Study & Youth Fellowship",
+        "time": "5:00 PM - 7:00 PM"
+      },
+      "saturday": {
+        "day": "Saturday",
+        "event": "Prayer & Fasting (1st Sat)",
+        "time": "6:00 AM - 12:00 PM"
+      }
+    },
+    "filters": {
+      "all": "All Events",
+      "worship": "Worship Services",
+      "prayer": "Prayer Meetings",
+      "bibleStudy": "Bible Studies",
+      "special": "Special Events"
+    },
+    "christmasPrayerNight": {
+      "title": "Christmas Prayer Night",
+      "date": "December 25, 2024",
+      "time": "6:00 PM",
+      "location": "Main Sanctuary",
+      "description": "Join us for a special night of prayer and worship as we celebrate the birth of our Savior."
+    },
+    "newYearsEveService": {
+      "title": "New Year's Eve Service",
+      "date": "December 31, 2024",
+      "time": "10:00 PM",
+      "location": "Main Sanctuary",
+      "description": "Watch night service with communion and prayer for the new year."
+    },
+    "baptismSunday": {
+      "title": "Baptism Sunday",
+      "date": "January 5, 2025",
+      "time": "9:00 AM",
+      "location": "Main Sanctuary",
+      "description": "Celebration of new believers being baptized in water."
+    }
+  },
 }
