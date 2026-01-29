@@ -1,4 +1,3 @@
-
 from typing import Annotated, Optional, List, Union
 import os
 import uuid
@@ -109,20 +108,16 @@ async def get_gallery_item(
 
 async def process_uploaded_file(
     file: UploadFile,
-    bucket: str = "gallery",
-    is_thumbnail: bool = False,
-    chunk_size: int = 5 * 1024 * 1024  # 5MB chunks
+    bucket: str = "folders",
+    is_thumbnail: bool = False
 ) -> dict:
-    """Process an uploaded file with optimized performance using chunked uploads."""
+    """Process an uploaded file and upload to Supabase storage."""
     try:
-        # Generate a unique file name with extension
-        file_extension = os.path.splitext(file.filename or '')[1].lower() or '.bin'
-        file_name = f"{uuid.uuid4()}{file_extension}"
-        file_path = f"{bucket}/{file_name}"
+        # Read file content
+        content = await file.read()
         
-        # Create an in-memory buffer for the first chunk to detect MIME type
-        first_chunk = await file.read(1024)
-        mime_type = magic.from_buffer(first_chunk, mime=True)
+        # Detect MIME type
+        mime_type = magic.from_buffer(content, mime=True)
         
         # For thumbnails, ensure it's an image
         if is_thumbnail and not mime_type.startswith('image/'):
@@ -138,28 +133,19 @@ async def process_uploaded_file(
                 detail={"error": "invalid_file_type", "message": "Unsupported file type. Please upload an image or video file."}
             )
         
-        # Initialize Supabase upload
-        uploader = supabase_storage.create_resumable_upload(
+        # Generate a unique filename
+        file_extension = os.path.splitext(file.filename or '')[1].lower() or '.bin'
+        file_name = f"{uuid.uuid4()}{file_extension}"
+        
+        # Upload to Supabase
+        public_url, file_path = await supabase_storage.upload_file(
+            file=file,
             bucket=bucket,
-            file_path=file_path,
-            content_type=mime_type
+            path=""
         )
         
-        # Process the first chunk we already read
-        await uploader.upload_chunk(first_chunk)
-        
-        # Process remaining chunks
-        while True:
-            chunk = await file.read(chunk_size)
-            if not chunk:
-                break
-            await uploader.upload_chunk(chunk)
-        
-        # Finalize the upload
-        await uploader.finalize()
-        
-        # Get file info
-        file_info = await supabase_storage.get_file_info(bucket, file_path)
+        # Get file size
+        file_size = len(content)
         
         # For images, get dimensions
         width = None
@@ -167,9 +153,7 @@ async def process_uploaded_file(
         
         if mime_type.startswith('image/'):
             try:
-                # Download a small portion of the image to get dimensions
-                img_data = await supabase_storage.download_file(bucket, file_path, max_bytes=1024*1024)  # First 1MB
-                with Image.open(io.BytesIO(img_data)) as img:
+                with Image.open(io.BytesIO(content)) as img:
                     width, height = img.size
             except Exception as e:
                 print(f"Warning: Could not get image dimensions: {e}")
@@ -177,9 +161,9 @@ async def process_uploaded_file(
         return {
             "file_name": file_name,
             "file_path": file_path,
-            "src_url": file_info["public_url"],
+            "src_url": public_url,
             "mime_type": mime_type,
-            "file_size": file_info["size"],
+            "file_size": file_size,
             "width": width,
             "height": height
         }

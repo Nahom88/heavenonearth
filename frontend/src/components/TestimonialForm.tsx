@@ -2,8 +2,13 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Send, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
-const PartnershipForm = () => {
+interface TestimonialFormProps {
+  onSuccess?: () => void;
+}
+
+const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -11,51 +16,70 @@ const PartnershipForm = () => {
     name: '',
     email: '',
     phone: '',
-    partnershipType: '',
-    message: '',
-    volunteerAreas: '',
-    financialCommitment: '',
-    materialItems: '',
+    location: '',
+    title: '',
+    content: '',
+    category: 'general',
   });
 
-  const partnershipTypes = [
-    { value: 'financial', label: t('partnership.financial') },
-    { value: 'volunteer', label: t('partnership.volunteer') },
-    { value: 'material', label: t('partnership.material') },
+  const categories = [
+    { value: 'healing', label: t('testimonial.categories.healing') },
+    { value: 'salvation', label: t('testimonial.categories.salvation') },
+    { value: 'provision', label: t('testimonial.categories.provision') },
+    { value: 'deliverance', label: t('testimonial.categories.deliverance') },
+    { value: 'general', label: t('testimonial.categories.general') },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Prepare payload
-    const payload = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone || undefined,
-      partnership_type: formData.partnershipType,
-      message: formData.message || undefined,
-      volunteer_areas: formData.volunteerAreas ? formData.volunteerAreas.split(',').map(s => s.trim()) : undefined,
-      financial_commitment: formData.financialCommitment ? JSON.parse(formData.financialCommitment) : undefined,
-      material_items: formData.materialItems ? formData.materialItems.split(',').map(s => s.trim()) : undefined,
-    };
-
     try {
-      const response = await fetch('/api/v1/partnerships', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit partnership application');
+      // Basic validation
+      if (!formData.name || !formData.content) {
+        toast.error('Please fill in all required fields');
+        setIsSubmitting(false);
+        return;
       }
 
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', partnershipType: '', message: '', volunteerAreas: '', financialCommitment: '', materialItems: '' });
+      console.log('Submitting testimonial:', formData);
+      
+      const response = await fetch('/api/v1/testimonials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          title: formData.title || 'Personal Testimony',
+          content: formData.content,
+          category: formData.category,
+          ...(formData.email && { email: formData.email }),
+          ...(formData.phone && { phone: formData.phone }),
+          ...(formData.location && { location: formData.location })
+        })
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to submit testimonial');
+      }
+
+      // Handle success
+      toast.success('Thank you for sharing your testimony! It will be reviewed and posted soon.');
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        location: '',
+        title: '',
+        content: '',
+        category: 'general',
+      });
+      onSuccess?.();
     } catch (error) {
-      console.error(error);
-      alert('There was an error submitting the form. Please try again later.');
+      console.error('Error submitting testimonial:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to submit testimonial. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -71,18 +95,18 @@ const PartnershipForm = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-card rounded-xl p-8 shadow-card border border-border text-center"
+        className="bg-card rounded-xl p-8 shadow-card border border-border text-center max-w-2xl mx-auto"
       >
         <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
-        <h3 className="font-heading text-xl font-bold text-primary mb-2">
-          {t('partnership.successTitle')}
+        <h3 className="font-heading text-2xl font-bold text-primary mb-2">
+          {t('testimonial.thankYou')}
         </h3>
         <p className="text-muted-foreground">
-          {t('partnership.successMessage')}
+          {t('testimonial.submitSuccess')}
         </p>
       </motion.div>
     );
@@ -98,7 +122,7 @@ const PartnershipForm = () => {
       className="bg-card rounded-xl p-6 shadow-card border border-border w-full max-w-2xl mx-auto"
     >
       <h3 className="font-heading text-2xl font-bold text-primary mb-6 text-center">
-        {t('partnership.title')}
+        {t('testimonial.shareYourStory')}
       </h3>
       
       <div className="space-y-4">
@@ -121,7 +145,7 @@ const PartnershipForm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="email" className="form-label">
-              {t('common.email')} *
+              {t('common.email')}
             </label>
             <input
               type="email"
@@ -131,7 +155,6 @@ const PartnershipForm = () => {
               onChange={handleChange}
               placeholder={t('common.emailPlaceholder')}
               className="form-input w-full"
-              required
             />
           </div>
           <div>
@@ -150,88 +173,78 @@ const PartnershipForm = () => {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="location" className="form-label">
+              {t('common.location')}
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              placeholder={t('common.locationPlaceholder')}
+              className="form-input w-full"
+            />
+          </div>
+          <div>
+            <label htmlFor="category" className="form-label">
+              {t('testimonial.category')}
+            </label>
+            <select
+              id="category"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="form-select w-full"
+            >
+              {categories.map(category => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div>
-          <label htmlFor="partnershipType" className="form-label">
-            {t('partnership.type')} *
+          <label htmlFor="title" className="form-label">
+            {t('common.title')}
           </label>
-          <select
-            id="partnershipType"
-            name="partnershipType"
-            value={formData.partnershipType}
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
             onChange={handleChange}
-            className="form-select w-full"
+            placeholder={t('testimonial.titlePlaceholder')}
+            className="form-input w-full"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="content" className="form-label">
+            {t('testimonial.yourStory')} *
+          </label>
+          <textarea
+            id="content"
+            name="content"
+            value={formData.content}
+            onChange={handleChange}
+            placeholder={t('testimonial.contentPlaceholder')}
+            rows={6}
+            className="form-textarea w-full resize-none"
             required
-          >
-            <option value="">{t('partnership.selectType')}</option>
-            {partnershipTypes.map(type => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label htmlFor="message" className="form-label">
-            {t('common.message')}
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            placeholder={t('partnership.messagePlaceholder')}
-            rows={4}
-            className="form-textarea w-full resize-none"
+            minLength={50}
           />
-        </div>
-
-        <div>
-          <label htmlFor="volunteerAreas" className="form-label">
-            {t('partnership.volunteerAreas')}
-          </label>
-          <input
-            type="text"
-            id="volunteerAreas"
-            name="volunteerAreas"
-            value={formData.volunteerAreas}
-            onChange={handleChange}
-            placeholder={t('partnership.volunteerAreasPlaceholder')}
-            className="form-input w-full"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="financialCommitment" className="form-label">
-            {t('partnership.financialCommitment')}
-          </label>
-          <textarea
-            id="financialCommitment"
-            name="financialCommitment"
-            value={formData.financialCommitment}
-            onChange={handleChange}
-            placeholder={t('partnership.financialPlaceholder')}
-            rows={3}
-            className="form-textarea w-full resize-none"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="materialItems" className="form-label">
-            {t('partnership.materialItems')}
-          </label>
-          <input
-            type="text"
-            id="materialItems"
-            name="materialItems"
-            value={formData.materialItems}
-            onChange={handleChange}
-            placeholder={t('partnership.materialItemsPlaceholder')}
-            className="form-input w-full"
-          />
+          <p className="text-sm text-muted-foreground mt-1">
+            {t('testimonial.minLength', { count: 50 })}
+          </p>
         </div>
 
         <div className="pt-2">
+          <div className="pt-2">
           <button
             type="submit"
             disabled={isSubmitting}
@@ -245,14 +258,15 @@ const PartnershipForm = () => {
             ) : (
               <>
                 <Send size={20} />
-                <span>{t('partnership.submitButton')}</span>
+                <span>{t('testimonial.submitButton')}</span>
               </>
             )}
           </button>
+        </div>
         </div>
       </div>
     </motion.form>
   );
 };
 
-export default PartnershipForm;
+export default TestimonialForm;

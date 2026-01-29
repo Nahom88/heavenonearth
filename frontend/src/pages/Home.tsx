@@ -6,6 +6,7 @@ import heroBg from '@/assets/hero-bg.jpg';
 import logo from '@/assets/logo.png';
 import MinistryCard from '@/components/MinistryCard';
 import EventCard from '@/components/EventCard';
+import TestimonialSection from '@/components/TestimonialSection';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -223,6 +224,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <TestimonialSection />
 
       {/* Prayer Call to Action */}
       <section className="section-container">
