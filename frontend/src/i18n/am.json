@@ -95,7 +95,8 @@
     "materialItemsPlaceholder": "ለምሳሌ፣ መጽሐፍ ቅዱሶች፣ ወንበሮች፣ የድምፅ መሣሪያዎች",
     "submitButton": "አጋር ይሁኑ",
     "successTitle": "ከእኛ ጋር ስላላችሁ እናመሰግናለን!",
-    "successMessage": "የአጋርነት ማመልከቻዎ ደርሶናል። በቅርቡ እናገኝዎታለን።"
+    "successMessage": "የአጋርነት ማመልከቻዎ ደርሶናል። በቅርቡ እናገኝዎታለን።",
+    "submitError": "ቅጹን በማስገባት ላይ ስህተት ነበር። እባክዎ ቆይተው እንደገና ይሞክሩ።"
   },
   "contact": {
     "title": "ያግኙን",

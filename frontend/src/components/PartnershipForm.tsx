@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Send, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const PartnershipForm = () => {
   const { t } = useTranslation();
