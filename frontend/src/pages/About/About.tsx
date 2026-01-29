@@ -1,9 +1,27 @@
 import { motion } from 'framer-motion';
 import { MapPin, Clock, Users, Target, Eye } from 'lucide-react';
 import aboutData from './data';
+import SeoHead from '@/components/SeoHead'; // Import SeoHead
 
 const About = () => {
   const { hero, aboutUs, beliefs, team, stats, mission, vision } = aboutData;
+
+  // Define SEO properties for the About page
+  const aboutTitle = `${hero.title} | Heaven on Earth Kingdom Family Ministries`;
+  const aboutDescription = hero.description;
+  const aboutCanonicalUrl = 'https://heavenonearth.et/about'; // Replace with actual domain
+
+  return (
+    <>
+      <SeoHead
+        title={aboutTitle}
+        description={aboutDescription}
+        canonicalUrl={aboutCanonicalUrl}
+        ogTitle={aboutTitle}
+        ogDescription={aboutDescription}
+        ogImage="https://heavenonearth.et/images/og-image.jpg" // Example image
+      />
+      <div className="min-h-screen">
 
   return (
     <div className="min-h-screen">

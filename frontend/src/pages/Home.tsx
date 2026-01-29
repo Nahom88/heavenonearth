@@ -7,9 +7,28 @@ import logo from '@/assets/logo.png';
 import MinistryCard from '@/components/MinistryCard';
 import EventCard from '@/components/EventCard';
 import TestimonialSection from '@/components/TestimonialSection';
+import SeoHead from '@/components/SeoHead'; // Import SeoHead
 
 const Home = () => {
   const { t } = useTranslation();
+
+  // Define SEO properties for the Home page
+  const homeTitle = t('hero.title'); // Using translation for title
+  const homeDescription = t('hero.subtitle'); // Using translation for description
+  const homeCanonicalUrl = 'https://heavenonearth.et/'; // Replace with actual domain
+
+  return (
+    <>
+      <SeoHead
+        title={homeTitle}
+        description={homeDescription}
+        canonicalUrl={homeCanonicalUrl}
+        // You can add more Open Graph and Twitter Card properties here if needed
+        ogTitle={homeTitle}
+        ogDescription={homeDescription}
+        ogImage="https://heavenonearth.et/images/og-image.jpg" // Example image
+      />
+      <div className="min-h-screen">
 
   const ministries = [
     { icon: Heart, key: 'prayer' },
@@ -50,6 +69,7 @@ const Home = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
+          loading="lazy" // Added lazy loading
         />
         <div className="hero-overlay" />
         
