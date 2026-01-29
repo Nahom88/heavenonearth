@@ -21,7 +21,7 @@ const PrayerForm = () => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    console.log('Prayer request submitted:', formData);
+    
     setIsSubmitting(false);
     setIsSubmitted(true);
     

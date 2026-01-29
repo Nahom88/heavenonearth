@@ -42,7 +42,7 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
         return;
       }
 
-      console.log('Submitting testimonial:', formData);
+      
       
       const response = await fetch('/api/v1/testimonials', {
         method: 'POST',
