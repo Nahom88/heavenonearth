@@ -2,16 +2,34 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Image as ImageIcon, Play, X } from 'lucide-react';
-import { categories, galleryItems, hero } from './data';
 
 const Gallery = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const hero = {
+    title: t('gallery.title'),
+    subtitle: t('gallery.subtitle'),
+  };
+  const categories = t('gallery.categories', { returnObjects: true }) as Array<{ id: string; label: string }>;
+  const galleryItems = t('gallery.items', { returnObjects: true }) as Array<{
+    id: number;
+    title: string;
+    category: string;
+    type: string;
+    src: string;
+    alt: string;
+    date: string;
+  }>;
 
   const filteredItems = activeCategory === 'all'
     ? galleryItems
     : galleryItems.filter(item => item.category === activeCategory);
+
+  const formatDate = (dateString: string, options: Intl.DateTimeFormatOptions) => {
+    return new Date(dateString).toLocaleDateString(i18n.language, options);
+  };
 
   return (
     <div className="min-h-screen">
@@ -93,7 +111,7 @@ const Gallery = () => {
                   <div className="mt-2">
                     <h3 className="font-medium text-sm">{item.title}</h3>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(item.date).toLocaleDateString('en-US', {
+                      {formatDate(item.date, {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric',
@@ -137,7 +155,7 @@ const Gallery = () => {
             <div className="mt-4 text-white text-center">
               <h3 className="text-xl font-bold">{selectedItem.title}</h3>
               <p className="text-sm text-gray-300">
-                {new Date(selectedItem.date).toLocaleDateString('en-US', {
+                {formatDate(selectedItem.date, {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
