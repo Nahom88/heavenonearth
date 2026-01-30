@@ -123,11 +123,11 @@ const Events = () => {
                 >
                   <EventCard 
                     key={event.id}
-                    title={t(`events.${event.id.replace('-', '')}.title`)}
-                    date={t(`events.${event.id.replace('-', '')}.date`)}
-                    time={t(`events.${event.id.replace('-', '')}.time`)}
-                    location={t(`events.${event.id.replace('-', '')}.location`)}
-                    description={t(`events.${event.id.replace('-', '')}.description`)}
+                    title={t(`events.${event.translationKey}.title`)}
+                    date={t(`events.${event.translationKey}.date`)}
+                    time={t(`events.${event.translationKey}.time`)}
+                    location={t(`events.${event.translationKey}.location`)}
+                    description={t(`events.${event.translationKey}.description`)}
                     image={event.image}
                     featured={event.featured}
                   />
