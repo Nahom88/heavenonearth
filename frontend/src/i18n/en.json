@@ -148,7 +148,8 @@
     "success": "Success!",
     "error": "Error",
     "loading": "Loading...",
-    "fillRequiredFields": "Please fill in all required fields"
+    "fillRequiredFields": "Please fill in all required fields",
+    "viewAllEvents": "View All Events"
   },
   "testimonial": {
     "shareYourStory": "Share Your Story",
@@ -230,12 +231,55 @@
     "title": "Heaven on Earth",
     "subtitle": "Kingdom Family Ministries"
   },
+  "homePage": {
+    "featuredEvents": {
+      "sundayWorship": {
+        "title": "Sunday Worship Service",
+        "date": "Every Sunday",
+        "time": "9:00 AM - 12:00 PM",
+        "location": "Main Sanctuary, Bole Road",
+        "description": "Join us for powerful worship, prayer, and the Word of God."
+      },
+      "wednesdayPrayer": {
+        "title": "Wednesday Prayer Meeting",
+        "date": "Every Wednesday",
+        "time": "6:00 PM - 8:00 PM",
+        "location": "Prayer Hall",
+        "description": "Corporate prayer and intercession for our community and nation."
+      },
+      "fridayYouth": {
+        "title": "Youth Fellowship",
+        "date": "Every Friday",
+        "time": "5:00 PM - 7:00 PM",
+        "location": "Youth Center",
+        "description": "Bible study, worship, and fellowship for young believers."
+      }
+    }
+  },
   "contactInfo": {
     "phone": "+251 90 554 3858",
     "email": "heavenonearthkingdomfamily@gmail.com",
     "address": "Bole Road, Addis Ababa, Ethiopia",
     "monFriHours": "Mon-Fri: 9AM-5PM",
     "satHours": "Sat: 10AM-2PM"
+  },
+  "contactPage": {
+    "title": "Contact Us",
+    "subtitle": "Connect with us",
+    "getInTouch": "Get In Touch",
+    "telegram": "Telegram",
+    "hours": "Office Hours",
+    "mondayFriday": "Monday - Friday",
+    "mondayFridayHours": "9:00 AM - 5:00 PM",
+    "saturday": "Saturday",
+    "saturdayHours": "10:00 AM - 2:00 PM",
+    "sunday": "Sunday",
+    "worshipService": "Worship Service",
+    "formTitle": "Send us a message",
+    "subjectPlaceholder": "Subject",
+    "messagePlaceholder": "Enter your message here...",
+    "messageSentTitle": "Message Sent!",
+    "messageSentSubtitle": "Thank you for reaching out. We'll get back to you soon."
   },
   "events": {
     "upcomingEvents": "Upcoming Events",
@@ -352,7 +396,9 @@
       { "day": "Wednesday", "time": "6:00 PM - 8:00 PM", "type": "Corporate Prayer" },
       { "day": "Friday", "time": "10:00 PM - 12:00 AM", "type": "Night Vigil" },
       { "day": "Saturday (1st)", "time": "6:00 AM - 12:00 PM", "type": "Fasting & Prayer" }
-    ]
+    ],
+    "homePageDescription": "We believe in the power of prayer. Share your prayer requests with us, and our prayer team will intercede for you.",
+    "submitRequestButton": "Submit a Prayer Request"
   },
   "partnership": {
     "title": "Partner With Us",

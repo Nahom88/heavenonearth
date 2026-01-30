@@ -148,7 +148,8 @@
     "success": "ተሳክቷል!",
     "error": "ስህተት",
     "loading": "በመጫን ላይ...",
-    "fillRequiredFields": "እባክዎ ሁሉንም አስፈላጊ መስኮች ይሙሉ"
+    "fillRequiredFields": "እባክዎ ሁሉንም አስፈላጊ መስኮች ይሙሉ",
+    "viewAllEvents": "ሁሉንም ዝግጅቶች ይመልከቱ"
   },
   "testimonial": {
     "shareYourStory": "ታሪክዎን ያካፍሉ",
@@ -229,6 +230,31 @@
   "header": {
     "title": "ሰማይ በምድር ላይ",
     "subtitle": "መንግሥተ ቤተሰብ አገልግሎት"
+  },
+  "homePage": {
+    "featuredEvents": {
+      "sundayWorship": {
+        "title": "የእሁድ አምልኮ አገልግሎት",
+        "date": "በየእሁዱ",
+        "time": "ከጥዋቱ 3:00 - ከሰዓት በኋላ 6:00",
+        "location": "ዋናው ቤተ መቅደስ፣ ቦሌ መንገድ",
+        "description": "ኃይለኛ አምልኮ፣ ጸሎት እና የእግዚአብሔር ቃል ለማግኘት ይቀላቀሉን።"
+      },
+      "wednesdayPrayer": {
+        "title": "የረቡዕ ጸሎት ስብሰባ",
+        "date": "በየረቡዑ",
+        "time": "ከምሽቱ 12:00 - ከምሽቱ 2:00",
+        "location": "የጸሎት አዳራሽ",
+        "description": "ለማህበረሰባችን እና ለሀገራችን የጋራ ጸሎት እና ምልጃ።"
+      },
+      "fridayYouth": {
+        "title": "የወጣቶች ህብረት",
+        "date": "በየአርብ",
+        "time": "ከምሽቱ 11:00 - ከምሽቱ 1:00",
+        "location": "የወጣቶች ማዕከል",
+        "description": "የመጽሐፍ ቅዱስ ጥናት፣ አምልኮ እና ህብረት ለወጣት አማኞች።"
+      }
+    }
   },
   "contactInfo": {
     "phone": "+251 90 554 3858",
@@ -390,7 +416,9 @@
       { "day": "ረቡዕ", "time": "ከምሽቱ 12:00 - 2:00", "type": "የጋራ ጸሎት" },
       { "day": "አርብ", "time": "ከምሽቱ 4:00 - 6:00", "type": "የሌሊት ንቃት" },
       { "day": "ቅዳሜ (1ኛ)", "time": "ከጥዋቱ 12:00 - 6:00", "type": "ጾም እና ጸሎት" }
-    ]
+    ],
+    "homePageDescription": "በጸሎት ኃይል እናምናለን። የጸሎት ጥያቄዎችዎን ከእኛ ጋር ያካፍሉ፣ እና የጸሎት ቡድናችን ይማልድልዎታል።",
+    "submitRequestButton": "የጸሎት ጥያቄ አስገባ"
   },
   "partnership": {
     "title": "ከእኛ ጋር ይተባበሩ",

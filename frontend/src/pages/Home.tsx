@@ -27,25 +27,25 @@ const Home = () => {
 
   const featuredEvents = [
     {
-      title: 'Sunday Worship Service',
-      date: 'Every Sunday',
-      time: '9:00 AM - 12:00 PM',
-      location: 'Main Sanctuary, Bole Road',
-      description: 'Join us for powerful worship, prayer, and the Word of God.',
+      title: t('homePage.featuredEvents.sundayWorship.title'),
+      date: t('homePage.featuredEvents.sundayWorship.date'),
+      time: t('homePage.featuredEvents.sundayWorship.time'),
+      location: t('homePage.featuredEvents.sundayWorship.location'),
+      description: t('homePage.featuredEvents.sundayWorship.description'),
     },
     {
-      title: 'Wednesday Prayer Meeting',
-      date: 'Every Wednesday',
-      time: '6:00 PM - 8:00 PM',
-      location: 'Prayer Hall',
-      description: 'Corporate prayer and intercession for our community and nation.',
+      title: t('homePage.featuredEvents.wednesdayPrayer.title'),
+      date: t('homePage.featuredEvents.wednesdayPrayer.date'),
+      time: t('homePage.featuredEvents.wednesdayPrayer.time'),
+      location: t('homePage.featuredEvents.wednesdayPrayer.location'),
+      description: t('homePage.featuredEvents.wednesdayPrayer.description'),
     },
     {
-      title: 'Youth Fellowship',
-      date: 'Every Friday',
-      time: '5:00 PM - 7:00 PM',
-      location: 'Youth Center',
-      description: 'Bible study, worship, and fellowship for young believers.',
+      title: t('homePage.featuredEvents.fridayYouth.title'),
+      date: t('homePage.featuredEvents.fridayYouth.date'),
+      time: t('homePage.featuredEvents.fridayYouth.time'),
+      location: t('homePage.featuredEvents.fridayYouth.location'),
+      description: t('homePage.featuredEvents.fridayYouth.description'),
     },
   ];
 
@@ -216,9 +216,9 @@ const Home = () => {
                 viewport={{ once: true }}
               >
                 <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-                  {t('events.title')}
+                  {t('events.upcomingEvents')}
                 </h2>
-                <p className="text-primary-foreground/80 text-lg">{t('events.subtitle')}</p>
+                <p className="text-primary-foreground/80 text-lg">{t('events.joinUs')}</p>
               </motion.div>
             </div>
 
@@ -234,7 +234,7 @@ const Home = () => {
 
             <div className="text-center mt-10">
               <Link to="/events" className="btn-gold inline-flex items-center gap-2">
-                {t('common.viewAll')} Events
+                {t('common.viewAllEvents')}
                 <ArrowRight size={18} />
               </Link>
             </div>
@@ -262,10 +262,10 @@ const Home = () => {
               "{t('prayer.subtitle')}" — {t('prayer.scripture')}
             </p>
             <p className="text-muted-foreground text-lg mb-8">
-              We believe in the power of prayer. Share your prayer requests with us, and our prayer team will intercede for you.
+              {t('prayer.homePageDescription')}
             </p>
             <Link to="/prayer" className="btn-gold inline-flex items-center gap-2">
-              Submit a Prayer Request
+              {t('prayer.submitRequestButton')}
               <ArrowRight size={18} />
             </Link>
           </motion.div>
