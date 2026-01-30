@@ -9,25 +9,25 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Phone,
-      label: t('contact.phone'),
+      label: t('common.phone'),
       value: '+251 90 554 3858',
       href: 'tel:+251905543858',
     },
     {
       icon: Mail,
-      label: t('contact.email'),
+      label: t('common.email'),
       value: 'heavenonearthkingdomfamily@gmail.com',
       href: 'mailto:heavenonearthkingdomfamily@gmail.com',
     },
     {
       icon: MessageCircle,
-      label: t('contact.telegram'),
+      label: t('contactPage.telegram'),
       value: '@kingdomfamilyyy',
       href: 'https://t.me/kingdomfamilyyy',
     },
     {
       icon: MapPin,
-      label: t('contact.location'),
+      label: t('common.location'),
       value: 'Bole Road, Addis Ababa, Ethiopia',
       href: '#map',
     },
@@ -45,10 +45,10 @@ const Contact = () => {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="font-heading text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
-              {t('contact.title')}
+              {t('contactPage.title')}
             </h1>
             <p className="text-primary-foreground/80 text-lg">
-              {t('contact.subtitle')}
+              {t('contactPage.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -65,7 +65,7 @@ const Contact = () => {
             viewport={{ once: true }}
           >
             <h2 className="font-heading text-2xl font-bold text-primary mb-8">
-              Get In Touch
+              {t('contactPage.getInTouch')}
             </h2>
             
             <div className="space-y-6 mb-10">
@@ -98,20 +98,20 @@ const Contact = () => {
             <div className="bg-card rounded-xl p-6 border border-border">
               <div className="flex items-center gap-3 mb-4">
                 <Clock className="w-6 h-6 text-secondary" />
-                <h3 className="font-heading text-lg font-bold text-primary">{t('contact.hours')}</h3>
+                <h3 className="font-heading text-lg font-bold text-primary">{t('contactPage.hours')}</h3>
               </div>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Monday - Friday</span>
-                  <span className="font-medium text-foreground">9:00 AM - 5:00 PM</span>
+                  <span className="text-muted-foreground">{t('contactPage.mondayFriday')}</span>
+                  <span className="font-medium text-foreground">{t('contactInfo.monFriHours')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Saturday</span>
-                  <span className="font-medium text-foreground">10:00 AM - 2:00 PM</span>
+                  <span className="text-muted-foreground">{t('contactPage.saturday')}</span>
+                  <span className="font-medium text-foreground">{t('contactInfo.satHours')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Sunday</span>
-                  <span className="font-medium text-secondary">Worship Service</span>
+                  <span className="text-muted-foreground">{t('contactPage.sunday')}</span>
+                  <span className="font-medium text-secondary">{t('contactPage.worshipService')}</span>
                 </div>
               </div>
             </div>
@@ -121,16 +121,16 @@ const Contact = () => {
               <h3 className="font-heading text-lg font-bold text-primary mb-4">{t('giving.bankDetails')}</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t('giving.bank')}</span>
-                  <span className="font-medium text-foreground">Commercial Bank of Ethiopia</span>
+                  <span className="text-muted-foreground">{t('giving.bankTransfer.bank')}</span>
+                  <span className="font-medium text-foreground">{t('giving.bankTransfer.bankName')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t('giving.account')}</span>
-                  <span className="font-medium text-foreground">1000345678901</span>
+                  <span className="text-muted-foreground">{t('giving.bankTransfer.account')}</span>
+                  <span className="font-medium text-foreground">{t('giving.bankTransfer.accountNumber')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">{t('giving.swift')}</span>
-                  <span className="font-medium text-foreground">CBETETAA</span>
+                  <span className="text-muted-foreground">{t('giving.bankTransfer.swift')}</span>
+                  <span className="font-medium text-foreground">{t('giving.bankTransfer.swiftCode')}</span>
                 </div>
               </div>
             </div>
