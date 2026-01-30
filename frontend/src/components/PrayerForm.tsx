@@ -56,7 +56,7 @@ const PrayerForm = () => {
           {t('common.success')}
         </h3>
         <p className="text-muted-foreground">
-          Your prayer request has been submitted. Our team will be praying for you.
+          {t('prayer.successMessage')}
         </p>
       </motion.div>
     );
@@ -112,7 +112,7 @@ const PrayerForm = () => {
 
         <div>
           <label htmlFor="request" className="form-label">
-            Prayer Request
+            {t('prayer.requestLabel')}
           </label>
           <textarea
             id="request"

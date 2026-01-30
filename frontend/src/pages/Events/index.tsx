@@ -36,9 +36,9 @@ const Events = () => {
             transition={{ duration: 0.5 }}
             className="text-center text-white"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{hero.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('events.upcomingEvents')}</h1>
             <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-              {hero.subtitle}
+              {t('events.joinUs')}
             </p>
           </motion.div>
         </div>
@@ -53,7 +53,7 @@ const Events = () => {
             viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
-            <h2 className="text-3xl font-bold text-center mb-8">Service Times</h2>
+            <h2 className="text-3xl font-bold text-center mb-8">{t('events.serviceTimes.title')}</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {serviceTimes.map((time, index) => (
                 <motion.div
@@ -69,11 +69,11 @@ const Events = () => {
                       <time.icon className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold">{time.day}</h3>
-                      <p className="text-muted-foreground">{time.service}</p>
+                      <h3 className="text-lg font-semibold">{t(`events.serviceTimes.${time.day.toLowerCase()}.day`)}</h3>
+                      <p className="text-muted-foreground">{t(`events.serviceTimes.${time.day.toLowerCase()}.event`)}</p>
                       <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                         <Clock className="w-4 h-4" />
-                        {time.time}
+                        {t(`events.serviceTimes.${time.day.toLowerCase()}.time`)}
                       </p>
                     </div>
                   </div>
@@ -94,7 +94,7 @@ const Events = () => {
             className="max-w-6xl mx-auto"
           >
             <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold">Upcoming Events</h2>
+              <h2 className="text-3xl font-bold">{t('events.upcomingEvents')}</h2>
               <div className="flex gap-2 mt-4 md:mt-0">
                 {eventCategories.map((category) => (
                   <button
@@ -106,7 +106,7 @@ const Events = () => {
                         : 'bg-muted hover:bg-muted/80'
                     }`}
                   >
-                    {category.name}
+                    {t(`events.filters.${category.id}`)}
                   </button>
                 ))}
               </div>
@@ -123,11 +123,11 @@ const Events = () => {
                 >
                   <EventCard 
                     key={event.id}
-                    title={event.title}
-                    date={event.date}
-                    time={event.time}
-                    location={event.location}
-                    description={event.description}
+                    title={t(`events.${event.translationKey}.title`)}
+                    date={t(`events.${event.translationKey}.date`)}
+                    time={t(`events.${event.translationKey}.time`)}
+                    location={t(`events.${event.translationKey}.location`)}
+                    description={t(`events.${event.translationKey}.description`)}
                     image={event.image}
                     featured={event.featured}
                   />

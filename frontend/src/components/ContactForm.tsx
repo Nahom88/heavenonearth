@@ -49,10 +49,10 @@ const ContactForm = () => {
           </svg>
         </div>
         <h3 className="font-heading text-xl font-bold text-primary mb-2">
-          Message Sent!
+          {t('contactPage.messageSentTitle')}
         </h3>
         <p className="text-muted-foreground">
-          Thank you for reaching out. We'll get back to you soon.
+          {t('contactPage.messageSentSubtitle')}
         </p>
       </motion.div>
     );
@@ -68,14 +68,14 @@ const ContactForm = () => {
       className="bg-card rounded-xl p-6 shadow-card border border-border"
     >
       <h3 className="font-heading text-xl font-bold text-primary mb-6">
-        {t('contact.formTitle')}
+        {t('contactPage.formTitle')}
       </h3>
       
       <div className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name" className="form-label">
-              {t('contact.namePlaceholder')}
+              {t('common.name')}
             </label>
             <input
               type="text"
@@ -83,14 +83,14 @@ const ContactForm = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder={t('contact.namePlaceholder')}
+              placeholder={t('common.namePlaceholder')}
               className="form-input"
               required
             />
           </div>
           <div>
             <label htmlFor="email" className="form-label">
-              {t('contact.emailPlaceholder')}
+              {t('common.email')}
             </label>
             <input
               type="email"
@@ -98,7 +98,7 @@ const ContactForm = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder={t('contact.emailPlaceholder')}
+              placeholder={t('common.emailPlaceholder')}
               className="form-input"
               required
             />
@@ -107,7 +107,7 @@ const ContactForm = () => {
 
         <div>
           <label htmlFor="subject" className="form-label">
-            {t('contact.subjectPlaceholder')}
+            {t('contactPage.subjectPlaceholder')}
           </label>
           <input
             type="text"
@@ -115,7 +115,7 @@ const ContactForm = () => {
             name="subject"
             value={formData.subject}
             onChange={handleChange}
-            placeholder={t('contact.subjectPlaceholder')}
+            placeholder={t('contactPage.subjectPlaceholder')}
             className="form-input"
             required
           />
@@ -123,14 +123,14 @@ const ContactForm = () => {
 
         <div>
           <label htmlFor="message" className="form-label">
-            {t('contact.messagePlaceholder')}
+            {t('contactPage.messagePlaceholder')}
           </label>
           <textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder={t('contact.messagePlaceholder')}
+            placeholder={t('contactPage.messagePlaceholder')}
             rows={5}
             className="form-input resize-none"
             required
@@ -150,7 +150,7 @@ const ContactForm = () => {
           ) : (
             <>
               <Send size={18} />
-              <span>{t('contact.submit')}</span>
+              <span>{t('common.submit')}</span>
             </>
           )}
         </button>

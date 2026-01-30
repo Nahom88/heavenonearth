@@ -36,6 +36,7 @@ export const serviceTimes = [
 export const upcomingEvents = [
   {
     id: 'event-1',
+    translationKey: 'christmasPrayerNight',
     title: 'Christmas Prayer Night',
     date: 'December 25, 2024',
     time: '6:00 PM',
@@ -46,6 +47,7 @@ export const upcomingEvents = [
   },
   {
     id: 'event-2',
+    translationKey: 'newYearsEveService',
     title: 'New Year\'s Eve Service',
     date: 'December 31, 2024',
     time: '10:00 PM',
@@ -57,6 +59,7 @@ export const upcomingEvents = [
   },
   {
     id: 'event-3',
+    translationKey: 'baptismSunday',
     title: 'Baptism Sunday',
     date: 'January 5, 2025',
     time: '9:00 AM',

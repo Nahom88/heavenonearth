@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PrayerCardProps {
   name: string;
@@ -11,6 +12,7 @@ interface PrayerCardProps {
 }
 
 const PrayerCard = ({ name, request, date, isAnonymous = false, delay = 0 }: PrayerCardProps) => {
+  const { t } = useTranslation();
   const [prayerCount, setPrayerCount] = useState(0);
   const [hasPrayed, setHasPrayed] = useState(false);
 
@@ -32,7 +34,7 @@ const PrayerCard = ({ name, request, date, isAnonymous = false, delay = 0 }: Pra
       <div className="flex items-start justify-between mb-3">
         <div>
           <h4 className="font-heading font-semibold text-primary">
-            {isAnonymous ? 'Anonymous' : name}
+            {isAnonymous ? t('prayer.anonymous') : name}
           </h4>
           <p className="text-xs text-muted-foreground">{date}</p>
         </div>
@@ -50,7 +52,7 @@ const PrayerCard = ({ name, request, date, isAnonymous = false, delay = 0 }: Pra
         }`}
       >
         <Heart size={16} className={hasPrayed ? 'fill-current' : ''} />
-        <span>{hasPrayed ? 'Prayed' : 'I Prayed'}</span>
+        <span>{hasPrayed ? t('prayer.wall.prayed') : t('prayer.wall.iPrayed')}</span>
         {prayerCount > 0 && (
           <span className="ml-1 px-2 py-0.5 bg-secondary/20 rounded-full text-xs">
             {prayerCount}

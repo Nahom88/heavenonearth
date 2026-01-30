@@ -7,39 +7,17 @@ import PrayerCard from '@/components/PrayerCard';
 const Prayer = () => {
   const { t } = useTranslation();
 
-  const prayerSchedule = [
-    { day: 'Monday', time: '6:00 AM - 7:00 AM', type: 'Morning Prayer' },
-    { day: 'Wednesday', time: '6:00 PM - 8:00 PM', type: 'Corporate Prayer' },
-    { day: 'Friday', time: '10:00 PM - 12:00 AM', type: 'Night Vigil' },
-    { day: 'Saturday (1st)', time: '6:00 AM - 12:00 PM', type: 'Fasting & Prayer' },
-  ];
-
-  const samplePrayers = [
-    {
-      name: 'Sister Meron',
-      request: 'Please pray for my mother who is in the hospital. We are trusting God for complete healing.',
-      date: 'January 20, 2025',
-      isAnonymous: false,
-    },
-    {
-      name: 'Anonymous',
-      request: 'Praying for breakthrough in my job search. I have been looking for 6 months now.',
-      date: 'January 19, 2025',
-      isAnonymous: true,
-    },
-    {
-      name: 'Brother Dawit',
-      request: 'Please intercede for my family\'s salvation. My parents don\'t know the Lord yet.',
-      date: 'January 18, 2025',
-      isAnonymous: false,
-    },
-    {
-      name: 'Sister Hanna',
-      request: 'Pray for peace in our community and protection over our children.',
-      date: 'January 17, 2025',
-      isAnonymous: false,
-    },
-  ];
+  const prayerSchedule = t('prayer.scheduleItems', { returnObjects: true }) as Array<{
+    day: string;
+    time: string;
+    type: string;
+  }>;
+  const samplePrayers = t('prayer.wall.samplePrayers', { returnObjects: true }) as Array<{
+    name: string;
+    request: string;
+    date: string;
+    isAnonymous?: boolean;
+  }>;
 
   return (
     <div className="min-h-screen">
@@ -80,25 +58,42 @@ const Prayer = () => {
               className="mt-8 bg-secondary/10 rounded-xl p-6 border border-secondary/20"
             >
               <h3 className="font-heading text-lg font-bold text-primary mb-4">
-                Other Ways to Submit Prayer Requests
+                {t('prayer.otherWays')}
               </h3>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-3">
                   <span className="text-secondary font-bold">📞</span>
                   <span className="text-muted-foreground">
-                    Call us at <a href="tel:+251905543858" className="text-secondary hover:underline">+251 90 554 3858</a>
+                    {t('prayer.call')}{' '}
+                    <a href="tel:+251905543858" className="text-secondary hover:underline">
+                      +251 90 554 3858
+                    </a>
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-secondary font-bold">✈️</span>
                   <span className="text-muted-foreground">
-                    Message us on <a href="https://t.me/kingdomfamilyyy" className="text-secondary hover:underline" target="_blank" rel="noopener noreferrer">Telegram</a>
+                    {t('prayer.telegram')}{' '}
+                    <a
+                      href="https://t.me/kingdomfamilyyy"
+                      className="text-secondary hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Telegram
+                    </a>
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-secondary font-bold">📧</span>
                   <span className="text-muted-foreground">
-                    Email <a href="mailto:heavenonearthkingdomfamily@gmail.com" className="text-secondary hover:underline">heavenonearthkingdomfamily@gmail.com</a>
+                    {t('prayer.emailContact')}{' '}
+                    <a
+                      href="mailto:heavenonearthkingdomfamily@gmail.com"
+                      className="text-secondary hover:underline"
+                    >
+                      heavenonearthkingdomfamily@gmail.com
+                    </a>
                   </span>
                 </li>
               </ul>
@@ -122,8 +117,8 @@ const Prayer = () => {
               </div>
               <div className="space-y-4">
                 {prayerSchedule.map((item, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="flex items-center justify-between py-3 border-b border-border last:border-0"
                   >
                     <div>
@@ -147,12 +142,10 @@ const Prayer = () => {
               className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-6 border border-secondary/20"
             >
               <h3 className="font-heading text-xl font-bold text-primary mb-3">
-                Our Prayer Commitment
+                {t('prayer.commitment.title')}
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                Every prayer request submitted is prayed over by our dedicated prayer team. 
-                We believe in the power of intercessory prayer and are committed to standing 
-                with you in faith. Your requests are kept confidential and handled with love and care.
+                {t('prayer.commitment.body')}
               </p>
             </motion.div>
           </div>
@@ -169,8 +162,8 @@ const Prayer = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <h2 className="section-title">{t('prayer.wall')}</h2>
-              <p className="section-subtitle">Join us in praying for our community</p>
+              <h2 className="section-title">{t('prayer.wall.title')}</h2>
+              <p className="section-subtitle">{t('prayer.wall.join')}</p>
             </motion.div>
           </div>
 
