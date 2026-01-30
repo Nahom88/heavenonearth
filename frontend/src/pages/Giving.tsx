@@ -14,33 +14,21 @@ const Giving = () => {
   };
 
   const bankDetails = [
-    { label: t('giving.bank'), value: 'Commercial Bank of Ethiopia', copyable: false },
-    { label: t('giving.account'), value: '1000345678901', copyable: true },
-    { label: t('giving.swift'), value: 'CBETETAA', copyable: true },
+    { label: t('giving.bankTransfer.bank'), value: t('giving.bankTransfer.bankName'), copyable: false },
+    { label: t('giving.bankTransfer.account'), value: t('giving.bankTransfer.accountNumber'), copyable: true },
+    { label: t('giving.bankTransfer.swift'), value: t('giving.bankTransfer.swiftCode'), copyable: true },
   ];
 
-  const givingOptions = [
-    {
-      title: 'Tithe',
-      description: 'Honor God with the first 10% of your income.',
-      verse: '"Bring the whole tithe into the storehouse..." - Malachi 3:10',
-    },
-    {
-      title: 'Offering',
-      description: 'Give generously beyond your tithe as God leads.',
-      verse: '"Each of you should give what you have decided in your heart..." - 2 Corinthians 9:7',
-    },
-    {
-      title: 'Missions',
-      description: 'Support the spread of the Gospel to unreached areas.',
-      verse: '"Go and make disciples of all nations..." - Matthew 28:19',
-    },
-    {
-      title: 'Building Fund',
-      description: 'Contribute to expanding our church facilities.',
-      verse: '"Unless the Lord builds the house, the builders labor in vain..." - Psalm 127:1',
-    },
-  ];
+  const givingOptions = t('giving.options', { returnObjects: true }) as Array<{
+    title: string;
+    description: string;
+    verse: string;
+  }>;
+
+  const impactStats = t('giving.impact.stats', { returnObjects: true }) as Array<{
+    number: string;
+    label: string;
+  }>;
 
   return (
     <div className="min-h-screen">
@@ -74,13 +62,9 @@ const Giving = () => {
           viewport={{ once: true }}
           className="max-w-3xl mx-auto text-center mb-16"
         >
-          <h2 className="section-title mb-6">Why We Give</h2>
+          <h2 className="section-title mb-6">{t('giving.whyGiveTitle')}</h2>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            {t('giving.description')} Giving is an act of worship and obedience to God. 
-            When we give, we acknowledge that everything we have belongs to Him, 
-            and we partner with His work in transforming lives and communities. 
-            Your generosity enables us to continue spreading the Gospel, serving 
-            the needy, and building the Kingdom of God.
+            {t('giving.description')}
           </p>
         </motion.div>
 
@@ -123,7 +107,7 @@ const Giving = () => {
               <Building2 className="w-12 h-12 text-secondary mx-auto mb-4" />
               <h2 className="section-title">{t('giving.bankDetails')}</h2>
               <p className="section-subtitle">
-                Make your transfer to the account details below
+                {t('giving.bankTransfer.subtitle')}
               </p>
             </motion.div>
 
@@ -139,10 +123,10 @@ const Giving = () => {
                   <CreditCard className="w-8 h-8 text-secondary" />
                   <div>
                     <p className="text-primary-foreground font-heading font-bold text-lg">
-                      Bank Transfer
+                      {t('giving.bankTransfer.title')}
                     </p>
                     <p className="text-primary-foreground/70 text-sm">
-                      Secure and direct
+                      {t('giving.bankTransfer.secure')}
                     </p>
                   </div>
                 </div>
@@ -177,7 +161,7 @@ const Giving = () => {
 
                 <div className="mt-6 p-4 bg-secondary/10 rounded-lg border border-secondary/20">
                   <p className="text-sm text-muted-foreground">
-                    <strong className="text-foreground">Reference:</strong> Please include your name and "Tithe/Offering/Missions" as the payment reference so we can properly allocate your gift.
+                    <strong className="text-foreground">{t('giving.bankTransfer.reference')}:</strong> {t('giving.bankTransfer.referenceNote')}
                   </p>
                 </div>
               </div>
@@ -192,7 +176,7 @@ const Giving = () => {
               className="mt-8 text-center"
             >
               <p className="text-muted-foreground">
-                For questions about giving or to receive a giving statement, please contact us at{' '}
+                {t('giving.bankTransfer.questions')}{' '}
                 <a href="mailto:heavenonearthkingdomfamily@gmail.com" className="text-secondary hover:underline">
                   heavenonearthkingdomfamily@gmail.com
                 </a>
@@ -212,14 +196,10 @@ const Giving = () => {
           className="max-w-4xl mx-auto text-center bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-2xl p-8 md:p-12 border border-secondary/20"
         >
           <h2 className="font-heading text-3xl font-bold text-primary mb-6">
-            Your Giving Makes a Difference
+            {t('giving.impact.title')}
           </h2>
           <div className="grid sm:grid-cols-3 gap-6 mb-8">
-            {[
-              { number: '500+', label: 'Families Fed Monthly' },
-              { number: '100+', label: 'Children in Sunday School' },
-              { number: '3', label: 'Church Plants Supported' },
-            ].map((stat, index) => (
+            {impactStats.map((stat, index) => (
               <div key={index} className="text-center">
                 <p className="font-heading text-4xl font-bold text-secondary mb-2">
                   {stat.number}
@@ -229,7 +209,7 @@ const Giving = () => {
             ))}
           </div>
           <p className="text-muted-foreground leading-relaxed">
-            Thank you for your faithful generosity. Together, we are making an eternal impact in Ethiopia and beyond.
+            {t('giving.impact.thankYou')}
           </p>
         </motion.div>
       </section>

@@ -418,5 +418,58 @@
       "successTitle": "Thank You!",
       "successMessage": "Thank you for your interest in partnering with us. Our team will be in touch with you soon."
     }
+  },
+  "giving": {
+    "title": "Give Generously",
+    "subtitle": "Honor the Lord with your wealth, with the firstfruits of all your crops.",
+    "scripture": "Proverbs 3:9",
+    "whyGiveTitle": "Why We Give",
+    "description": "Giving is an act of worship and obedience to God. When we give, we acknowledge that everything we have belongs to Him, and we partner with His work in transforming lives and communities. Your generosity enables us to continue spreading the Gospel, serving the needy, and building the Kingdom of God.",
+    "options": [
+      {
+        "title": "Tithe",
+        "description": "Honor God with the first 10% of your income.",
+        "verse": "'Bring the whole tithe into the storehouse...' - Malachi 3:10"
+      },
+      {
+        "title": "Offering",
+        "description": "Give generously beyond your tithe as God leads.",
+        "verse": "'Each of you should give what you have decided in your heart...' - 2 Corinthians 9:7"
+      },
+      {
+        "title": "Missions",
+        "description": "Support the spread of the Gospel to unreached areas.",
+        "verse": "'Go and make disciples of all nations...' - Matthew 28:19"
+      },
+      {
+        "title": "Building Fund",
+        "description": "Contribute to expanding our church facilities.",
+        "verse": "'Unless the Lord builds the house, the builders labor in vain...' - Psalm 127:1"
+      }
+    ],
+    "bankDetails": "Ways to Give",
+    "bankTransfer": {
+      "title": "Bank Transfer",
+      "subtitle": "Make your transfer to the account details below",
+      "secure": "Secure and direct",
+      "bank": "Bank",
+      "bankName": "Commercial Bank of Ethiopia",
+      "account": "Account Number",
+      "accountNumber": "1000345678901",
+      "swift": "SWIFT Code",
+      "swiftCode": "CBETETAA",
+      "reference": "Reference",
+      "referenceNote": "Please include your name and 'Tithe/Offering/Missions' as the payment reference so we can properly allocate your gift.",
+      "questions": "For questions about giving or to receive a giving statement, please contact us at"
+    },
+    "impact": {
+      "title": "Your Giving Makes a Difference",
+      "stats": [
+        { "number": "500+", "label": "Families Fed Monthly" },
+        { "number": "100+", "label": "Children in Sunday School" },
+        { "number": "3", "label": "Church Plants Supported" }
+      ],
+      "thankYou": "Thank you for your faithful generosity. Together, we are making an eternal impact in Ethiopia and beyond."
+    }
   }
 }
