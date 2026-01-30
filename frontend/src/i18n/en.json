@@ -353,5 +353,70 @@
       { "day": "Friday", "time": "10:00 PM - 12:00 AM", "type": "Night Vigil" },
       { "day": "Saturday (1st)", "time": "6:00 AM - 12:00 PM", "type": "Fasting & Prayer" }
     ]
+  },
+  "partnership": {
+    "title": "Partner With Us",
+    "subtitle": "Join us in bringing the Kingdom of God to every home and community.",
+    "description": "At Heaven on Earth Kingdom Family Ministries, we believe that together, we can make a greater impact for God's Kingdom. Whether through financial support, volunteering, or material contributions, your partnership helps us reach more souls, serve more families, and transform more communities.",
+    "readyToPartner": "Ready to Partner?",
+    "formIntro": "Fill out the form to express your interest in partnering with us. Our team will reach out to discuss how we can work together for Kingdom impact.",
+    "whyPartner": "Why Partner With Us?",
+    "reasons": [
+      "Be part of a community transforming lives through the Gospel",
+      "Support sustainable ministry initiatives in Ethiopia",
+      "Invest in the spiritual development of families",
+      "Contribute to community outreach and humanitarian efforts",
+      "Join a network of believers committed to God's Kingdom"
+    ],
+    "types": {
+      "financial": {
+        "title": "Financial Partnership",
+        "description": "Support our ministry through regular or one-time financial contributions.",
+        "benefits": [
+          "Quarterly impact reports",
+          "Special partner events",
+          "Prayer coverage from our team",
+          "Tax-deductible receipts"
+        ]
+      },
+      "volunteer": {
+        "title": "Volunteer Partnership",
+        "description": "Serve in various capacities using your time, skills, and talents.",
+        "benefits": [
+          "Worship & Music Team",
+          "Children's Ministry",
+          "Outreach Programs",
+          "Administrative Support",
+          "Media & Technology",
+          "Hospitality & Welcome"
+        ]
+      },
+      "material": {
+        "title": "Material Partnership",
+        "description": "Provide resources and supplies for our community outreach programs.",
+        "benefits": [
+          "Food items for distribution",
+          "Clothing donations",
+          "School supplies",
+          "Medical supplies",
+          "Building materials"
+        ]
+      }
+    },
+    "form": {
+      "type": "Partnership Type",
+      "selectType": "Select partnership type",
+      "messagePlaceholder": "Your message or questions...",
+      "volunteerAreas": "Areas of Interest (for Volunteers)",
+      "volunteerAreasPlaceholder": "e.g., Music, Children, Outreach",
+      "financialCommitment": "Financial Commitment Details",
+      "financialPlaceholder": "e.g., Amount, frequency, designation",
+      "materialItems": "Items to Donate (for Material Partners)",
+      "materialItemsPlaceholder": "e.g., Food, clothing, school supplies",
+      "submitButton": "Submit Partnership Interest",
+      "submitError": "Failed to submit. Please try again.",
+      "successTitle": "Thank You!",
+      "successMessage": "Thank you for your interest in partnering with us. Our team will be in touch with you soon."
+    }
   }
 }

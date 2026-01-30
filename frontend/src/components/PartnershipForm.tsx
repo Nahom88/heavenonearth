@@ -20,9 +20,9 @@ const PartnershipForm = () => {
   });
 
   const partnershipTypes = [
-    { value: 'financial', label: t('partnership.financial') },
-    { value: 'volunteer', label: t('partnership.volunteer') },
-    { value: 'material', label: t('partnership.material') },
+    { value: 'financial', label: t('partnership.types.financial.title') },
+    { value: 'volunteer', label: t('partnership.types.volunteer.title') },
+    { value: 'material', label: t('partnership.types.material.title') },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,7 +56,7 @@ const PartnershipForm = () => {
       setFormData({ name: '', email: '', phone: '', partnershipType: '', message: '', volunteerAreas: '', financialCommitment: '', materialItems: '' });
     } catch (error) {
       console.error(error);
-      toast.error(t('partnership.submitError'));
+      toast.error(t('partnership.form.submitError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -80,10 +80,10 @@ const PartnershipForm = () => {
           </svg>
         </div>
         <h3 className="font-heading text-xl font-bold text-primary mb-2">
-          {t('partnership.successTitle')}
+          {t('partnership.form.successTitle')}
         </h3>
         <p className="text-muted-foreground">
-          {t('partnership.successMessage')}
+          {t('partnership.form.successMessage')}
         </p>
       </motion.div>
     );
@@ -153,7 +153,7 @@ const PartnershipForm = () => {
 
         <div>
           <label htmlFor="partnershipType" className="form-label">
-            {t('partnership.type')} *
+            {t('partnership.form.type')} *
           </label>
           <select
             id="partnershipType"
@@ -163,7 +163,7 @@ const PartnershipForm = () => {
             className="form-select w-full"
             required
           >
-            <option value="">{t('partnership.selectType')}</option>
+            <option value="">{t('partnership.form.selectType')}</option>
             {partnershipTypes.map(type => (
               <option key={type.value} value={type.value}>
                 {type.label}
@@ -181,7 +181,7 @@ const PartnershipForm = () => {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            placeholder={t('partnership.messagePlaceholder')}
+            placeholder={t('partnership.form.messagePlaceholder')}
             rows={4}
             className="form-textarea w-full resize-none"
           />
@@ -189,7 +189,7 @@ const PartnershipForm = () => {
 
         <div>
           <label htmlFor="volunteerAreas" className="form-label">
-            {t('partnership.volunteerAreas')}
+            {t('partnership.form.volunteerAreas')}
           </label>
           <input
             type="text"
@@ -197,21 +197,21 @@ const PartnershipForm = () => {
             name="volunteerAreas"
             value={formData.volunteerAreas}
             onChange={handleChange}
-            placeholder={t('partnership.volunteerAreasPlaceholder')}
+            placeholder={t('partnership.form.volunteerAreasPlaceholder')}
             className="form-input w-full"
           />
         </div>
 
         <div>
           <label htmlFor="financialCommitment" className="form-label">
-            {t('partnership.financialCommitment')}
+            {t('partnership.form.financialCommitment')}
           </label>
           <textarea
             id="financialCommitment"
             name="financialCommitment"
             value={formData.financialCommitment}
             onChange={handleChange}
-            placeholder={t('partnership.financialPlaceholder')}
+            placeholder={t('partnership.form.financialPlaceholder')}
             rows={3}
             className="form-textarea w-full resize-none"
           />
@@ -219,7 +219,7 @@ const PartnershipForm = () => {
 
         <div>
           <label htmlFor="materialItems" className="form-label">
-            {t('partnership.materialItems')}
+            {t('partnership.form.materialItems')}
           </label>
           <input
             type="text"
@@ -227,7 +227,7 @@ const PartnershipForm = () => {
             name="materialItems"
             value={formData.materialItems}
             onChange={handleChange}
-            placeholder={t('partnership.materialItemsPlaceholder')}
+            placeholder={t('partnership.form.materialItemsPlaceholder')}
             className="form-input w-full"
           />
         </div>
@@ -246,7 +246,7 @@ const PartnershipForm = () => {
             ) : (
               <>
                 <Send size={20} />
-                <span>{t('partnership.submitButton')}</span>
+                <span>{t('partnership.form.submitButton')}</span>
               </>
             )}
           </button>
