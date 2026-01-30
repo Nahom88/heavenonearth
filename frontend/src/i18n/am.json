@@ -251,7 +251,9 @@
     "worshipService": "የአምልኮ አገልግሎት",
     "formTitle": "መልእክት ይላኩልን",
     "subjectPlaceholder": "ርዕሰ ጉዳይ",
-    "messagePlaceholder": "መልእክትዎን እዚህ ያስገቡ..."
+    "messagePlaceholder": "መልእክትዎን እዚህ ያስገቡ...",
+    "messageSentTitle": "መልእክት ተልኳል!",
+    "messageSentSubtitle": "ስለደረሱልን እናመሰግናለን። በቅርቡ እናገኝዎታለን።"
   },
   "events": {
     "upcomingEvents": "መጪ ዝግጅቶች",
