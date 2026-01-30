@@ -296,5 +296,62 @@
       "location": "Main Sanctuary",
       "description": "Celebration of new believers being baptized in water."
     }
+  },
+  "prayer": {
+    "title": "Prayer Requests",
+    "subtitle": "Casting all your anxieties on him, because he cares for you.",
+    "scripture": "1 Peter 5:7",
+    "formTitle": "Submit Your Prayer Request",
+    "namePlaceholder": "Your Name (Optional)",
+    "emailPlaceholder": "Your Email (Optional)",
+    "requestLabel": "Prayer Request",
+    "requestPlaceholder": "Enter your prayer request here...",
+    "anonymous": "Anonymous",
+    "submit": "Submit Request",
+    "otherWays": "Other Ways to Submit Prayer Requests",
+    "call": "Call us at",
+    "telegram": "Message us on Telegram",
+    "emailContact": "Email",
+    "schedule": "Join Our Prayer Meetings",
+    "commitment": {
+      "title": "Our Prayer Commitment",
+      "body": "Every prayer request submitted is prayed over by our dedicated prayer team. We believe in the power of intercessory prayer and are committed to standing with you in faith. Your requests are kept confidential and handled with love and care."
+    },
+    "wall": {
+      "title": "Prayer Wall",
+      "join": "Join us in praying for our community",
+      "prayed": "Prayed",
+      "iPrayed": "I Prayed",
+      "samplePrayers": [
+        {
+          "name": "Sister Meron",
+          "request": "Please pray for my mother who is in the hospital. We are trusting God for complete healing.",
+          "date": "January 20, 2025"
+        },
+        {
+          "name": "Anonymous",
+          "request": "Praying for breakthrough in my job search. I have been looking for 6 months now.",
+          "date": "January 19, 2025",
+          "isAnonymous": true
+        },
+        {
+          "name": "Brother Dawit",
+          "request": "Please intercede for my family's salvation. My parents don't know the Lord yet.",
+          "date": "January 18, 2025"
+        },
+        {
+          "name": "Sister Hanna",
+          "request": "Pray for peace in our community and protection over our children.",
+          "date": "January 17, 2025"
+        }
+      ]
+    },
+    "successMessage": "Your prayer request has been submitted. Our team will be praying for you.",
+    "scheduleItems": [
+      { "day": "Monday", "time": "6:00 AM - 7:00 AM", "type": "Morning Prayer" },
+      { "day": "Wednesday", "time": "6:00 PM - 8:00 PM", "type": "Corporate Prayer" },
+      { "day": "Friday", "time": "10:00 PM - 12:00 AM", "type": "Night Vigil" },
+      { "day": "Saturday (1st)", "time": "6:00 AM - 12:00 PM", "type": "Fasting & Prayer" }
+    ]
   }
 }
