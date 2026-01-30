@@ -237,6 +237,22 @@
     "monFriHours": "ሰኞ-አርብ: ከጥዋቱ 3 ሰዓት - ምሽቱ 11 ሰዓት",
     "satHours": "ቅዳሜ: ከጥዋቱ 4 ሰዓት - ምሽቱ 8 ሰዓት"
   },
+  "contactPage": {
+    "title": "አግኙን",
+    "subtitle": "ከእኛ ጋር ይገናኙ",
+    "getInTouch": "ይገናኙ",
+    "telegram": "ቴሌግራም",
+    "hours": "የስራ ሰዓታት",
+    "mondayFriday": "ሰኞ - አርብ",
+    "mondayFridayHours": "ከጥዋቱ 3:00 - ምሽቱ 11:00",
+    "saturday": "ቅዳሜ",
+    "saturdayHours": "ከጥዋቱ 4:00 - ምሽቱ 8:00",
+    "sunday": "እሁድ",
+    "worshipService": "የአምልኮ አገልግሎት",
+    "formTitle": "መልእክት ይላኩልን",
+    "subjectPlaceholder": "ርዕሰ ጉዳይ",
+    "messagePlaceholder": "መልእክትዎን እዚህ ያስገቡ..."
+  },
   "events": {
     "upcomingEvents": "መጪ ዝግጅቶች",
     "joinUs": "ለአምልኮ፣ ለጸሎት እና ለኅብረት ይቀላቀሉን",
