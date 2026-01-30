@@ -407,9 +407,6 @@
       "type": "Partnership Type",
       "selectType": "Select partnership type",
       "messagePlaceholder": "Enter your message here...",
-    "messageSentTitle": "Message Sent!",
-    "messageSentSubtitle": "Thank you for reaching out. We'll get back to you soon."
-  },,
       "volunteerAreas": "Areas of Interest (for Volunteers)",
       "volunteerAreasPlaceholder": "e.g., Music, Children, Outreach",
       "financialCommitment": "Financial Commitment Details",
