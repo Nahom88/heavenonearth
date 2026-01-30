@@ -439,6 +439,75 @@
       "successMessage": "ከእኛ ጋር ለመተባበር ስላሳዩት ፍላጎት እናመሰግናለን። ቡድናችን በቅርቡ ያገኝዎታል።"
     }
   },
+  "gallery": {
+    "title": "የእኛ ማዕከለ-ስዕላት",
+    "subtitle": "የእምነት፣ የአምልኮ እና የማህበረሰብ ጊዜዎችን መቅረጽ",
+    "categories": [
+      { "id": "all", "label": "ሁሉም" },
+      { "id": "worship", "label": "የአምልኮ አገልግሎቶች" },
+      { "id": "outreach", "label": "የማህበረሰብ ተደራሽነት" },
+      { "id": "youth", "label": "ወጣቶች እና ልጆች" },
+      { "id": "events", "label": "ልዩ ዝግጅቶች" }
+    ],
+    "items": [
+      {
+        "id": 1,
+        "title": "የእሁድ አምልኮ",
+        "category": "worship",
+        "type": "image",
+        "src": "/images/gallery/worship-1.jpg",
+        "alt": "ጉባኤ በጋራ ሲያመልክ",
+        "date": "2024-01-14"
+      },
+      {
+        "id": 2,
+        "title": "የጥምቀት አገልግሎት",
+        "category": "worship",
+        "type": "image",
+        "src": "/images/gallery/baptism-1.jpg",
+        "alt": "የጥምቀት ሥነ-ሥርዓት",
+        "date": "2024-01-07"
+      },
+      {
+        "id": 3,
+        "title": "የማህበረሰብ ተደራሽነት",
+        "category": "outreach",
+        "type": "image",
+        "src": "/images/gallery/outreach-1.jpg",
+        "alt": "የማህበረሰብ አገልግሎት ዝግጅት",
+        "date": "2023-12-15"
+      },
+      {
+        "id": 4,
+        "title": "የወጣቶች ካምፕ",
+        "category": "youth",
+        "type": "video",
+        "src": "https://www.youtube.com/embed/example1",
+        "alt": "የወጣቶች ካምፕ ዋና ዋና ነጥቦች",
+        "date": "2023-11-20"
+      },
+      {
+        "id": 5,
+        "title": "የገና በዓል አከባበር",
+        "category": "events",
+        "type": "image",
+        "src": "/images/gallery/christmas-1.jpg",
+        "alt": "የገና አገልግሎት",
+        "date": "2023-12-24"
+      },
+      {
+        "id": 6,
+        "title": "የመጽሐፍ ቅዱስ ጥናት",
+        "category": "worship",
+        "type": "image",
+        "src": "/images/gallery/bible-study-1.jpg",
+        "alt": "የቡድን መጽሐፍ ቅዱስ ጥናት",
+        "date": "2024-01-10"
+      }
+    ]
+  }
+}
+  },
   "giving": {
     "title": "በልግስና ይስጡ",
     "subtitle": "እግዚአብሔርን ከሀብትህ አክብረው፥ ከፍሬህም ሁሉ በኵራትን ስጠው።",
