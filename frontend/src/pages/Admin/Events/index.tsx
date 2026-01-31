@@ -22,8 +22,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Calendar, Plus, Pencil, Trash2, MapPin } from "lucide-react";
+import { Plus, Pencil, Trash2, MapPin } from "lucide-react";
 import { format } from "date-fns";
+import { EventTableSkeleton } from "./TableSkeleton";
 
 interface Event {
     id: string;
@@ -41,16 +42,21 @@ interface Event {
 
 export default function AdminEvents() {
     const [events, setEvents] = useState<Event[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingEvent, setEditingEvent] = useState<Event | null>(null);
     const [formData, setFormData] = useState<Partial<Event>>({});
 
     const fetchEvents = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Event[] }>("/events?page_size=100");
             setEvents(data.items);
         } catch (error) {
             console.error("Failed to fetch events", error);
+            toast.error("Failed to fetch events");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -94,7 +100,6 @@ export default function AdminEvents() {
         try {
             const payload = {
                 ...formData,
-                // Ensure times are in HH:MM:SS format if needed, or just HH:MM
                 start_time: formData.start_time?.length === 5 ? `${formData.start_time}:00` : formData.start_time,
                 end_time: formData.end_time?.length === 5 ? `${formData.end_time}:00` : formData.end_time,
             };
@@ -132,58 +137,70 @@ export default function AdminEvents() {
                 </Button>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Event</TableHead>
-                            <TableHead>Date & Time</TableHead>
-                            <TableHead>Location</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead>Featured</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {events.map((e) => (
-                            <TableRow key={e.id}>
-                                <TableCell className="font-medium">
-                                    <div className="flex flex-col">
-                                        <span className="font-semibold">{e.title}</span>
-                                        {e.is_recurring && <span className="text-xs text-muted-foreground">Recurring</span>}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex flex-col text-sm">
-                                        <span>{format(new Date(e.event_date), "MMM d, yyyy")}</span>
-                                        <span className="text-muted-foreground">{e.start_time.slice(0, 5)} - {e.end_time.slice(0, 5)}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex items-center text-sm text-muted-foreground">
-                                        <MapPin className="w-3 h-3 mr-1" />
-                                        {e.location}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant="secondary" className="capitalize">{e.category}</Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {e.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(e)}>
-                                        <Pencil className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(e.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
-                                </TableCell>
+            {isLoading ? (
+                <EventTableSkeleton />
+            ) : (
+                <div className="bg-white rounded-lg shadow-sm border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Event</TableHead>
+                                <TableHead>Date & Time</TableHead>
+                                <TableHead>Location</TableHead>
+                                <TableHead>Category</TableHead>
+                                <TableHead>Featured</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {events.length > 0 ? (
+                                events.map((e) => (
+                                    <TableRow key={e.id}>
+                                        <TableCell className="font-medium">
+                                            <div className="flex flex-col">
+                                                <span className="font-semibold">{e.title}</span>
+                                                {e.is_recurring && <span className="text-xs text-muted-foreground">Recurring</span>}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex flex-col text-sm">
+                                                <span>{format(new Date(e.event_date), "MMM d, yyyy")}</span>
+                                                <span className="text-muted-foreground">{e.start_time.slice(0, 5)} - {e.end_time.slice(0, 5)}</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center text-sm text-muted-foreground">
+                                                <MapPin className="w-3 h-3 mr-1" />
+                                                {e.location}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant="secondary" className="capitalize">{e.category}</Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            {e.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
+                                        </TableCell>
+                                        <TableCell className="text-right space-x-2">
+                                            <Button variant="ghost" size="icon" onClick={() => handleEdit(e)}>
+                                                <Pencil className="w-4 h-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(e.id)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={6} className="text-center h-24">
+                                        No events found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
