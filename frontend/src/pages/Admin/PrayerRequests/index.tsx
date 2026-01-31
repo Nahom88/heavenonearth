@@ -23,6 +23,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { PrayerRequestTableSkeleton } from "./TableSkeleton";
 
 interface PrayerRequest {
     id: string;
@@ -41,16 +42,21 @@ interface PrayerRequest {
 
 export default function AdminPrayerRequests() {
     const [requests, setRequests] = useState<PrayerRequest[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedRequest, setSelectedRequest] = useState<PrayerRequest | null>(null);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const [responseMessage, setResponseMessage] = useState("");
 
     const fetchRequests = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: PrayerRequest[] }>("/prayers?page_size=100");
             setRequests(data.items);
         } catch (error) {
             console.error("Failed to fetch prayer requests", error);
+            toast.error("Failed to fetch prayer requests");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -129,63 +135,75 @@ export default function AdminPrayerRequests() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Request</TableHead>
-                            <TableHead>Submitted By</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Prayers</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Visibility</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {requests.map((r) => (
-                            <TableRow key={r.id}>
-                                <TableCell className="font-medium max-w-xs truncate">
-                                    {r.request_content}
-                                </TableCell>
-                                <TableCell>
-                                    {r.is_anonymous ? (
-                                        <span className="text-muted-foreground italic">Anonymous</span>
-                                    ) : (
-                                        <span>{r.first_name} {r.last_name}</span>
-                                    )}
-                                </TableCell>
-                                <TableCell>{format(new Date(r.created_at), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <div className="flex items-center gap-1">
-                                        <Heart className="w-3 h-3 text-red-500 fill-red-500" />
-                                        {r.prayer_count}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant={r.status === 'answered' ? 'default' : 'secondary'}
-                                        className={r.status === 'answered' ? 'bg-green-600' : 'bg-yellow-100 text-yellow-800'}>
-                                        {r.status}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    <Badge variant="outline">
-                                        {r.is_public ? "Public" : "Private"}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleView(r)}>
-                                        <Eye className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(r.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
-                                </TableCell>
+            {isLoading ? (
+                <PrayerRequestTableSkeleton />
+            ) : (
+                <div className="bg-white rounded-lg shadow-sm border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Request</TableHead>
+                                <TableHead>Submitted By</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Prayers</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Visibility</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {requests.length > 0 ? (
+                                requests.map((r) => (
+                                    <TableRow key={r.id}>
+                                        <TableCell className="font-medium max-w-xs truncate">
+                                            {r.request_content}
+                                        </TableCell>
+                                        <TableCell>
+                                            {r.is_anonymous ? (
+                                                <span className="text-muted-foreground italic">Anonymous</span>
+                                            ) : (
+                                                <span>{r.first_name} {r.last_name}</span>
+                                            )}
+                                        </TableCell>
+                                        <TableCell>{format(new Date(r.created_at), "MMM d, yyyy")}</TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center gap-1">
+                                                <Heart className="w-3 h-3 text-red-500 fill-red-500" />
+                                                {r.prayer_count}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant={r.status === 'answered' ? 'default' : 'secondary'}
+                                                className={r.status === 'answered' ? 'bg-green-600' : 'bg-yellow-100 text-yellow-800'}>
+                                                {r.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline">
+                                                {r.is_public ? "Public" : "Private"}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right space-x-2">
+                                            <Button variant="ghost" size="icon" onClick={() => handleView(r)}>
+                                                <Eye className="w-4 h-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(r.id)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={7} className="text-center h-24">
+                                        No prayer requests found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
 
             <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
                 <DialogContent className="sm:max-w-[600px]">
