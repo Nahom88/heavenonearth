@@ -608,5 +608,25 @@
       ],
       "thankYou": "Thank you for your faithful generosity. Together, we are making an eternal impact in Ethiopia and beyond."
     }
+  },
+  "newsletter": {
+    "title": "Subscribe to our Newsletter",
+    "subtitle": "Get the latest news, events, and updates delivered straight to your inbox.",
+    "placeholder": "Enter your email address",
+    "submit": "Subscribe"
+  },
+  "footer": {
+    "about": "A place of faith, love, and community. Join us as we seek to bring heaven to earth.",
+    "quickLinks": "Quick Links",
+    "connect": "Connect",
+    "copyright": "© 2024 Heaven on Earth Kingdom Family Ministries. All Rights Reserved."
+  },
+  "help": {
+    "title": "How You Can Help",
+    "pray": "Pray",
+    "give": "Give",
+    "volunteer": "Volunteer",
+    "share": "Share Your Story",
+    "connect": "Connect"
   }
 }
