@@ -21,6 +21,7 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { PartnershipTableSkeleton } from "./TableSkeleton";
 
 interface Partnership {
     id: string;
@@ -36,15 +37,20 @@ interface Partnership {
 
 export default function AdminPartnerships() {
     const [partnerships, setPartnerships] = useState<Partnership[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedPartnership, setSelectedPartnership] = useState<Partnership | null>(null);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
     const fetchPartnerships = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Partnership[] }>("/partnerships?page_size=100");
             setPartnerships(data.items);
         } catch (error) {
             console.error("Failed to fetch partnerships", error);
+            toast.error("Failed to fetch partnerships");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -92,49 +98,61 @@ export default function AdminPartnerships() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Organization</TableHead>
-                            <TableHead>Contact Person</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {partnerships.map((p) => (
-                            <TableRow key={p.id}>
-                                <TableCell className="font-medium">
-                                    <div className="flex items-center gap-2">
-                                        <Building2 className="w-4 h-4 text-gray-400" />
-                                        {p.organization_name}
-                                    </div>
-                                </TableCell>
-                                <TableCell>{p.contact_person}</TableCell>
-                                <TableCell className="capitalize">{p.partnership_type}</TableCell>
-                                <TableCell>{format(new Date(p.created_at), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <Badge variant={p.status === 'approved' ? 'default' : 'secondary'}
-                                        className={p.status === 'approved' ? 'bg-green-600' : p.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}>
-                                        {p.status}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleView(p)}>
-                                        <Eye className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(p.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
-                                </TableCell>
+            {isLoading ? (
+                <PartnershipTableSkeleton />
+            ) : (
+                <div className="bg-white rounded-lg shadow-sm border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Organization</TableHead>
+                                <TableHead>Contact Person</TableHead>
+                                <TableHead>Type</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {partnerships.length > 0 ? (
+                                partnerships.map((p) => (
+                                    <TableRow key={p.id}>
+                                        <TableCell className="font-medium">
+                                            <div className="flex items-center gap-2">
+                                                <Building2 className="w-4 h-4 text-gray-400" />
+                                                {p.organization_name}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>{p.contact_person}</TableCell>
+                                        <TableCell className="capitalize">{p.partnership_type}</TableCell>
+                                        <TableCell>{format(new Date(p.created_at), "MMM d, yyyy")}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={p.status === 'approved' ? 'default' : 'secondary'}
+                                                className={p.status === 'approved' ? 'bg-green-600' : p.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}>
+                                                {p.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right space-x-2">
+                                            <Button variant="ghost" size="icon" onClick={() => handleView(p)}>
+                                                <Eye className="w-4 h-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(p.id)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={6} className="text-center h-24">
+                                        No partnership applications found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
 
             <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
                 <DialogContent className="sm:max-w-[600px]">
