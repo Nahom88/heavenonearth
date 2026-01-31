@@ -239,32 +239,3 @@ export default function AdminMinistries() {
         </div>
     );
 }
-t.value })}
-                                />
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="active">Active Status</Label>
-                                <Switch
-                                    id="active"
-                                    checked={formData.is_active}
-                                    onCheckedChange={(c) => setFormData({ ...formData, is_active: c })}
-                                />
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <Label htmlFor="featured">Featured on Homepage</Label>
-                                <Switch
-                                    id="featured"
-                                    checked={formData.is_featured}
-                                    onCheckedChange={(c) => setFormData({ ...formData, is_featured: c })}
-                                />
-                            </div>
-                        </div>
-                        <DialogFooter>
-                            <Button type="submit" className="bg-navy hover:bg-navy-light">Save Changes</Button>
-                        </DialogFooter>
-                    </form>
-                </DialogContent>
-            </Dialog>
-        </div>
-    );
-}
