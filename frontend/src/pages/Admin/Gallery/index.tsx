@@ -21,8 +21,9 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Image as ImageIcon, ExternalLink } from "lucide-react";
+import { Plus, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
 import { format } from "date-fns";
+import { GalleryTableSkeleton } from "./TableSkeleton";
 
 interface GalleryItem {
     id: string;
@@ -39,16 +40,21 @@ interface GalleryItem {
 
 export default function AdminGallery() {
     const [items, setItems] = useState<GalleryItem[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
     const [formData, setFormData] = useState<Partial<GalleryItem>>({});
 
     const fetchItems = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: GalleryItem[] }>("/gallery?page_size=100");
             setItems(data.items);
         } catch (error) {
             console.error("Failed to fetch gallery items", error);
+            toast.error("Failed to fetch gallery items");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -121,66 +127,78 @@ export default function AdminGallery() {
                 </Button>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Preview</TableHead>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Featured</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {items.map((item) => (
-                            <TableRow key={item.id}>
-                                <TableCell>
-                                    <div className="w-16 h-10 bg-gray-100 rounded overflow-hidden relative group">
-                                        {item.media_type === 'image' ? (
-                                            <img
-                                                src={item.src_url}
-                                                alt={item.title}
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => {
-                                                    (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
-                                                }}
-                                            />
-                                        ) : (
-                                            <div className="flex items-center justify-center h-full bg-gray-200">
-                                                <ImageIcon className="w-4 h-4 text-gray-400" />
-                                            </div>
-                                        )}
-                                    </div>
-                                </TableCell>
-                                <TableCell className="font-medium">{item.title}</TableCell>
-                                <TableCell>
-                                    <Badge variant="secondary" className="capitalize">{item.category}</Badge>
-                                </TableCell>
-                                <TableCell>{format(new Date(item.event_date), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <Badge variant={item.is_published ? "default" : "secondary"} className={item.is_published ? "bg-green-600" : ""}>
-                                        {item.is_published ? "Published" : "Draft"}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {item.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
-                                        <Pencil className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(item.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
-                                </TableCell>
+            {isLoading ? (
+                <GalleryTableSkeleton />
+            ) : (
+                <div className="bg-white rounded-lg shadow-sm border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Preview</TableHead>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Category</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Featured</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {items.length > 0 ? (
+                                items.map((item) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell>
+                                            <div className="w-16 h-10 bg-gray-100 rounded overflow-hidden relative group">
+                                                {item.media_type === 'image' ? (
+                                                    <img
+                                                        src={item.src_url}
+                                                        alt={item.title}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image';
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="flex items-center justify-center h-full bg-gray-200">
+                                                        <ImageIcon className="w-4 h-4 text-gray-400" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="font-medium">{item.title}</TableCell>
+                                        <TableCell>
+                                            <Badge variant="secondary" className="capitalize">{item.category}</Badge>
+                                        </TableCell>
+                                        <TableCell>{format(new Date(item.event_date), "MMM d, yyyy")}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={item.is_published ? "default" : "secondary"} className={item.is_published ? "bg-green-600" : ""}>
+                                                {item.is_published ? "Published" : "Draft"}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            {item.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
+                                        </TableCell>
+                                        <TableCell className="text-right space-x-2">
+                                            <Button variant="ghost" size="icon" onClick={() => handleEdit(item)}>
+                                                <Pencil className="w-4 h-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(item.id)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={7} className="text-center h-24">
+                                        No gallery items found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-[500px]">
