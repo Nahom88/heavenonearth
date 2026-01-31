@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Church } from "lucide-react";
+import { MinistryTableSkeleton } from "./TableSkeleton";
 
 interface Ministry {
     id: string;
@@ -36,16 +37,21 @@ interface Ministry {
 
 export default function AdminMinistries() {
     const [ministries, setMinistries] = useState<Ministry[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingMinistry, setEditingMinistry] = useState<Ministry | null>(null);
     const [formData, setFormData] = useState<Partial<Ministry>>({});
 
     const fetchMinistries = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Ministry[] }>("/ministries?page_size=100");
             setMinistries(data.items);
         } catch (error) {
             console.error("Failed to fetch ministries", error);
+            toast.error("Failed to fetch ministries");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -112,46 +118,58 @@ export default function AdminMinistries() {
                 </Button>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Key</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Featured</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {ministries.map((m) => (
-                            <TableRow key={m.id}>
-                                <TableCell className="font-medium flex items-center gap-2">
-                                    <Church className="w-4 h-4 text-gold" />
-                                    {m.title}
-                                </TableCell>
-                                <TableCell className="font-mono text-xs">{m.ministry_key}</TableCell>
-                                <TableCell>
-                                    <Badge variant={m.is_active ? "default" : "secondary"} className={m.is_active ? "bg-green-600" : ""}>
-                                        {m.is_active ? "Active" : "Inactive"}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {m.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
-                                </TableCell>
-                                <TableCell className="text-right space-x-2">
-                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(m)}>
-                                        <Pencil className="w-4 h-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(m.id)}>
-                                        <Trash2 className="w-4 h-4" />
-                                    </Button>
-                                </TableCell>
+            {isLoading ? (
+                <MinistryTableSkeleton />
+            ) : (
+                <div className="bg-white rounded-lg shadow-sm border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Title</TableHead>
+                                <TableHead>Key</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Featured</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {ministries.length > 0 ? (
+                                ministries.map((m) => (
+                                    <TableRow key={m.id}>
+                                        <TableCell className="font-medium flex items-center gap-2">
+                                            <Church className="w-4 h-4 text-gold" />
+                                            {m.title}
+                                        </TableCell>
+                                        <TableCell className="font-mono text-xs">{m.ministry_key}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={m.is_active ? "default" : "secondary"} className={m.is_active ? "bg-green-600" : ""}>
+                                                {m.is_active ? "Active" : "Inactive"}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            {m.is_featured && <Badge variant="outline" className="border-gold text-gold-dark">Featured</Badge>}
+                                        </TableCell>
+                                        <TableCell className="text-right space-x-2">
+                                            <Button variant="ghost" size="icon" onClick={() => handleEdit(m)}>
+                                                <Pencil className="w-4 h-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => handleDelete(m.id)}>
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="text-center h-24">
+                                        No ministries found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="sm:max-w-[500px]">
@@ -193,6 +211,35 @@ export default function AdminMinistries() {
                                     id="desc"
                                     value={formData.description || ""}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <Label htmlFor="active">Active Status</Label>
+                                <Switch
+                                    id="active"
+                                    checked={formData.is_active}
+                                    onCheckedChange={(c) => setFormData({ ...formData, is_active: c })}
+                                />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <Label htmlFor="featured">Featured on Homepage</Label>
+                                <Switch
+                                    id="featured"
+                                    checked={formData.is_featured}
+                                    onCheckedChange={(c) => setFormData({ ...formData, is_featured: c })}
+                                />
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <Button type="submit" className="bg-navy hover:bg-navy-light">Save Changes</Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
+}
+t.value })}
                                 />
                             </div>
                             <div className="flex items-center justify-between">

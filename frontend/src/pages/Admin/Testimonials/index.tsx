@@ -23,6 +23,7 @@ import { apiRequest } from "@/services/api";
 import { toast } from "sonner";
 import { Check, X, Star, Eye } from "lucide-react";
 import { format } from "date-fns";
+import { TestimonialTableSkeleton } from "./TableSkeleton";
 
 interface Testimonial {
     id: string;
@@ -36,17 +37,22 @@ interface Testimonial {
 
 export default function AdminTestimonials() {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
     const [isReviewOpen, setIsReviewOpen] = useState(false);
     const [reviewNotes, setReviewNotes] = useState("");
     const [isFeatured, setIsFeatured] = useState(false);
 
     const fetchTestimonials = async () => {
+        setIsLoading(true);
         try {
             const data = await apiRequest<{ items: Testimonial[] }>("/testimonials?page_size=100");
             setTestimonials(data.items);
         } catch (error) {
             console.error("Failed to fetch testimonials", error);
+            toast.error("Failed to fetch testimonials");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -76,7 +82,7 @@ export default function AdminTestimonials() {
 
             toast.success(`Testimonial ${status} successfully`);
             setIsReviewOpen(false);
-            fetchTestimonials();
+            fetchTestimonials(); // Refetch data after review
         } catch (error) {
             toast.error("Failed to submit review");
         }
@@ -84,10 +90,13 @@ export default function AdminTestimonials() {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case "approved": return "bg-green-100 text-green-800";
-            case "published": return "bg-green-100 text-green-800";
-            case "rejected": return "bg-red-100 text-red-800";
-            default: return "bg-yellow-100 text-yellow-800";
+            case "approved":
+            case "published":
+                return "bg-green-100 text-green-800";
+            case "rejected":
+                return "bg-red-100 text-red-800";
+            default:
+                return "bg-yellow-100 text-yellow-800";
         }
     };
 
@@ -100,43 +109,55 @@ export default function AdminTestimonials() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Featured</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {testimonials.map((t) => (
-                            <TableRow key={t.id}>
-                                <TableCell className="font-medium">{t.name}</TableCell>
-                                <TableCell>{t.category}</TableCell>
-                                <TableCell>{format(new Date(t.created_at), "MMM d, yyyy")}</TableCell>
-                                <TableCell>
-                                    <Badge variant="outline" className={getStatusColor(t.status)}>
-                                        {t.status}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>
-                                    {t.is_featured && <Star className="w-4 h-4 text-gold fill-gold" />}
-                                </TableCell>
-                                <TableCell className="text-right">
-                                    <Button variant="ghost" size="sm" onClick={() => handleReview(t)}>
-                                        <Eye className="w-4 h-4 mr-2" />
-                                        Review
-                                    </Button>
-                                </TableCell>
+            {isLoading ? (
+                <TestimonialTableSkeleton />
+            ) : (
+                <div className="bg-white rounded-lg shadow-sm border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Category</TableHead>
+                                <TableHead>Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Featured</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
+                        </TableHeader>
+                        <TableBody>
+                            {testimonials.length > 0 ? (
+                                testimonials.map((t) => (
+                                    <TableRow key={t.id}>
+                                        <TableCell className="font-medium">{t.name}</TableCell>
+                                        <TableCell>{t.category}</TableCell>
+                                        <TableCell>{format(new Date(t.created_at), "MMM d, yyyy")}</TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline" className={getStatusColor(t.status)}>
+                                                {t.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="flex justify-center">
+                                            {t.is_featured && <Star className="w-4 h-4 text-gold fill-gold" />}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <Button variant="ghost" size="sm" onClick={() => handleReview(t)}>
+                                                <Eye className="w-4 h-4 mr-2" />
+                                                Review
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={6} className="text-center h-24">
+                                        No testimonials found.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
 
             <Dialog open={isReviewOpen} onOpenChange={setIsReviewOpen}>
                 <DialogContent className="sm:max-w-[600px]">
