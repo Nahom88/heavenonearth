@@ -85,21 +85,21 @@ const Home = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
               />
 
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
+              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-primary-foreground mb-4 leading-tight">
                 {t('hero.title')}
               </h1>
 
-              <div className="scripture-quote text-primary-foreground/90 border-secondary max-w-2xl mx-auto mb-8">
-                <p className="text-lg md:text-xl">"{t('hero.subtitle')}"</p>
+              <div className="scripture-quote text-primary-foreground/90 border-secondary max-w-xl mx-auto mb-8">
+                <p className="text-lg md:text-xl leading-relaxed">"{t('hero.subtitle')}"</p>
                 <p className="text-secondary font-semibold mt-2">— {t('hero.scripture')}</p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/about" className="btn-gold text-lg">
+                <Link to="/about" className="btn-gold text-lg w-full sm:w-auto">
                   {t('hero.cta')}
                   <ArrowRight size={20} className="ml-2 inline" />
                 </Link>
-                <Link to="/ministries" className="btn-navy bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground border border-primary-foreground/30">
+                <Link to="/ministries" className="btn-navy bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground border border-primary-foreground/30 w-full sm:w-auto">
                   {t('hero.ctaSecondary')}
                 </Link>
               </div>

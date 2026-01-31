@@ -50,7 +50,7 @@ const Footer = () => {
               />
               <button
                 type="submit"
-                className="btn-gold flex items-center justify-center gap-2"
+                className="btn-gold flex items-center justify-center gap-2 w-full sm:w-auto"
               >
                 <Send size={18} />
                 {t('newsletter.submit')}

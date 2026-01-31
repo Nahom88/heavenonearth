@@ -152,6 +152,8 @@
     "viewAllEvents": "View All Events"
   },
   "testimonial": {
+    "sectionTitle": "Testimonies of Faith",
+    "sectionSubtitle": "Stories of God's Faithfulness in Our Lives",
     "shareYourStory": "Share Your Story",
     "category": "Category",
     "categories": {
@@ -167,7 +169,29 @@
     "minLength": "Minimum {{count}} characters",
     "submitButton": "Submit Your Testimony",
     "thankYou": "Thank You!",
-    "submitSuccess": "Your testimony has been submitted successfully. It will be reviewed and published soon."
+    "submitSuccess": "Your testimony has been submitted successfully. It will be reviewed and published soon.",
+    "static": {
+      "sarahM": {
+        "name": "Sarah M.",
+        "title": "Life-Changing Experience",
+        "content": "This ministry has completely transformed my spiritual journey. The teachings are powerful and life-changing.",
+        "category": "salvation"
+      },
+      "johnD": {
+        "name": "John D.",
+        "title": "Healing Testimony",
+        "content": "I was healed from chronic pain after the prayer team ministered to me. God is truly a healer!",
+        "category": "healing"
+      },
+      "aminaK": {
+        "name": "Amina K.",
+        "title": "Financial Breakthrough",
+        "content": "After tithing faithfully, God has blessed my business beyond what I could imagine.",
+        "category": "provision"
+      }
+    },
+    "noTestimonialMessage": "No testimonies to display. Check back later!",
+    "ctaMessage": "God is doing amazing things in our community. Come and see for yourself!"
   },
   "aboutPage": {
     "hero": {

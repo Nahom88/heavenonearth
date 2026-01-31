@@ -45,7 +45,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-x-1 xl:gap-x-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
