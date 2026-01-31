@@ -1,10 +1,7 @@
 import type { RequestHandler } from 'express';
 
-/**
- * Security middleware that adds various security-related HTTP headers
- */
 export const securityHeaders: RequestHandler = (req, res, next) => {
-  // 1. Content Security Policy (CSP)
+
   const csp = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.sentry.io",
@@ -17,19 +14,19 @@ export const securityHeaders: RequestHandler = (req, res, next) => {
     "base-uri 'self';",
   ].join('; ');
 
-  // 2. Security Headers
+  
   const securityHeaders = {
-    // Prevent MIME type sniffing
+    
     'X-Content-Type-Options': 'nosniff',
-    // Prevent clickjacking
+
     'X-Frame-Options': 'DENY',
-    // Enable XSS protection
+  
     'X-XSS-Protection': '1; mode=block',
-    // DNS prefetch control
+    
     'X-DNS-Prefetch-Control': 'on',
-    // Referrer Policy
+    
     'Referrer-Policy': 'strict-origin-when-cross-origin',
-    // Permissions Policy
+    
     'Permissions-Policy': [
       'camera=()',
       'microphone=()',
