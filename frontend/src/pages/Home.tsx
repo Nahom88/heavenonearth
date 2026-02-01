@@ -11,6 +11,10 @@ import TestimonialSection from '@/components/TestimonialSection';
 import SeoHead from '@/components/SeoHead';
 import { getMinistries, Ministry } from '@/services/api';
 import { toast } from 'sonner';
+import { getCache, setCache } from '@/lib/cache';
+
+const CACHE_KEY = 'featured_ministries';
+const CACHE_TTL_MINUTES = 5; 
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -34,13 +38,26 @@ const Home = () => {
 
   useEffect(() => {
     const fetchMinistries = async () => {
+      // 1. Try to load from cache first
+      const cachedMinistries = getCache<Ministry[]>(CACHE_KEY);
+      if (cachedMinistries) {
+        setMinistries(cachedMinistries);
+      }
+
+      // 2. Always fetch from the network to get fresh data
       try {
-        // Fetch only featured ministries for the home page
         const featuredMinistries = await getMinistries({ is_featured: true, page_size: 5 });
+        
+        // 3. Update state and cache
         setMinistries(featuredMinistries);
+        setCache(CACHE_KEY, featuredMinistries, CACHE_TTL_MINUTES);
+
       } catch (error) {
         console.error("Failed to fetch ministries:", error);
-        toast.error(t('errors.fetchMinistries'));
+        // Only show error if there's no cached data to display
+        if (!cachedMinistries) {
+          toast.error(t('errors.fetchMinistries'));
+        }
       }
     };
 

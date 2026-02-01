@@ -4,6 +4,10 @@ import { motion } from 'framer-motion';
 import { Heart, Users, BookOpen, Calendar, HandHeart, Music, Baby, Globe, LucideIcon, Church } from 'lucide-react';
 import { getMinistries, Ministry } from '@/services/api';
 import { toast } from 'sonner';
+import { getCache, setCache } from '@/lib/cache';
+
+const CACHE_KEY = 'all_ministries';
+const CACHE_TTL_MINUTES = 15; 
 
 const Ministries = () => {
   const { t, i18n } = useTranslation();
@@ -26,13 +30,26 @@ const Ministries = () => {
 
   useEffect(() => {
     const fetchMinistries = async () => {
+      // 
+      const cachedMinistries = getCache<Ministry[]>(CACHE_KEY);
+      if (cachedMinistries) {
+        setMinistries(cachedMinistries);
+      }
+
+      // 2
       try {
-        // Fetch all active ministries
         const allMinistries = await getMinistries({ page_size: 100 });
+
+        // 3. Update state and cache
         setMinistries(allMinistries);
+        setCache(CACHE_KEY, allMinistries, CACHE_TTL_MINUTES);
+
       } catch (error) {
         console.error("Failed to fetch ministries:", error);
-        toast.error(t('errors.fetchMinistries'));
+        // Only show error if there's no cached data to display
+        if (!cachedMinistries) {
+          toast.error(t('errors.fetchMinistries'));
+        }
       }
     };
 
