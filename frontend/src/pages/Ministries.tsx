@@ -1,108 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Heart, Users, BookOpen, Calendar, HandHeart, Music, Baby, Globe } from 'lucide-react';
-import MinistryCard from '@/components/MinistryCard';
-
-const truncateText = (text: string, maxLength: number) => {
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength) + '...';
-};
+import { Heart, Users, BookOpen, Calendar, HandHeart, Music, Baby, Globe, LucideIcon, Church } from 'lucide-react';
+import { getMinistries, Ministry } from '@/services/api';
+import { toast } from 'sonner';
 
 const Ministries = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [ministries, setMinistries] = useState<Ministry[]>([]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const ministries = [
-    {
-      icon: Heart,
-      title: t('ministries.prayer.title'),
-      description: t('ministries.prayer.description'),
-      details: [
-        'ministries.prayer.details.0',
-        'ministries.prayer.details.1',
-        'ministries.prayer.details.2',
-        'ministries.prayer.details.3',
-      ],
-    },
-    {
-      icon: HandHeart,
-      title: t('ministries.outreach.title'),
-      description: t('ministries.outreach.description'),
-      details: [
-        'ministries.outreach.details.0',
-        'ministries.outreach.details.1',
-        'ministries.outreach.details.2',
-        'ministries.outreach.details.3',
-      ],
-    },
-    {
-      icon: BookOpen,
-      title: t('ministries.discipleship.title'),
-      description: t('ministries.discipleship.description'),
-      details: [
-        'ministries.discipleship.details.0',
-        'ministries.discipleship.details.1',
-        'ministries.discipleship.details.2',
-        'ministries.discipleship.details.3',
-      ],
-    },
-    {
-      icon: Users,
-      title: t('ministries.youth.title'),
-      description: t('ministries.youth.description'),
-      details: [
-        'ministries.youth.details.0',
-        'ministries.youth.details.1',
-        'ministries.youth.details.2',
-        'ministries.youth.details.3',
-      ],
-    },
-    {
-      icon: Baby,
-      title: t('ministries.children.title'),
-      description: t('ministries.children.description'),
-      details: [
-        'ministries.children.details.0',
-        'ministries.children.details.1',
-        'ministries.children.details.2',
-        'ministries.children.details.3',
-      ],
-    },
-    {
-      icon: Music,
-      title: t('ministries.worship.title'),
-      description: t('ministries.worship.description'),
-      details: [
-        'ministries.worship.details.0',
-        'ministries.worship.details.1',
-        'ministries.worship.details.2',
-        'ministries.worship.details.3',
-      ],
-    },
-    {
-      icon: Calendar,
-      title: t('ministries.women.title'),
-      description: t('ministries.women.description'),
-      details: [
-        'ministries.women.details.0',
-        'ministries.women.details.1',
-        'ministries.women.details.2',
-        'ministries.women.details.3',
-      ],
-    },
-    {
-      icon: Globe,
-      title: t('ministries.missions.title'),
-      description: t('ministries.missions.description'),
-      details: [
-        'ministries.missions.details.0',
-        'ministries.missions.details.1',
-        'ministries.missions.details.2',
-        'ministries.missions.details.3',
-      ],
-    },
-  ];
+  // Map icon names from the backend to Lucide icon components
+  const iconMap: { [key: string]: LucideIcon } = {
+    Heart,
+    HandHeart,
+    BookOpen,
+    Users,
+    Calendar,
+    Music,
+    Baby,
+    Globe,
+    Church,
+    Default: Heart, // Fallback icon
+  };
+
+  useEffect(() => {
+    const fetchMinistries = async () => {
+      try {
+        // Fetch all active ministries
+        const allMinistries = await getMinistries({ page_size: 100 });
+        setMinistries(allMinistries);
+      } catch (error) {
+        console.error("Failed to fetch ministries:", error);
+        toast.error(t('errors.fetchMinistries'));
+      }
+    };
+
+    fetchMinistries();
+  }, [t]);
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -133,44 +68,55 @@ const Ministries = () => {
       {/* Ministries Grid */}
       <section className="section-container">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {ministries.map((ministry, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className={`bg-card rounded-xl shadow-card border border-border hover:border-secondary/30 transition-all duration-300 overflow-hidden group max-w-max ${expandedIndex === index ? 'w-full' : ''}`}
-            >
-              <div className="p-6">
-                <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
-                  <ministry.icon className="w-7 h-7 text-secondary group-hover:text-secondary-foreground transition-colors" />
+          {ministries.map((ministry, index) => {
+            const MinistryIcon = iconMap[ministry.icon_name] || iconMap.Default;
+            const title = i18n.language === 'am' && ministry.title_am ? ministry.title_am : ministry.title;
+            const description = i18n.language === 'am' && ministry.description_am ? ministry.description_am : ministry.description;
+            const activities = ministry.activities as string[] || [];
+
+            return (
+              <motion.div
+                key={ministry.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-card rounded-xl shadow-card border border-border hover:border-secondary/30 transition-all duration-300 overflow-hidden group flex flex-col"
+              >
+                <div className="p-6 flex-grow">
+                  <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
+                    <MinistryIcon className="w-7 h-7 text-secondary group-hover:text-secondary-foreground transition-colors" />
+                  </div>
+                  <h3 className="font-heading text-xl font-bold text-primary mb-2">
+                    {title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    {description}
+                  </p>
+                  {expandedIndex === index && Array.isArray(activities) && (
+                    <ul className="space-y-2">
+                      {activities.map((activity, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                          <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0 mt-[7px]" />
+                          <span>{activity}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                <h3 className="font-heading text-xl font-bold text-primary mb-2">
-                  {ministry.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                  {ministry.description}
-                </p>
-                {expandedIndex === index && (
-                  ministry.details.map((detailKey, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-foreground">
-                      <span className="w-1.5 h-1.5 bg-secondary rounded-full flex-shrink-0" />
-                      {t(detailKey)}
-                    </li>
-                  ))
+                {Array.isArray(activities) && activities.length > 0 && (
+                  <div className="p-6 pt-0">
+                    <button
+                      onClick={() => toggleExpand(index)}
+                      className="text-secondary hover:underline text-sm font-semibold"
+                    >
+                      {expandedIndex === index ? t('common.readLess') : t('common.readMore')}
+                    </button>
+                  </div>
                 )}
-                {ministry.details.length > 0 && (
-                  <button
-                    onClick={() => toggleExpand(index)}
-                    className="text-secondary hover:underline"
-                  >
-                    {expandedIndex === index ? t('common.readLess') : t('common.readMore')}
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 
