@@ -172,10 +172,13 @@ export interface Event {
 export interface Gallery {
     id: string;
     title: string;
-    description: string;
-    image_url: string;
-    created_at: string;
-    updated_at: string;
+    title_am?: string;
+    description?: string;
+    alt_text: string;
+    media_type: 'image' | 'video';
+    src_url: string;
+    category: string;
+    event_date?: string;
 }
 
 export interface Testimonial {
