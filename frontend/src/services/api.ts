@@ -128,7 +128,7 @@ export const deleteMinistry = async (id: string): Promise<void> => {
     });
 };
 
-// ... (similar updates for other create/update functions if needed)
+//
 
 export interface Ministry {
     id: string;
@@ -154,13 +154,19 @@ export interface Ministry {
 export interface Event {
     id: string;
     title: string;
+    title_am?: string;
     description: string;
-    start_date: string;
-    end_date: string;
+    description_am?: string;
+    event_date: string; // Comes as string from JSON
+    start_time: string; // Comes as string from JSON
+    end_time?: string;
     location: string;
+    location_am?: string;
+    category: string;
     is_featured: boolean;
-    created_at: string;
-    updated_at: string;
+    is_recurring: boolean;
+    recurrence_pattern?: string;
+    image_url?: string;
 }
 
 export interface Gallery {
