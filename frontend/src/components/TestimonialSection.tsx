@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -13,78 +13,63 @@ import {
 } from '@/components/ui/dialog';
 import TestimonialForm from './TestimonialForm';
 import { useTranslation } from 'react-i18next';
+import { getTestimonials, Testimonial } from '@/services/api';
+import { getCache, setCache } from '@/lib/cache';
+import { Loader2 } from 'lucide-react';
 
-interface Testimonial {
-  id: string;
-  name: string;
-  title: string;
-  content: string;
-  category: string;
-  status: 'pending' | 'approved' | 'rejected';
-  created_at: string;
-  updated_at: string;
-}
+const CACHE_KEY = 'published_testimonials';
+const CACHE_TTL_MINUTES = 5;
 
 const categoryEmojis: Record<string, string> = {
   healing: '🙌',
   salvation: '✝️',
   provision: '💝',
   deliverance: '🕊️',
-  general: '✨',};
+  general: '✨',
+  Prayer: '🙏', // Added from backend schema
+  General: '✨', // Added from backend schema
+};
 
 const categoryColors: Record<string, string> = {
   healing: 'bg-blue-100 text-blue-800',
   salvation: 'bg-green-100 text-green-800',
   provision: 'bg-purple-100 text-purple-800',
   deliverance: 'bg-red-100 text-red-800',
-  general: 'bg-gray-100 text-gray-800'
+  general: 'bg-gray-100 text-gray-800',
+  Prayer: 'bg-yellow-100 text-yellow-800',
+  General: 'bg-gray-100 text-gray-800',
 };
 
-function getRandomTestimonials(testimonials: Testimonial[], count: number): Testimonial[] {
-  const shuffled = [...testimonials].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-}
-
-// Static testimonial data
-const staticTestimonials: Testimonial[] = [
-  {
-    id: '1',
-    name: 'Sarah M.',
-    title: 'Life-Changing Experience',
-    content: 'This ministry has completely transformed my spiritual journey. The teachings are powerful and life-changing.',
-    category: 'salvation',
-    status: 'approved',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: '2',
-    name: 'John D.',
-    title: 'Healing Testimony',
-    content: 'I was healed from chronic pain after the prayer team ministered to me. God is truly a healer!',
-    category: 'healing',
-    status: 'approved',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  },
-  {
-    id: '3',
-    name: 'Amina K.',
-    title: 'Financial Breakthrough',
-    content: 'After tithing faithfully, God has blessed my business beyond what I could imagine.',
-    category: 'provision',
-    status: 'approved',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  }
-];
-
 export default function TestimonialSection() {
-  const [testimonials] = useState<Testimonial[]>(staticTestimonials);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { t } = useTranslation();
-  const isLoading = false;
-  const error = null;
+  const [isLoading, setIsLoading] = useState(true);
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    const fetchPublishedTestimonials = async () => {
+      const cached = getCache<Testimonial[]>(CACHE_KEY);
+      if (cached) {
+        setTestimonials(cached);
+        setIsLoading(false);
+      }
+
+      try {
+        const fresh = await getTestimonials(); // Backend filters for approved for unauthenticated users
+        setTestimonials(fresh);
+        setCache(CACHE_KEY, fresh, CACHE_TTL_MINUTES);
+      } catch (error) {
+        console.error("Failed to fetch testimonials:", error);
+        if (!cached) {
+          toast.error(t('errors.fetchTestimonials'));
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPublishedTestimonials();
+  }, [t]);
 
   if (isLoading) {
     return (
@@ -112,22 +97,12 @@ export default function TestimonialSection() {
     );
   }
 
-  if (error) {
-    return (
-      <section className="py-16 bg-white" id="testimonials">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-red-500">{error}</p>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section className="py-16 bg-white" id="testimonials">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-4">Testimonies of Faith</h2>
+        <h2 className="text-3xl font-bold mb-4">{t('testimonial.sectionTitle')}</h2>
         <p className="text-xl text-muted-foreground mb-12">
-          Stories of God's Faithfulness in Our Lives
+          {t('testimonial.sectionSubtitle')}
         </p>
 
         {testimonials.length > 0 ? (
@@ -140,12 +115,17 @@ export default function TestimonialSection() {
                 <div className="text-4xl mb-4">
                   {categoryEmojis[testimonial.category] || '✨'}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{testimonial.title}</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  {i18n.language === 'am' && testimonial.title ? testimonial.title : testimonial.title}
+                </h3>
                 <p className="text-muted-foreground mb-4 italic flex-grow">
-                  "{testimonial.content}"
+                  "{i18n.language === 'am' && testimonial.content ? testimonial.content : testimonial.content}"
                 </p>
                 <div>
                   <p className="text-right text-sm text-gray-500">— {testimonial.name}</p>
+                  {testimonial.location && (
+                    <p className="text-right text-xs text-gray-400">{testimonial.location}</p>
+                  )}
                   <span
                     className={`inline-block mt-2 text-xs px-2 py-1 rounded-full ${categoryColors[testimonial.category] || 'bg-gray-100 text-gray-800'}`}
                   >
@@ -157,13 +137,13 @@ export default function TestimonialSection() {
           </div>
         ) : (
           <div className="py-12">
-            <p className="text-muted-foreground">No testimonies to display. Check back later!</p>
+            <p className="text-muted-foreground">{t('testimonial.noTestimonials')}</p>
           </div>
         )}
 
         <div className="mt-12">
           <p className="text-lg text-muted-foreground">
-            God is doing amazing things in our community. Come and see for yourself!
+            {t('testimonial.ctaText')}
           </p>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
