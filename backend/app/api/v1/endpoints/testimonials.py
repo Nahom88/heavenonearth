@@ -4,7 +4,7 @@ Heaven on Earth CMS Backend - Testimonial Endpoints
 Handles testimonial submissions and management.
 """
 
-from typing import Annotated, Optional, List
+from typing import Annotated, Optional, List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
@@ -30,11 +30,10 @@ from app.schemas.testimonial import (
 )
 from app.schemas.common import MessageResponse, PaginatedResponse
 
-
 router = APIRouter(prefix="/testimonials", tags=["Testimonials"])
 
 
-@router.get("", response_model=PaginatedResponse[TestimonialPublic])
+@router.get("", response_model=PaginatedResponse[Union[TestimonialResponse, TestimonialPublic]]) # Use Union
 async def list_testimonials(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
@@ -53,7 +52,10 @@ async def list_testimonials(
     """
     skip = (page - 1) * page_size
     
-    # Only admins can see non-approved testimonials
+    # Determine which response model to use for items
+    response_item_model = TestimonialResponse if current_admin else TestimonialPublic
+    
+    # Only unauthenticated users see approved testimonials
     if not current_admin:
         status_filter = "approved"
     
@@ -67,6 +69,7 @@ async def list_testimonials(
         search=search,
     )
     
+    # Create PaginatedResponse with the appropriate item model
     return PaginatedResponse.create(
         items=testimonials,
         total=total,
