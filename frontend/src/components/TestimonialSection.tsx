@@ -144,7 +144,7 @@ export default function TestimonialSection() {
 
         <div className="mt-12">
           {/* The text for 'testimonial.ctaText' can be modified in your i18n/en.json and i18n/am.json files */}
-          <p className="text-lg text-muted-foreground">
+          <p className="text-xl font-semibold text-primary mb-4">
             {t('testimonial.ctaText')}
           </p>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
