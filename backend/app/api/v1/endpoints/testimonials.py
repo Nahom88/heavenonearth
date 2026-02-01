@@ -55,9 +55,12 @@ async def list_testimonials(
     # Determine which response model to use for items
     response_item_model = TestimonialResponse if current_admin else TestimonialPublic
     
-    # Only unauthenticated users see approved testimonials
+    # Only unauthenticated users see approved and published testimonials
     if not current_admin:
         status_filter = "approved"
+        published_only_filter = True
+    else:
+        published_only_filter = None # Admins can see unpublished/unapproved
     
     testimonials, total = await get_testimonials(
         db,
@@ -67,6 +70,7 @@ async def list_testimonials(
         category=category,
         is_featured=is_featured,
         search=search,
+        published_only=published_only_filter, # Pass the new filter
     )
     
     # Create PaginatedResponse with the appropriate item model
