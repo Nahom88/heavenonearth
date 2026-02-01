@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Send, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { createTestimonial } from '@/services/api'; 
 
 interface TestimonialFormProps {
   onSuccess?: () => void;
@@ -42,22 +43,12 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
         return;
       }
 
-      
-      
-      const response = await fetch('/api/v1/testimonials', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to submit testimonial');
-      }
+      // Use the createTestimonial API function
+      await createTestimonial(formData);
 
       // Handle success
-      toast.success('Thank you for sharing your testimony! It will be reviewed and posted soon.');
+      toast.success(t('testimonial.submitSuccess'));
+      setIsSubmitted(true); // Set submitted state to show success message
       // Reset form
       setFormData({
         name: '',
@@ -71,7 +62,7 @@ const TestimonialForm = ({ onSuccess }: TestimonialFormProps) => {
       onSuccess?.();
     } catch (error) {
       console.error('Error submitting testimonial:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to submit testimonial. Please try again.');
+      toast.error(error instanceof Error ? error.message : t('testimonial.submitError'));
     } finally {
       setIsSubmitting(false);
     }
