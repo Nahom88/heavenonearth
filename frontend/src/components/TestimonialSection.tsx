@@ -100,6 +100,7 @@ export default function TestimonialSection() {
   return (
     <section className="py-16 bg-white" id="testimonials">
       <div className="container mx-auto px-4 text-center">
+        {/* Translation keys for these can be found in i18n/en.json and i18n/am.json */}
         <h2 className="text-3xl font-bold mb-4">{t('testimonial.sectionTitle')}</h2>
         <p className="text-xl text-muted-foreground mb-12">
           {t('testimonial.sectionSubtitle')}
@@ -110,7 +111,7 @@ export default function TestimonialSection() {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 h-full flex flex-col"
+                className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 h-full flex flex-col"
               >
                 <div className="text-4xl mb-4">
                   {categoryEmojis[testimonial.category] || '✨'}
@@ -142,6 +143,7 @@ export default function TestimonialSection() {
         )}
 
         <div className="mt-12">
+          {/* The text for 'testimonial.ctaText' can be modified in your i18n/en.json and i18n/am.json files */}
           <p className="text-lg text-muted-foreground">
             {t('testimonial.ctaText')}
           </p>
