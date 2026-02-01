@@ -26,6 +26,7 @@ from app.schemas.testimonial import (
     TestimonialCreate, 
     TestimonialUpdate,
     TestimonialReview,
+    TestimonialPublic,
 )
 from app.schemas.common import MessageResponse, PaginatedResponse
 
@@ -33,7 +34,7 @@ from app.schemas.common import MessageResponse, PaginatedResponse
 router = APIRouter(prefix="/testimonials", tags=["Testimonials"])
 
 
-@router.get("", response_model=PaginatedResponse[TestimonialResponse])
+@router.get("", response_model=PaginatedResponse[TestimonialPublic])
 async def list_testimonials(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
