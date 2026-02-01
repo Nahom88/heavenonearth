@@ -9,84 +9,65 @@ import MinistryCard from '@/components/MinistryCard';
 import EventCard from '@/components/EventCard';
 import TestimonialSection from '@/components/TestimonialSection';
 import SeoHead from '@/components/SeoHead';
-import { getMinistries, Ministry } from '@/services/api';
+import { getMinistries, Ministry, getEvents, Event } from '@/services/api';
 import { toast } from 'sonner';
 import { getCache, setCache } from '@/lib/cache';
+import { format } from 'date-fns';
 
-const CACHE_KEY = 'featured_ministries';
-const CACHE_TTL_MINUTES = 5; 
+const MINISTRIES_CACHE_KEY = 'featured_ministries';
+const EVENTS_CACHE_KEY = 'featured_events';
+const CACHE_TTL_MINUTES = 5;
 
 const Home = () => {
   const { t, i18n } = useTranslation();
   const [ministries, setMinistries] = useState<Ministry[]>([]);
+  const [featuredEvents, setFeaturedEvents] = useState<Event[]>([]);
 
-  // Define SEO properties for the Home page
   const homeTitle = t('hero.title');
   const homeDescription = t('hero.subtitle');
   const homeCanonicalUrl = 'https://heavenonearth.et/';
 
-  // Map icon names from the backend to Lucide icon components
   const iconMap: { [key: string]: LucideIcon } = {
-    Heart,
-    HandHeart,
-    BookOpen,
-    Users,
-    Calendar,
-    Church,
-    Default: Heart, // Fallback icon
+    Heart, HandHeart, BookOpen, Users, Calendar, Church, Default: Heart,
   };
 
   useEffect(() => {
     const fetchMinistries = async () => {
-      // 1. Try to load from cache first
-      const cachedMinistries = getCache<Ministry[]>(CACHE_KEY);
-      if (cachedMinistries) {
-        setMinistries(cachedMinistries);
-      }
-
-      // 2. Always fetch from the network to get fresh data
+      const cached = getCache<Ministry[]>(MINISTRIES_CACHE_KEY);
+      if (cached) setMinistries(cached);
       try {
-        const featuredMinistries = await getMinistries({ is_featured: true, page_size: 5 });
-        
-        // 3. Update state and cache
-        setMinistries(featuredMinistries);
-        setCache(CACHE_KEY, featuredMinistries, CACHE_TTL_MINUTES);
-
+        const fresh = await getMinistries({ is_featured: true, page_size: 5 });
+        setMinistries(fresh);
+        setCache(MINISTRIES_CACHE_KEY, fresh, CACHE_TTL_MINUTES);
       } catch (error) {
         console.error("Failed to fetch ministries:", error);
-        // Only show error if there's no cached data to display
-        if (!cachedMinistries) {
-          toast.error(t('errors.fetchMinistries'));
-        }
+        if (!cached) toast.error(t('errors.fetchMinistries'));
+      }
+    };
+
+    const fetchEvents = async () => {
+      const cached = getCache<Event[]>(EVENTS_CACHE_KEY);
+      if (cached) setFeaturedEvents(cached);
+      try {
+        const fresh = await getEvents({ is_featured: true, page_size: 3 });
+        setFeaturedEvents(fresh);
+        setCache(EVENTS_CACHE_KEY, fresh, CACHE_TTL_MINUTES);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+        if (!cached) toast.error(t('errors.fetchEvents'));
       }
     };
 
     fetchMinistries();
+    fetchEvents();
   }, [t]);
 
-  const featuredEvents = [
-    {
-      title: t('homePage.featuredEvents.sundayWorship.title'),
-      date: t('homePage.featuredEvents.sundayWorship.date'),
-      time: t('homePage.featuredEvents.sundayWorship.time'),
-      location: t('homePage.featuredEvents.sundayWorship.location'),
-      description: t('homePage.featuredEvents.sundayWorship.description'),
-    },
-    {
-      title: t('homePage.featuredEvents.wednesdayPrayer.title'),
-      date: t('homePage.featuredEvents.wednesdayPrayer.date'),
-      time: t('homePage.featuredEvents.wednesdayPrayer.time'),
-      location: t('homePage.featuredEvents.wednesdayPrayer.location'),
-      description: t('homePage.featuredEvents.wednesdayPrayer.description'),
-    },
-    {
-      title: t('homePage.featuredEvents.fridayYouth.title'),
-      date: t('homePage.featuredEvents.fridayYouth.date'),
-      time: t('homePage.featuredEvents.fridayYouth.time'),
-      location: t('homePage.featuredEvents.fridayYouth.location'),
-      description: t('homePage.featuredEvents.fridayYouth.description'),
-    },
-  ];
+  const formatEventTime = (timeStr: string) => {
+    const [hours, minutes] = timeStr.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    return format(date, 'p'); // e.g., 10:00 AM
+  };
 
   return (
     <>
@@ -267,13 +248,23 @@ const Home = () => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {featuredEvents.map((event, index) => (
-                <EventCard
-                  key={event.title}
-                  {...event}
-                  delay={index * 0.1}
-                />
-              ))}
+              {featuredEvents.map((event, index) => {
+                const title = i18n.language === 'am' && event.title_am ? event.title_am : event.title;
+                const location = i18n.language === 'am' && event.location_am ? event.location_am : event.location;
+                const description = i18n.language === 'am' && event.description_am ? event.description_am : event.description;
+
+                return (
+                  <EventCard
+                    key={event.id}
+                    title={title}
+                    date={format(new Date(event.event_date), 'E, MMM d')}
+                    time={formatEventTime(event.start_time)}
+                    location={location}
+                    description={description}
+                    delay={index * 0.1}
+                  />
+                );
+              })}
             </div>
 
             <div className="text-center mt-10">
