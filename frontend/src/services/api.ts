@@ -181,13 +181,22 @@ export interface Gallery {
     event_date?: string;
 }
 
+export const createTestimonial = async (testimonial: Partial<Testimonial>): Promise<Testimonial> => {
+    return apiRequest("/testimonials", {
+        method: "POST",
+        body: JSON.stringify(testimonial),
+    });
+};
+
 export interface Testimonial {
     id: string;
     name: string;
-    message: string;
-    is_approved: boolean;
-    created_at: string;
-    updated_at: string;
+    location?: string;
+    title?: string;
+    content: string;
+    photo_url?: string;
+    category: string;
+    published_at?: string;
 }
 
 export interface PrayerRequest {
