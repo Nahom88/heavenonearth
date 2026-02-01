@@ -89,7 +89,7 @@ class GalleryItemResponse(GalleryItemBase):
     """Schema for gallery item response."""
     
     id: UUID
-    src_url: HttpUrl
+    src_url: str
     file_name: Optional[str] = None
     file_size: Optional[int] = None
     mime_type: Optional[str] = None
@@ -121,7 +121,7 @@ class GalleryItemPublic(BaseModel):
     description: Optional[str] = None
     alt_text: str
     media_type: MediaType
-    src_url: HttpUrl
+    src_url: str
     category: Category
     event_date: Optional[datetime] = None
     
