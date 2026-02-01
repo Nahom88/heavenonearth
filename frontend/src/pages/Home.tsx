@@ -1,29 +1,51 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Heart, Users, Calendar, BookOpen, HandHeart } from 'lucide-react';
+import { ArrowRight, Heart, Users, Calendar, BookOpen, HandHeart, LucideIcon, Church } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import heroBg from '@/assets/hero-bg.jpg';
 import logo from '@/assets/logo.png';
 import MinistryCard from '@/components/MinistryCard';
 import EventCard from '@/components/EventCard';
 import TestimonialSection from '@/components/TestimonialSection';
-import SeoHead from '@/components/SeoHead'; // Import SeoHead
+import SeoHead from '@/components/SeoHead';
+import { getMinistries, Ministry } from '@/services/api';
+import { toast } from 'sonner';
 
 const Home = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [ministries, setMinistries] = useState<Ministry[]>([]);
 
   // Define SEO properties for the Home page
-  const homeTitle = t('hero.title'); // Using translation for title
-  const homeDescription = t('hero.subtitle'); // Using translation for description
-  const homeCanonicalUrl = 'https://heavenonearth.et/'; // Replace with actual domain
+  const homeTitle = t('hero.title');
+  const homeDescription = t('hero.subtitle');
+  const homeCanonicalUrl = 'https://heavenonearth.et/';
 
-  const ministries = [
-    { icon: Heart, key: 'prayer' },
-    { icon: HandHeart, key: 'outreach' },
-    { icon: BookOpen, key: 'discipleship' },
-    { icon: Users, key: 'youth' },
-    { icon: Calendar, key: 'children' },
-  ];
+  // Map icon names from the backend to Lucide icon components
+  const iconMap: { [key: string]: LucideIcon } = {
+    Heart,
+    HandHeart,
+    BookOpen,
+    Users,
+    Calendar,
+    Church,
+    Default: Heart, // Fallback icon
+  };
+
+  useEffect(() => {
+    const fetchMinistries = async () => {
+      try {
+        // Fetch only featured ministries for the home page
+        const featuredMinistries = await getMinistries({ is_featured: true, page_size: 5 });
+        setMinistries(featuredMinistries);
+      } catch (error) {
+        console.error("Failed to fetch ministries:", error);
+        toast.error(t('errors.fetchMinistries'));
+      }
+    };
+
+    fetchMinistries();
+  }, [t]);
 
   const featuredEvents = [
     {
@@ -55,10 +77,9 @@ const Home = () => {
         title={homeTitle}
         description={homeDescription}
         canonicalUrl={homeCanonicalUrl}
-        // You can add more Open Graph and Twitter Card properties here if needed
         ogTitle={homeTitle}
         ogDescription={homeDescription}
-        ogImage="https://heavenonearth.et/images/og-image.jpg" // Example image
+        ogImage="https://heavenonearth.et/images/og-image.jpg"
       />
       <div className="min-h-screen">
         {/* Hero Section */}
@@ -186,15 +207,21 @@ const Home = () => {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {ministries.map((ministry, index) => (
-              <MinistryCard
-                key={ministry.key}
-                icon={ministry.icon}
-                title={t(`ministries.${ministry.key}.title`)}
-                description={t(`ministries.${ministry.key}.description`)}
-                delay={index * 0.1}
-              />
-            ))}
+            {ministries.map((ministry, index) => {
+              const MinistryIcon = iconMap[ministry.icon_name] || iconMap.Default;
+              const title = i18n.language === 'am' && ministry.title_am ? ministry.title_am : ministry.title;
+              const description = i18n.language === 'am' && ministry.description_am ? ministry.description_am : ministry.description;
+              
+              return (
+                <MinistryCard
+                  key={ministry.id}
+                  icon={MinistryIcon}
+                  title={title}
+                  description={description}
+                  delay={index * 0.1}
+                />
+              );
+            })}
           </div>
 
           <div className="text-center mt-10">
