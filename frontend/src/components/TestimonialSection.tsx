@@ -119,7 +119,7 @@ export default function TestimonialSection() {
                 <h3 className="text-xl font-semibold mb-2">
                   {i18n.language === 'am' && testimonial.title ? testimonial.title : testimonial.title}
                 </h3>
-                <p className="text-muted-foreground mb-4 italic flex-grow">
+                <p className="text-muted-foreground mb-4 italic flex-grow line-clamp-3">
                   "{i18n.language === 'am' && testimonial.content ? testimonial.content : testimonial.content}"
                 </p>
                 <div>
