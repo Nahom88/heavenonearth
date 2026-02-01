@@ -46,6 +46,7 @@ export const apiRequest = async <T>(endpoint: string, options: FetchOptions = {}
 
 export const validateToken = async (): Promise<boolean> => {
     try {
+        // This path is correct because API_URL is /api/v1 and the router is /admins/me
         await apiRequest("/admins/me");
         return true;
     } catch (error) {
@@ -66,62 +67,63 @@ const buildQueryString = (filters: GetItemsFilters) => {
     if (filters.page_size) params.append("page_size", filters.page_size.toString());
     if (filters.is_featured !== undefined) params.append("is_featured", String(filters.is_featured));
     if (filters.search) params.append("search", filters.search);
-    return params.toString();
+    const queryString = params.toString();
+    return queryString ? `?${queryString}` : "";
 };
 
 export const getMinistries = async (filters: GetItemsFilters = {}): Promise<Ministry[]> => {
     const queryString = buildQueryString(filters);
-    const response = await apiRequest<{ items: Ministry[] }>(`/api/v1/ministries?${queryString}`);
+    const response = await apiRequest<{ items: Ministry[] }>(`/ministries${queryString}`);
     return response.items;
 };
 
 export const getEvents = async (filters: GetItemsFilters = {}): Promise<Event[]> => {
     const queryString = buildQueryString(filters);
-    const response = await apiRequest<{ items: Event[] }>(`/api/v1/events?${queryString}`);
+    const response = await apiRequest<{ items: Event[] }>(`/events${queryString}`);
     return response.items;
 };
 
 export const getGallery = async (filters: GetItemsFilters = {}): Promise<Gallery[]> => {
     const queryString = buildQueryString(filters);
-    const response = await apiRequest<{ items: Gallery[] }>(`/api/v1/gallery?${queryString}`);
+    const response = await apiRequest<{ items: Gallery[] }>(`/gallery${queryString}`);
     return response.items;
 };
 
 export const getTestimonials = async (filters: GetItemsFilters = {}): Promise<Testimonial[]> => {
     const queryString = buildQueryString(filters);
-    const response = await apiRequest<{ items: Testimonial[] }>(`/api/v1/testimonials?${queryString}`);
+    const response = await apiRequest<{ items: Testimonial[] }>(`/testimonials${queryString}`);
     return response.items;
 };
 
 export const getPrayerRequests = async (filters: GetItemsFilters = {}): Promise<PrayerRequest[]> => {
     const queryString = buildQueryString(filters);
-    const response = await apiRequest<{ items: PrayerRequest[] }>(`/api/v1/prayer-requests?${queryString}`);
+    const response = await apiRequest<{ items: PrayerRequest[] }>(`/prayer-requests${queryString}`);
     return response.items;
 };
 
 export const getPartnerships = async (filters: GetItemsFilters = {}): Promise<Partnership[]> => {
     const queryString = buildQueryString(filters);
-    const response = await apiRequest<{ items: Partnership[] }>(`/api/v1/partnerships?${queryString}`);
+    const response = await apiRequest<{ items: Partnership[] }>(`/partnerships${queryString}`);
     return response.items;
 };
 
 
 export const createMinistry = async (ministry: Partial<Ministry>): Promise<Ministry> => {
-    return apiRequest("/api/v1/ministries", {
+    return apiRequest("/ministries", {
         method: "POST",
         body: JSON.stringify(ministry),
     });
 };
 
 export const updateMinistry = async (id: string, ministry: Partial<Ministry>): Promise<Ministry> => {
-    return apiRequest(`/api/v1/ministries/${id}`, {
+    return apiRequest(`/ministries/${id}`, {
         method: "PUT",
         body: JSON.stringify(ministry),
     });
 };
 
 export const deleteMinistry = async (id: string): Promise<void> => {
-    await apiRequest(`/api/v1/ministries/${id}`, {
+    await apiRequest(`/ministries/${id}`, {
         method: "DELETE",
     });
 };
