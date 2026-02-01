@@ -27,6 +27,7 @@ from app.schemas.gallery import (
     GalleryItemCreate, 
     GalleryItemUpdate,
     GalleryItemFileUpload,
+    GalleryItemPublic,
     MediaType,
     Category
 )
@@ -37,7 +38,7 @@ from app.utils.supabase import supabase_storage
 router = APIRouter(prefix="/gallery", tags=["Gallery"])
 
 
-@router.get("", response_model=PaginatedResponse[GalleryItemResponse])
+@router.get("", response_model=PaginatedResponse[GalleryItemPublic])
 async def list_gallery_items(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
