@@ -1,29 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Clock } from 'lucide-react';
+import { format } from 'date-fns';
 import EventCard from '@/components/EventCard';
-import { serviceTimes, upcomingEvents, hero, eventCategories } from './data';
+import { getEvents, Event } from '@/services/api';
+import { getCache, setCache } from '@/lib/cache';
+import { toast } from 'sonner';
+import { serviceTimes } from './data'; // Keep service times as they might be static
 
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  time: string;
-  location: string;
-  description: string;
-  image: string;
-  featured: boolean;
-  category?: string;
-}
+const CACHE_KEY = 'all_events';
+const CACHE_TTL_MINUTES = 15;
+
+// Static categories matching the backend schema
+const eventCategories = [
+  { id: 'all', name: 'All' },
+  { id: 'worship', name: 'Worship' },
+  { id: 'prayer', name: 'Prayer' },
+  { id: 'biblestudy', name: 'Bible Study' },
+  { id: 'youth', name: 'Youth' },
+  { id: 'special', name: 'Special' },
+];
 
 const Events = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [events, setEvents] = useState<Event[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
 
-  const filteredEvents = activeCategory === 'all' 
-    ? upcomingEvents 
-    : upcomingEvents.filter((event: Event) => event.category === activeCategory);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const cached = getCache<Event[]>(CACHE_KEY);
+      if (cached) {
+        setEvents(cached);
+      }
+      try {
+        const fresh = await getEvents({ page_size: 100 });
+        setEvents(fresh);
+        setCache(CACHE_KEY, fresh, CACHE_TTL_MINUTES);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+        if (!cached) {
+          toast.error(t('errors.fetchEvents'));
+        }
+      }
+    };
+    fetchEvents();
+  }, [t]);
+
+  const filteredEvents = activeCategory === 'all'
+    ? events
+    : events.filter((event) => event.category === activeCategory);
+
+  const formatEventTime = (timeStr: string) => {
+    if (!timeStr) return '';
+    const [hours, minutes] = timeStr.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    return format(date, 'p'); // e.g., 10:00 AM
+  };
 
   return (
     <div className="min-h-screen">
@@ -95,7 +129,7 @@ const Events = () => {
           >
             <div className="flex flex-col md:flex-row justify-between items-center mb-8">
               <h2 className="text-3xl font-bold">{t('events.upcomingEvents')}</h2>
-              <div className="flex gap-2 mt-4 md:mt-0">
+              <div className="flex gap-2 mt-4 md:mt-0 flex-wrap justify-center">
                 {eventCategories.map((category) => (
                   <button
                     key={category.id}
@@ -113,26 +147,31 @@ const Events = () => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEvents.map((event, index) => (
-                <motion.div
-                  key={event.id || index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <EventCard 
+              {filteredEvents.map((event, index) => {
+                const title = i18n.language === 'am' && event.title_am ? event.title_am : event.title;
+                const location = i18n.language === 'am' && event.location_am ? event.location_am : event.location;
+                const description = i18n.language === 'am' && event.description_am ? event.description_am : event.description;
+
+                return (
+                  <motion.div
                     key={event.id}
-                    title={t(`events.${event.translationKey}.title`)}
-                    date={t(`events.${event.translationKey}.date`)}
-                    time={t(`events.${event.translationKey}.time`)}
-                    location={t(`events.${event.translationKey}.location`)}
-                    description={t(`events.${event.translationKey}.description`)}
-                    image={event.image}
-                    featured={event.featured}
-                  />
-                </motion.div>
-              ))}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <EventCard
+                      title={title}
+                      date={format(new Date(event.event_date), 'E, MMM d')}
+                      time={formatEventTime(event.start_time)}
+                      location={location}
+                      description={description}
+                      image={event.image_url}
+                      featured={event.is_featured}
+                    />
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </div>

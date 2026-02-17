@@ -1,32 +1,16 @@
-// Common types used across the application
+import { LucideIcon } from 'lucide-react';
 
 export interface Ministry {
-  icon: React.ComponentType<{ className?: string }>;
-  key: string;
-  title?: string;
-  description?: string;
-}
-
-export interface Event {
-  id?: string;
+  id: string; // UUID from backend will be string in frontend
   title: string;
-  date: string;
-  time: string;
-  location: string;
+  title_am?: string;
   description: string;
-  image?: string;
+  description_am?: string;
+  icon_name: string; // This will be the string name of the icon, not the component itself
+  ministry_key: string;
+  image_url?: string;
+  activities?: Record<string, any>; // Using Record<string, any> for Dict[str, Any]
+  schedule?: Record<string, any>; // Using Record<string, any> for Dict[str, any>
 }
 
-export interface NavLink {
-  path: string;
-  label: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  children?: NavLink[];
-}
-
-export interface SectionProps {
-  id?: string;
-  className?: string;
-  children: React.ReactNode;
-  variant?: 'default' | 'primary' | 'secondary';
-}
+// Existing types...

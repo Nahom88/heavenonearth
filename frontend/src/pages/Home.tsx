@@ -1,53 +1,73 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Heart, Users, Calendar, BookOpen, HandHeart } from 'lucide-react';
+import { ArrowRight, Heart, Users, Calendar, BookOpen, HandHeart, LucideIcon, Church } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import heroBg from '@/assets/hero-bg.jpg';
 import logo from '@/assets/logo.png';
 import MinistryCard from '@/components/MinistryCard';
 import EventCard from '@/components/EventCard';
 import TestimonialSection from '@/components/TestimonialSection';
-import SeoHead from '@/components/SeoHead'; // Import SeoHead
+import SeoHead from '@/components/SeoHead';
+import { getMinistries, Ministry, getEvents, Event } from '@/services/api';
+import { toast } from 'sonner';
+import { getCache, setCache } from '@/lib/cache';
+import { format } from 'date-fns';
+
+const MINISTRIES_CACHE_KEY = 'featured_ministries';
+const EVENTS_CACHE_KEY = 'featured_events';
+const CACHE_TTL_MINUTES = 5;
 
 const Home = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [ministries, setMinistries] = useState<Ministry[]>([]);
+  const [featuredEvents, setFeaturedEvents] = useState<Event[]>([]);
 
-  // Define SEO properties for the Home page
-  const homeTitle = t('hero.title'); // Using translation for title
-  const homeDescription = t('hero.subtitle'); // Using translation for description
-  const homeCanonicalUrl = 'https://heavenonearth.et/'; // Replace with actual domain
+  const homeTitle = t('hero.title');
+  const homeDescription = t('hero.subtitle');
+  const homeCanonicalUrl = 'https://heavenonearth.et/';
 
-  const ministries = [
-    { icon: Heart, key: 'prayer' },
-    { icon: HandHeart, key: 'outreach' },
-    { icon: BookOpen, key: 'discipleship' },
-    { icon: Users, key: 'youth' },
-    { icon: Calendar, key: 'children' },
-  ];
+  const iconMap: { [key: string]: LucideIcon } = {
+    Heart, HandHeart, BookOpen, Users, Calendar, Church, Default: Heart,
+  };
 
-  const featuredEvents = [
-    {
-      title: t('homePage.featuredEvents.sundayWorship.title'),
-      date: t('homePage.featuredEvents.sundayWorship.date'),
-      time: t('homePage.featuredEvents.sundayWorship.time'),
-      location: t('homePage.featuredEvents.sundayWorship.location'),
-      description: t('homePage.featuredEvents.sundayWorship.description'),
-    },
-    {
-      title: t('homePage.featuredEvents.wednesdayPrayer.title'),
-      date: t('homePage.featuredEvents.wednesdayPrayer.date'),
-      time: t('homePage.featuredEvents.wednesdayPrayer.time'),
-      location: t('homePage.featuredEvents.wednesdayPrayer.location'),
-      description: t('homePage.featuredEvents.wednesdayPrayer.description'),
-    },
-    {
-      title: t('homePage.featuredEvents.fridayYouth.title'),
-      date: t('homePage.featuredEvents.fridayYouth.date'),
-      time: t('homePage.featuredEvents.fridayYouth.time'),
-      location: t('homePage.featuredEvents.fridayYouth.location'),
-      description: t('homePage.featuredEvents.fridayYouth.description'),
-    },
-  ];
+  useEffect(() => {
+    const fetchMinistries = async () => {
+      const cached = getCache<Ministry[]>(MINISTRIES_CACHE_KEY);
+      if (cached) setMinistries(cached);
+      try {
+        const fresh = await getMinistries({ is_featured: true, page_size: 5 });
+        setMinistries(fresh);
+        setCache(MINISTRIES_CACHE_KEY, fresh, CACHE_TTL_MINUTES);
+      } catch (error) {
+        console.error("Failed to fetch ministries:", error);
+        if (!cached) toast.error(t('errors.fetchMinistries'));
+      }
+    };
+
+    const fetchEvents = async () => {
+      const cached = getCache<Event[]>(EVENTS_CACHE_KEY);
+      if (cached) setFeaturedEvents(cached);
+      try {
+        const fresh = await getEvents({ is_featured: true, page_size: 3 });
+        setFeaturedEvents(fresh);
+        setCache(EVENTS_CACHE_KEY, fresh, CACHE_TTL_MINUTES);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+        if (!cached) toast.error(t('errors.fetchEvents'));
+      }
+    };
+
+    fetchMinistries();
+    fetchEvents();
+  }, [t]);
+
+  const formatEventTime = (timeStr: string) => {
+    const [hours, minutes] = timeStr.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+    return format(date, 'p'); // e.g., 10:00 AM
+  };
 
   return (
     <>
@@ -55,10 +75,9 @@ const Home = () => {
         title={homeTitle}
         description={homeDescription}
         canonicalUrl={homeCanonicalUrl}
-        // You can add more Open Graph and Twitter Card properties here if needed
         ogTitle={homeTitle}
         ogDescription={homeDescription}
-        ogImage="https://heavenonearth.et/images/og-image.jpg" // Example image
+        ogImage="https://heavenonearth.et/images/og-image.jpg"
       />
       <div className="min-h-screen">
         {/* Hero Section */}
@@ -186,15 +205,21 @@ const Home = () => {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {ministries.map((ministry, index) => (
-              <MinistryCard
-                key={ministry.key}
-                icon={ministry.icon}
-                title={t(`ministries.${ministry.key}.title`)}
-                description={t(`ministries.${ministry.key}.description`)}
-                delay={index * 0.1}
-              />
-            ))}
+            {ministries.map((ministry, index) => {
+              const MinistryIcon = iconMap[ministry.icon_name] || iconMap.Default;
+              const title = i18n.language === 'am' && ministry.title_am ? ministry.title_am : ministry.title;
+              const description = i18n.language === 'am' && ministry.description_am ? ministry.description_am : ministry.description;
+              
+              return (
+                <MinistryCard
+                  key={ministry.id}
+                  icon={MinistryIcon}
+                  title={title}
+                  description={description}
+                  delay={index * 0.1}
+                />
+              );
+            })}
           </div>
 
           <div className="text-center mt-10">
@@ -223,13 +248,23 @@ const Home = () => {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              {featuredEvents.map((event, index) => (
-                <EventCard
-                  key={event.title}
-                  {...event}
-                  delay={index * 0.1}
-                />
-              ))}
+              {featuredEvents.map((event, index) => {
+                const title = i18n.language === 'am' && event.title_am ? event.title_am : event.title;
+                const location = i18n.language === 'am' && event.location_am ? event.location_am : event.location;
+                const description = i18n.language === 'am' && event.description_am ? event.description_am : event.description;
+
+                return (
+                  <EventCard
+                    key={event.id}
+                    title={title}
+                    date={format(new Date(event.event_date), 'E, MMM d')}
+                    time={formatEventTime(event.start_time)}
+                    location={location}
+                    description={description}
+                    delay={index * 0.1}
+                  />
+                );
+              })}
             </div>
 
             <div className="text-center mt-10">

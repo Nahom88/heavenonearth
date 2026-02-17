@@ -30,6 +30,7 @@ async def get_testimonials(
     category: Optional[str] = None,
     is_featured: Optional[bool] = None,
     search: Optional[str] = None,
+    published_only: Optional[bool] = None, # New parameter
 ) -> Tuple[List[Testimonial], int]:
     """
     Get a list of testimonials with pagination and filtering.
@@ -61,6 +62,13 @@ async def get_testimonials(
         )
         query = query.where(search_filter)
         count_query = count_query.where(search_filter)
+        
+    if published_only: # Apply published_only filter
+        query = query.where(Testimonial.published_at.isnot(None))
+        count_query = count_query.where(Testimonial.published_at.isnot(None))
+    
+    # Print the SQL query for debugging
+    print(f"Executing testimonial query: {query.compile(db.bind, compile_kwargs={'literal_binds': True})}")
     
     # Get total count
     total_result = await db.execute(count_query)
@@ -70,6 +78,10 @@ async def get_testimonials(
     query = query.order_by(Testimonial.display_order.asc(), Testimonial.created_at.desc()).offset(skip).limit(limit)
     result = await db.execute(query)
     testimonials = list(result.scalars().all())
+    
+    print(f"Fetched {len(testimonials)} testimonials (total: {total})")
+    for t in testimonials:
+        print(f"  ID: {t.id}, Name: {t.name}, Status: {t.status}, Published At: {t.published_at}")
     
     return testimonials, total
 

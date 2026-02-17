@@ -130,7 +130,7 @@ export default function AdminTestimonials() {
                                     <TableRow key={t.id}>
                                         <TableCell className="font-medium">{t.name}</TableCell>
                                         <TableCell>{t.category}</TableCell>
-                                        <TableCell>{format(new Date(t.created_at), "MMM d, yyyy")}</TableCell>
+                                        <TableCell>{t.created_at ? format(new Date(t.created_at), "MMM d, yyyy") : "N/A"}</TableCell>
                                         <TableCell>
                                             <Badge variant="outline" className={getStatusColor(t.status)}>
                                                 {t.status}

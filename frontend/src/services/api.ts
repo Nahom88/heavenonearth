@@ -46,9 +46,197 @@ export const apiRequest = async <T>(endpoint: string, options: FetchOptions = {}
 
 export const validateToken = async (): Promise<boolean> => {
     try {
+        // This path is correct because API_URL is /api/v1 and the router is /admins/me
         await apiRequest("/admins/me");
         return true;
     } catch (error) {
         return false;
     }
 };
+
+interface GetItemsFilters {
+    page?: number;
+    page_size?: number;
+    is_featured?: boolean;
+    search?: string;
+}
+
+const buildQueryString = (filters: GetItemsFilters) => {
+    const params = new URLSearchParams();
+    if (filters.page) params.append("page", filters.page.toString());
+    if (filters.page_size) params.append("page_size", filters.page_size.toString());
+    if (filters.is_featured !== undefined) params.append("is_featured", String(filters.is_featured));
+    if (filters.search) params.append("search", filters.search);
+    const queryString = params.toString();
+    return queryString ? `?${queryString}` : "";
+};
+
+export const getMinistries = async (filters: GetItemsFilters = {}): Promise<Ministry[]> => {
+    const queryString = buildQueryString(filters);
+    const response = await apiRequest<{ items: Ministry[] }>(`/ministries${queryString}`);
+    return response.items;
+};
+
+export const getEvents = async (filters: GetItemsFilters = {}): Promise<Event[]> => {
+    const queryString = buildQueryString(filters);
+    const response = await apiRequest<{ items: Event[] }>(`/events${queryString}`);
+    return response.items;
+};
+
+export const getGallery = async (filters: GetItemsFilters = {}): Promise<Gallery[]> => {
+    const queryString = buildQueryString(filters);
+    const response = await apiRequest<{ items: Gallery[] }>(`/gallery${queryString}`);
+    return response.items;
+};
+
+export const getTestimonials = async (filters: GetItemsFilters = {}): Promise<Testimonial[]> => {
+    const queryString = buildQueryString(filters);
+    const response = await apiRequest<{ items: Testimonial[] }>(`/testimonials${queryString}`);
+    return response.items;
+};
+
+export const getPrayerRequests = async (filters: GetItemsFilters = {}): Promise<PrayerRequest[]> => {
+    const queryString = buildQueryString(filters);
+    const response = await apiRequest<{ items: PrayerRequest[] }>(`/prayer-requests${queryString}`);
+    return response.items;
+};
+
+export const getPartnerships = async (filters: GetItemsFilters = {}): Promise<Partnership[]> => {
+    const queryString = buildQueryString(filters);
+    const response = await apiRequest<{ items: Partnership[] }>(`/partnerships${queryString}`);
+    return response.items;
+};
+
+
+export const createMinistry = async (ministry: Partial<Ministry>): Promise<Ministry> => {
+    return apiRequest("/ministries", {
+        method: "POST",
+        body: JSON.stringify(ministry),
+    });
+};
+
+export const updateMinistry = async (id: string, ministry: Partial<Ministry>): Promise<Ministry> => {
+    return apiRequest(`/ministries/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(ministry),
+    });
+};
+
+export const deleteMinistry = async (id: string): Promise<void> => {
+    await apiRequest(`/ministries/${id}`, {
+        method: "DELETE",
+    });
+};
+
+//
+
+export interface Ministry {
+    id: string;
+    title: string;
+    title_am?: string;
+    description: string;
+    description_am?: string;
+    icon_name: string;
+    ministry_key: string;
+    leader_name?: string;
+    leader_email?: string;
+    leader_phone?: string;
+    image_url?: string;
+    activities?: any;
+    schedule?: any;
+    is_active: boolean;
+    is_featured: boolean;
+    display_order: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Event {
+    id: string;
+    title: string;
+    title_am?: string;
+    description: string;
+    description_am?: string;
+    event_date: string; // Comes as string from JSON
+    start_time: string; // Comes as string from JSON
+    end_time?: string;
+    location: string;
+    location_am?: string;
+    category: string;
+    is_featured: boolean;
+    is_recurring: boolean;
+    recurrence_pattern?: string;
+    image_url?: string;
+}
+
+export interface Gallery {
+    id: string;
+    title: string;
+    title_am?: string;
+    description?: string;
+    alt_text: string;
+    media_type: 'image' | 'video';
+    src_url: string;
+    category: string;
+    event_date?: string;
+}
+
+export const createTestimonial = async (testimonial: Partial<Testimonial>): Promise<Testimonial> => {
+    return apiRequest("/testimonials", {
+        method: "POST",
+        body: JSON.stringify(testimonial),
+    });
+};
+
+export interface Testimonial {
+    id: string;
+    name: string;
+    location?: string;
+    title?: string;
+    content: string;
+    photo_url?: string;
+    category: string;
+    published_at?: string;
+}
+
+export interface PrayerRequest {
+    id: string;
+    name: string;
+    message: string;
+    is_public: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Partnership {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    message: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export const uploadFile = async (file: File): Promise<{ url: string }> => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch(`${API_URL}/upload`, {
+        method: "POST",
+        body: formData,
+        headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.detail || "File upload failed";
+        toast.error(errorMessage);
+        throw new Error(errorMessage);
+    }
+
+    return response.json();
+};
+

@@ -1,9 +1,3 @@
-"""
-Heaven on Earth CMS Backend - Event Endpoints
-
-Handles event management for the website.
-"""
-
 from datetime import date
 from typing import Annotated, Optional, List
 from uuid import UUID
@@ -21,14 +15,14 @@ from app.crud.event import (
 from app.database import get_db
 from app.dependencies import get_current_active_admin, get_optional_current_admin
 from app.models.admin import Admin
-from app.schemas.event import EventResponse, EventCreate, EventUpdate
+from app.schemas.event import EventResponse, EventCreate, EventUpdate, EventPublic
 from app.schemas.common import MessageResponse, PaginatedResponse
 
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
 
-@router.get("", response_model=PaginatedResponse[EventResponse])
+@router.get("", response_model=PaginatedResponse[EventPublic])
 async def list_events(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],

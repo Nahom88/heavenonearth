@@ -41,9 +41,12 @@ async def seed_data():
                 "ministry_key": "prayer",
                 "title": "Prayer Ministry",
                 "title_am": "የጸሎት አገልግሎት",
-                "description": "24/7 prayer coverage, prayer vigils, and intercession for families and nations.",
-                "description_am": "24/7 የጸሎት ሽፋን፣ የጸሎት ቪጂሎች እና ለቤተሰቦች እና ብሔራት ምልጃ።",
-                "icon_name": "Heart",
+                "description": """- 24/7 Prayer Coverage
+- Weekly Prayer Vigils
+- Intercession Team
+- Prayer Chain Network""",
+                "description_am": "24/7 የጸሎት ሽፋን፣ ሳምንታዊ የጸሎት ቪጂሎች፣ የምልጃ ቡድን፣ የጸሎት ሰንሰለት።",
+                "icon_name": "HeartHandshake",
                 "is_featured": True,
                 "display_order": 1
             },
@@ -53,7 +56,7 @@ async def seed_data():
                 "title_am": "የማህበረሰብ ተደራሽነት",
                 "description": "Food distribution, helping the needy, and showing Christ's love through action.",
                 "description_am": "ምግብ ማሰራጨት፣ ችግረኞችን መርዳት እና የክርስቶስን ፍቅር በተግባር ማሳየት።",
-                "icon_name": "HandHeart",
+                "icon_name": "HeartHandshake",
                 "is_featured": True,
                 "display_order": 2
             },
@@ -83,9 +86,39 @@ async def seed_data():
                 "title_am": "የልጆች አገልግሎት",
                 "description": "Sunday School, Bible stories, and nurturing the faith of our little ones.",
                 "description_am": "የሰንበት ትምህርት ቤት፣ የመጽሐፍ ቅዱስ ታሪኮች እና የትንንሾቻችንን እምነት ማሳደግ።",
-                "icon_name": "Calendar",
+                "icon_name": "Church",
                 "is_featured": True,
                 "display_order": 5
+            },
+            {
+                "ministry_key": "worship",
+                "title": "Worship Ministry",
+                "title_am": "የአምልኮ አገልግሎት",
+                "description": "Leading the congregation in praise and worship, fostering a spirit of adoration.",
+                "description_am": "ምዕመናንን በአምልኮ መምራት፣ የአምልኮ መንፈስን ማሳደግ።",
+                "icon_name": "Music",
+                "is_featured": True,
+                "display_order": 6
+            },
+            {
+                "ministry_key": "women",
+                "title": "Women's Ministry",
+                "title_am": "የሴቶች አገልግሎት",
+                "description": "Empowering women through fellowship, Bible study, and support groups.",
+                "description_am": "በኅብረት፣ በመጽሐፍ ቅዱስ ጥናት እና በድጋፍ ቡድኖች ሴቶችን ማብቃት።",
+                "icon_name": "Users",
+                "is_featured": True,
+                "display_order": 7
+            },
+            {
+                "ministry_key": "missions",
+                "title": "Missions",
+                "title_am": "ሚሲዮን",
+                "description": "Spreading the Gospel locally and globally through various mission initiatives.",
+                "description_am": "ወንጌልን በአገር ውስጥ እና በዓለም አቀፍ ደረጃ በተለያዩ ሚሲዮን ተነሳሽነቶች ማሰራጨት።",
+                "icon_name": "Mic2",
+                "is_featured": True,
+                "display_order": 8
             }
         ]
 

@@ -85,6 +85,16 @@ class EventResponse(EventBase):
         from_attributes = True
 
 
+class EventPublic(EventBase):
+    """Public-facing schema for event data."""
+    
+    id: UUID
+    image_url: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+
 class EventList(BaseModel):
     """Schema for list of events."""
     

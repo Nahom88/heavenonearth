@@ -22,7 +22,7 @@ class TestimonialBase(BaseModel):
     content: str = Field(min_length=50, max_length=5000)
     category: str = Field(
         default="general",
-        pattern="^(healing|salvation|provision|deliverance|general)$"
+        pattern="^(healing|salvation|provision|deliverance|general|Prayer|General)$"
     )
 
 
@@ -39,7 +39,7 @@ class TestimonialUpdate(BaseModel):
     edited_content: Optional[str] = Field(default=None, max_length=5000)
     category: Optional[str] = Field(
         default=None,
-        pattern="^(healing|salvation|provision|deliverance|general)$"
+        pattern="^(healing|salvation|provision|deliverance|general|Prayer|General)$"
     )
     is_featured: Optional[bool] = None
     display_order: Optional[int] = None

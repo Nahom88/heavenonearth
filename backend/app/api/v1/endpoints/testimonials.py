@@ -4,7 +4,7 @@ Heaven on Earth CMS Backend - Testimonial Endpoints
 Handles testimonial submissions and management.
 """
 
-from typing import Annotated, Optional, List
+from typing import Annotated, Optional, List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
@@ -26,14 +26,14 @@ from app.schemas.testimonial import (
     TestimonialCreate, 
     TestimonialUpdate,
     TestimonialReview,
+    TestimonialPublic,
 )
 from app.schemas.common import MessageResponse, PaginatedResponse
-
 
 router = APIRouter(prefix="/testimonials", tags=["Testimonials"])
 
 
-@router.get("", response_model=PaginatedResponse[TestimonialResponse])
+@router.get("", response_model=PaginatedResponse[Union[TestimonialResponse, TestimonialPublic]]) # Use Union
 async def list_testimonials(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
@@ -52,8 +52,25 @@ async def list_testimonials(
     """
     skip = (page - 1) * page_size
     
-    # Only admins can see non-approved testimonials
-    if not current_admin:
+    # Determine which response model to use for items
+    response_item_model = TestimonialResponse if current_admin else TestimonialPublic
+    
+    # For public access, always filter by published status
+    published_only_filter = True
+    
+    # Admins can optionally filter by status and see all testimonials
+    if current_admin:
+        published_only_filter = None # Admins can see unpublished/unapproved
+        # If an admin explicitly requests a status, use it
+        if status_filter:
+            # If status_filter is provided, we don't want to override it with "approved"
+            # The CRUD function will handle filtering by this status.
+            pass
+        else:
+            # If no status filter is provided by admin, default to all for admin view
+            status_filter = None
+    else:
+        # For unauthenticated users, always show only approved and published
         status_filter = "approved"
     
     testimonials, total = await get_testimonials(
@@ -64,8 +81,10 @@ async def list_testimonials(
         category=category,
         is_featured=is_featured,
         search=search,
+        published_only=published_only_filter, # Pass the new filter
     )
     
+    # Create PaginatedResponse with the appropriate item model
     return PaginatedResponse.create(
         items=testimonials,
         total=total,

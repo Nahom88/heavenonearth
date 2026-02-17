@@ -21,14 +21,19 @@ from app.crud.ministry import (
 from app.database import get_db
 from app.dependencies import get_current_active_admin, get_optional_current_admin
 from app.models.admin import Admin
-from app.schemas.ministry import MinistryResponse, MinistryCreate, MinistryUpdate
+from app.schemas.ministry import (
+    MinistryResponse,
+    MinistryCreate,
+    MinistryUpdate,
+    MinistryPublic,
+)
 from app.schemas.common import MessageResponse, PaginatedResponse
 
 
 router = APIRouter(prefix="/ministries", tags=["Ministries"])
 
 
-@router.get("", response_model=PaginatedResponse[MinistryResponse])
+@router.get("", response_model=PaginatedResponse[MinistryPublic])
 async def list_ministries(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
