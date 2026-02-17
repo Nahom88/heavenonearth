@@ -152,8 +152,8 @@ const Prayer = () => {
         </div>
       </section>
 
-      {/* Prayer Wall */}
-      <section className="bg-muted py-16 md:py-20">
+      {/* Bible Verses About Prayer */}
+      <section className="py-16 md:py-20 bg-gradient-to-br from-secondary/5 to-secondary/10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <motion.div
@@ -162,18 +162,69 @@ const Prayer = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <h2 className="section-title">{t('prayer.wall.title')}</h2>
-              <p className="section-subtitle">{t('prayer.wall.join')}</p>
+              <h2 className="section-title">Bible Verses About Prayer</h2>
+              <p className="section-subtitle">Encouraging Scriptures to Strengthen Your Prayer Life</p>
             </motion.div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {samplePrayers.map((prayer, index) => (
-              <PrayerCard
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                reference: 'Philippians 4:6-7',
+                text: 'Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.'
+              },
+              {
+                reference: '1 Thessalonians 5:16-18',
+                text: 'Rejoice always, pray continually, give thanks in all circumstances; for this is God\'s will for you in Christ Jesus.'
+              },
+              {
+                reference: 'James 5:16',
+                text: 'Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.'
+              },
+              {
+                reference: 'Matthew 6:9-13',
+                text: 'This, then, is how you should pray: "Our Father in heaven, hallowed be your name, your kingdom come, your will be done, on earth as it is in heaven..."'
+              }
+            ].map((verse, index) => (
+              <motion.div
                 key={index}
-                {...prayer}
-                delay={index * 0.1}
-              />
+                initial={{ opacity: 0, y: 20, rotateX: 0, rotateY: 0, scale: 1 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{
+                  y: -5,
+                  rotateX: 1,
+                  rotateY: 1,
+                  scale: 1.02,
+                  boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: 'easeOut',
+                  rotateX: { duration: 0.2 },
+                  rotateY: { duration: 0.2 },
+                  scale: { duration: 0.2 }
+                }}
+                viewport={{ once: true }}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform-gpu will-change-transform"
+              >
+                <motion.div
+                  whileHover={{ color: '#4f46e5' }}
+                  transition={{ duration: 0.2 }}
+                  className="text-lg mb-4"
+                >
+                  "{verse.text}"
+                </motion.div>
+                <motion.p 
+                  className="text-right font-medium text-primary"
+                  whileHover={{ 
+                    scale: 1.05,
+                    x: -5
+                  }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                >
+                  — {verse.reference}
+                </motion.p>
+              </motion.div>
             ))}
           </div>
         </div>
