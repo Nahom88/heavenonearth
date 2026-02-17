@@ -55,12 +55,23 @@ async def list_testimonials(
     # Determine which response model to use for items
     response_item_model = TestimonialResponse if current_admin else TestimonialPublic
     
-    # Only unauthenticated users see approved and published testimonials
-    if not current_admin:
-        status_filter = "approved"
-        published_only_filter = True
-    else:
+    # For public access, always filter by published status
+    published_only_filter = True
+    
+    # Admins can optionally filter by status and see all testimonials
+    if current_admin:
         published_only_filter = None # Admins can see unpublished/unapproved
+        # If an admin explicitly requests a status, use it
+        if status_filter:
+            # If status_filter is provided, we don't want to override it with "approved"
+            # The CRUD function will handle filtering by this status.
+            pass
+        else:
+            # If no status filter is provided by admin, default to all for admin view
+            status_filter = None
+    else:
+        # For unauthenticated users, always show only approved and published
+        status_filter = "approved"
     
     testimonials, total = await get_testimonials(
         db,

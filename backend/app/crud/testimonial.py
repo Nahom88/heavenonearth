@@ -67,6 +67,9 @@ async def get_testimonials(
         query = query.where(Testimonial.published_at.isnot(None))
         count_query = count_query.where(Testimonial.published_at.isnot(None))
     
+    # Print the SQL query for debugging
+    print(f"Executing testimonial query: {query.compile(db.bind, compile_kwargs={'literal_binds': True})}")
+    
     # Get total count
     total_result = await db.execute(count_query)
     total = total_result.scalar() or 0
@@ -75,6 +78,10 @@ async def get_testimonials(
     query = query.order_by(Testimonial.display_order.asc(), Testimonial.created_at.desc()).offset(skip).limit(limit)
     result = await db.execute(query)
     testimonials = list(result.scalars().all())
+    
+    print(f"Fetched {len(testimonials)} testimonials (total: {total})")
+    for t in testimonials:
+        print(f"  ID: {t.id}, Name: {t.name}, Status: {t.status}, Published At: {t.published_at}")
     
     return testimonials, total
 

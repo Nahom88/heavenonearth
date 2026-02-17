@@ -55,7 +55,8 @@ export default function TestimonialSection() {
       }
 
       try {
-        const fresh = await getTestimonials(); // Backend filters for approved for unauthenticated users
+        const fresh = await getTestimonials({ published_only: true }); // Explicitly request published testimonials
+        console.log("Fetched testimonials for home page:", fresh); // Add this line for debugging
         setTestimonials(fresh);
         setCache(CACHE_KEY, fresh, CACHE_TTL_MINUTES);
       } catch (error) {
