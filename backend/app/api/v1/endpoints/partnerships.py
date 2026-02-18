@@ -1,12 +1,5 @@
-"""
-Heaven on Earth CMS Backend - Partnership Endpoints
-
-Handles partnership applications and management.
-"""
-
 from typing import Annotated, Optional, List
 from uuid import UUID
-
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -44,11 +37,7 @@ async def list_partnership_applications(
     assigned_to_id: Optional[UUID] = None,
     search: Optional[str] = None,
 ):
-    """
-    List all partnership applications with pagination and filtering.
-    
-    Requires admin authentication.
-    """
+    """List partnership applications with pagination and filtering (admin only)."""
     skip = (page - 1) * page_size
     
     partnerships, total = await get_partnerships(
@@ -74,11 +63,7 @@ async def submit_partnership_application(
     partnership_in: PartnershipCreate,
     db: Annotated[AsyncSession, Depends(get_db)],
 ):
-    """
-    Submit a new partnership application.
-    
-    Public endpoint for website visitors.
-    """
+    """Submit a new partnership application (public endpoint)."""
     return await create_partnership(db, partnership_in=partnership_in)
 
 
@@ -88,11 +73,7 @@ async def get_partnership(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Admin, Depends(get_current_active_admin)],
 ):
-    """
-    Get a partnership application by ID.
-    
-    Requires admin authentication.
-    """
+    """Get partnership application by ID (admin only)."""
     partnership = await get_partnership_by_id(db, partnership_id=partnership_id)
     if not partnership:
         raise HTTPException(

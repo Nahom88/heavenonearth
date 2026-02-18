@@ -1,6 +1,5 @@
 from typing import Annotated, List, Optional
 from uuid import UUID
-
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -40,11 +39,7 @@ async def list_admins(
     search: Optional[str] = None,
     is_active: Optional[bool] = None,
 ):
-    """
-    List all admins with pagination and filtering.
-    
-    Requires superadmin privileges.
-    """
+    """List all admins with pagination and filtering (superadmin only)."""
     skip = (page - 1) * page_size
     admins, total = await get_admins(
         db, skip=skip, limit=page_size, search=search, is_active=is_active
@@ -62,9 +57,7 @@ async def list_admins(
 async def get_me(
     current_admin: Annotated[Admin, Depends(get_current_active_admin)],
 ):
-    """
-    Get current admin's profile.
-    """
+    """Get current admin's profile."""
     return current_admin
 
 
@@ -74,9 +67,7 @@ async def update_me(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Admin, Depends(get_current_active_admin)],
 ):
-    """
-    Update current admin's profile.
-    """
+    """Update current admin's profile."""
     return await update_admin(db, admin=current_admin, admin_update=admin_update)
 
 
@@ -86,12 +77,7 @@ async def invite_admin(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Admin, Depends(get_current_superadmin)],
 ):
-    """
-    Invite a new admin.
-    
-    Requires superadmin privileges.
-    """
-    # Check if email already exists
+    """Invite a new admin (superadmin only)."""
     existing_admin = await get_admin_by_email(db, email=invite.email)
     if existing_admin:
         raise HTTPException(

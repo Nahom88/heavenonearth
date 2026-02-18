@@ -1,12 +1,5 @@
-"""
-Heaven on Earth CMS Backend - Main Application Entry Point
-
-Initializes FastAPI application, configures middleware, and registers routers.
-"""
-
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -29,31 +22,23 @@ from app.database import init_db, close_db, get_db
 from app.crud.admin import create_initial_admin
 from app.schemas.common import HealthResponse
 
-
-# Rate limiting configuration
 limiter = Limiter(key_func=get_remote_address)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Lifespan context manager for application startup and shutdown.
-    """
-    # Startup: Initialize database and create initial admin
+    """Manage application startup and shutdown events."""
     await init_db()
     
-    # Create initial admin from env if none exists
+    # Create initial admin if none exists
     async for db in get_db():
         await create_initial_admin(db)
-        break # Only need one session
+        break  # Only need one session
         
     yield
-    
-    # Shutdown: Close database connections
     await close_db()
 
 
-# Initialize FastAPI app
 app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
@@ -63,17 +48,13 @@ app = FastAPI(
     redoc_url="/redoc" if not settings.is_production else None,
 )
 
-# Configure rate limiting
+# Configure rate limiting and CORS
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Configure CORS
 origins = settings.allowed_origins_list
-# Ensure common variations are included
 if "http://localhost:8080" in origins and "http://127.0.0.1:8080" not in origins:
     origins.append("http://127.0.0.1:8080")
-
-print(f"DEBUG: Allowed CORS origins: {origins}")
 
 app.add_middleware(
     CORSMiddleware,
@@ -85,12 +66,9 @@ app.add_middleware(
 )
 
 
-# Root endpoint / Health check
 @app.get("/", response_model=HealthResponse, tags=["System"])
 async def health_check():
-    """
-    Health check endpoint to verify the service is running.
-    """
+    """Verify the service is running."""
     return HealthResponse(
         status="healthy",
         version=settings.app_version,
@@ -99,7 +77,7 @@ async def health_check():
     )
 
 
-# Register API v1 routers
+# API v1 routes
 api_v1_prefix = "/api/v1"
 
 app.include_router(auth.router, prefix=api_v1_prefix)
@@ -112,13 +90,9 @@ app.include_router(testimonials.router, prefix=api_v1_prefix)
 app.include_router(partnerships.router, prefix=api_v1_prefix)
 
 
-# Global exception handler for unexpected errors
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    """
-    Catch-all exception handler to ensure consistent error responses.
-    """
-    # Log the exception here in a real application
+    """Handle all uncaught exceptions with a consistent response."""
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={

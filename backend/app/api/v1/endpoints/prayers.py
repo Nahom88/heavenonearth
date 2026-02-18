@@ -1,9 +1,3 @@
-"""
-Heaven on Earth CMS Backend - Prayer Request Endpoints
-
-Handles prayer request submissions and management.
-"""
-
 from typing import Annotated, Optional, List
 from uuid import UUID
 

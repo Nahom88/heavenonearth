@@ -1,12 +1,5 @@
-"""
-Heaven on Earth CMS Backend - Ministry Endpoints
-
-Handles ministry management for the website.
-"""
-
 from typing import Annotated, Optional, List
 from uuid import UUID
-
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -42,16 +35,9 @@ async def list_ministries(
     is_featured: Optional[bool] = None,
     search: Optional[str] = None,
 ):
-    """
-    List all ministries with pagination and filtering.
-    
-    Unauthenticated users only see active ministries.
-    Admins can see all ministries.
-    """
+    """List ministries with pagination. Admins see all, others see only active."""
     skip = (page - 1) * page_size
-    
-    # Only admins can see inactive ministries
-    is_active = True if not current_admin else None
+    is_active = None if current_admin else True
     
     ministries, total = await get_ministries(
         db,
@@ -76,25 +62,14 @@ async def get_ministry(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
 ):
-    """
-    Get a ministry by ID or unique key.
-    """
-    # Try to parse as UUID
+    """Get ministry by ID or key. Admins can see inactive ministries."""
     try:
         ministry_id = UUID(ministry_id_or_key)
         ministry = await get_ministry_by_id(db, ministry_id=ministry_id)
     except ValueError:
-        # If not UUID, try as key
         ministry = await get_ministry_by_key(db, ministry_key=ministry_id_or_key)
         
-    if not ministry:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Ministry not found",
-        )
-    
-    # Only admins can see inactive ministries
-    if not ministry.is_active and not current_admin:
+    if not ministry or (not ministry.is_active and not current_admin):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Ministry not found",
@@ -109,19 +84,14 @@ async def create_new_ministry(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Admin, Depends(get_current_active_admin)],
 ):
-    """
-    Create a new ministry.
-    
-    Requires admin authentication.
-    """
-    # Check if key already exists
-    existing = await get_ministry_by_key(db, ministry_key=ministry_in.ministry_key)
+    """Create a new ministry (admin only)."""
+    existing = await get_ministry_by_key(db, ministry_key=ministry_in.key)
     if existing:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Ministry with key '{ministry_in.ministry_key}' already exists",
+            detail="A ministry with this key already exists",
         )
-        
+    
     return await create_ministry(db, ministry_in=ministry_in, created_by_id=current_admin.id)
 
 

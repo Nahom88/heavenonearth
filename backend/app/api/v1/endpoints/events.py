@@ -1,7 +1,6 @@
 from datetime import date
 from typing import Annotated, Optional, List
 from uuid import UUID
-
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -34,16 +33,9 @@ async def list_events(
     date_to: Optional[date] = None,
     search: Optional[str] = None,
 ):
-    """
-    List all events with pagination and filtering.
-    
-    Unauthenticated users only see published events.
-    Admins can see all events.
-    """
+    """List events with pagination and filtering. Admins see all events, others see only published."""
     skip = (page - 1) * page_size
-    
-    # Only admins can see unpublished events
-    is_published = True if not current_admin else None
+    is_published = None if current_admin else True
     
     events, total = await get_events(
         db,
@@ -71,9 +63,7 @@ async def get_event(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Optional[Admin], Depends(get_optional_current_admin)],
 ):
-    """
-    Get an event by ID.
-    """
+    """Get event by ID. Admins can see unpublished events."""
     event = await get_event_by_id(db, event_id=event_id)
     if not event:
         raise HTTPException(
@@ -81,7 +71,6 @@ async def get_event(
             detail="Event not found",
         )
     
-    # Only admins can see unpublished events
     if not event.is_published and not current_admin:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -97,12 +86,8 @@ async def create_new_event(
     db: Annotated[AsyncSession, Depends(get_db)],
     current_admin: Annotated[Admin, Depends(get_current_active_admin)],
 ):
-    """
-    Create a new event.
-    
-    Requires admin authentication.
-    """
-    return await create_event(db, event_in=event_in, created_by_id=current_admin.id)
+    """Create a new event (admin only)."""
+    return await create_event(db, event_in=event_in, created_by=current_admin.id)
 
 
 @router.put("/{event_id}", response_model=EventResponse)
