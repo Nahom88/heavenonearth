@@ -1,50 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
   <!-- Homepage -->
   <url>
     <loc>https://heavenonearth.et/</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2024-02-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link 
+      rel="alternate"
+      hreflang="en"
+      href="https://heavenonearth.et/?lang=en"/>
+    <xhtml:link 
+      rel="alternate"
+      hreflang="am"
+      href="https://heavenonearth.et/?lang=am"/>
   </url>
   
   <!-- Main Pages -->
   <url>
     <loc>https://heavenonearth.et/about</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2024-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/about?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/about?lang=am"/>
   </url>
   
   <url>
     <loc>https://heavenonearth.et/ministries</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2024-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/ministries?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/ministries?lang=am"/>
   </url>
   
   <url>
     <loc>https://heavenonearth.et/events</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2024-02-18</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/events?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/events?lang=am"/>
   </url>
   
   <url>
     <loc>https://heavenonearth.et/prayer</loc>
-    <lastmod>2024-01-24</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2024-02-18</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/prayer?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/prayer?lang=am"/>
   </url>
   
   <url>
     <loc>https://heavenonearth.et/partnership</loc>
-    <lastmod>2024-01-24</lastmod>
+    <lastmod>2024-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/partnership?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/partnership?lang=am"/>
+  </url>
+  
+  <url>
+    <loc>https://heavenonearth.et/giving</loc>
+    <lastmod>2024-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/giving?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/giving?lang=am"/>
+  </url>
+  
+  <url>
+    <loc>https://heavenonearth.et/contact</loc>
+    <lastmod>2024-02-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/contact?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/contact?lang=am"/>
+  </url>
+  
+  <url>
+    <loc>https://heavenonearth.et/resources</loc>
+    <lastmod>2024-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/resources?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/resources?lang=am"/>
+  </url>
+  
+  <url>
+    <loc>https://heavenonearth.et/testimonials</loc>
+    <lastmod>2024-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://heavenonearth.et/testimonials?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="am" href="https://heavenonearth.et/testimonials?lang=am"/>
   </url>
   
   <url>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://heavenonearth.et/sitemap.xml</loc>
+    <lastmod>2024-02-18</lastmod>
+  </sitemap>
+  <!-- Add more sitemaps here if needed in the future -->
+  <!-- Example:
+  <sitemap>
+    <loc>https://heavenonearth.et/sitemap-pages.xml</loc>
+    <lastmod>2024-02-18</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://heavenonearth.et/sitemap-posts.xml</loc>
+    <lastmod>2024-02-18</lastmod>
+  </sitemap>
+  -->
+</sitemapindex>

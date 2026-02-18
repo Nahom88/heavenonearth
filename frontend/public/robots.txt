@@ -1,12 +1,46 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+
+# Disallow admin and private areas
 Disallow: /api/
 Disallow: /admin/
 Disallow: /private/
 Disallow: /dashboard/
-Disallow: /*.json$
+Disallow: /login/
+Disallow: /signup/
+Disallow: /account/
+Disallow: /profile/
+
+# Disallow query strings and session IDs
 Disallow: /*?*
+Disallow: /*&*
+Disallow: /*;jsessionid=
+Disallow: /*?s=
+Disallow: /*?q=
+Disallow: /*?search=
+
+# Disallow specific file types
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.php$
+
+# Allow all search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://heavenonearth.et/sitemap.xml
 
 # Sitemap location
 Sitemap: https://heavenonearth.et/sitemap.xml
