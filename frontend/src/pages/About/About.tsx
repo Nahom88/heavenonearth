@@ -4,8 +4,8 @@ import aboutData from './data';
 import SeoHead from '@/components/SeoHead';
 
 const About = () => {
-  const { t } = useTranslation();
-  const { mission, vision, stats, beliefs, team } = aboutData;
+  const { t, i18n } = useTranslation();
+  const { mission, vision, stats, beliefs, values, team } = aboutData;
 
   // Define SEO properties for the About page
   const aboutTitle = `${t('aboutPage.hero.title')} | Heaven on Earth Kingdom Family Ministries`;
@@ -78,61 +78,77 @@ const About = () => {
         </section>
 
         {/* About Us Section (Our Story) */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="py-24 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-32 -mt-32 blur-3xl" />
+          <div className="container mx-auto px-4 relative">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="max-w-3xl mx-auto text-center"
+              className="max-w-4xl mx-auto"
             >
-              <h2 className="text-3xl font-bold mb-6">{t('aboutPage.story.title')}</h2>
-              <p className="text-lg text-muted-foreground">
-                {t('aboutPage.story.description')}
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold mb-4 font-heading text-navy">{t('aboutPage.story.title')}</h2>
+                <div className="w-20 h-1 bg-gold mx-auto" />
+              </div>
+              <p className="text-xl text-muted-foreground leading-relaxed text-center font-light">
+                {t('aboutPage.story.description').split('Lidiya Chanyalew').map((part, i, arr) => (
+                  <span key={i}>
+                    {part}
+                    {i < arr.length - 1 && <span className="font-bold text-navy decoration-gold/30 underline decoration-4 underline-offset-4">Lidiya Chanyalew</span>}
+                  </span>
+                ))}
               </p>
             </motion.div>
           </div>
         </section>
 
         {/* Mission & Vision */}
-        <section className="py-16 bg-muted/20">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-8">
+        <section className="py-24 bg-navy relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent" />
+          </div>
+          <div className="container mx-auto px-4 relative">
+            <div className="grid md:grid-cols-2 gap-12 items-stretch">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 rounded-lg shadow-sm"
+                className="group relative"
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <mission.icon className="h-8 w-8 text-primary" />
+                <div className="h-full bg-white/5 backdrop-blur-sm p-10 rounded-3xl border border-white/10 hover:border-gold/50 transition-all duration-500 flex flex-col">
+                  <div className="flex items-center gap-6 mb-8">
+                    <div className="p-4 bg-gold/20 rounded-2xl group-hover:bg-gold transition-colors duration-500">
+                      <mission.icon className="h-10 w-10 text-gold group-hover:text-navy" />
+                    </div>
+                    <h3 className="text-4xl font-bold text-white font-heading">{t('mission.title')}</h3>
                   </div>
-                  <h3 className="text-2xl font-bold">{t('mission.title')}</h3>
+                  <p className="text-primary-foreground/80 text-xl leading-relaxed font-light flex-grow">
+                    {t('mission.description')}
+                  </p>
                 </div>
-                <p className="text-muted-foreground">
-                  {t('mission.description')}
-                </p>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 rounded-lg shadow-sm"
+                className="group relative"
               >
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <vision.icon className="h-8 w-8 text-primary" />
+                <div className="h-full bg-white/5 backdrop-blur-sm p-10 rounded-3xl border border-white/10 hover:border-gold/50 transition-all duration-500 flex flex-col">
+                  <div className="flex items-center gap-6 mb-8">
+                    <div className="p-4 bg-gold/20 rounded-2xl group-hover:bg-gold transition-colors duration-500">
+                      <vision.icon className="h-10 w-10 text-gold group-hover:text-navy" />
+                    </div>
+                    <h3 className="text-4xl font-bold text-white font-heading">{t('vision.title')}</h3>
                   </div>
-                  <h3 className="text-2xl font-bold">{t('vision.title')}</h3>
+                  <p className="text-primary-foreground/80 text-xl leading-relaxed font-light flex-grow">
+                    {t('vision.description')}
+                  </p>
                 </div>
-                <p className="text-muted-foreground">
-                  {t('vision.description')}
-                </p>
               </motion.div>
             </div>
           </div>
@@ -216,7 +232,7 @@ const About = () => {
                 >
                   <h3 className="text-xl font-bold mb-4 text-gold uppercase tracking-wider">{t(`aboutPage.values.${value.key}.title`)}</h3>
                   <p className="text-primary-foreground/90 leading-relaxed mb-4">{t(`aboutPage.values.${value.key}.description`)}</p>
-                  {t(`aboutPage.values.${value.key}.scripture`) && (
+                  {i18n.exists(`aboutPage.values.${value.key}.scripture`) && t(`aboutPage.values.${value.key}.scripture`) !== "" && (
                     <div className="pt-4 border-t border-gold/20">
                       <p className="text-sm font-serif italic text-gold/90">
                         {t(`aboutPage.values.${value.key}.scripture`)}

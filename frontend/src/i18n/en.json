@@ -206,7 +206,7 @@
     },
     "story": {
       "title": "Our History",
-      "description": "Heaven on earth kingdom family ministries started our first gathering in 2018 by lidiya chanyalew in a church room. This gathering was the foundation of God's movement for the past few years in preaching the kingdom gospel and equipping the young generation."
+      "description": "Heaven on Earth Kingdom Family Ministries started our first gathering in 2018, led by Lidiya Chanyalew in a church room. This gathering was the foundation of God's movement for the past few years in preaching the Kingdom Gospel and equipping the young generation."
     },
     "beliefs": {
       "title": "Our Beliefs",
@@ -271,15 +271,18 @@
       },
       "presenceFocused": {
         "title": "Focused on His Presence",
-        "description": "As a lifestyle, we focus on spirit filled daily fellowship to be led by the spirit of God and transformed into Christ likeness."
+        "description": "As a lifestyle, we focus on spirit filled daily fellowship to be led by the spirit of God and transformed into Christ likeness.",
+        "scripture": ""
       },
       "spiritLedSubmission": {
         "title": "Spirit Led Submission",
-        "description": "We yield our personal agendas to God's divine will. We move by the revelation and power of the Holy Spirit to ensure His will, not ours, is done on earth."
+        "description": "We yield our personal agendas to God's divine will. We move by the revelation and power of the Holy Spirit to ensure His will, not ours, is done on earth.",
+        "scripture": ""
       },
       "transformationalLove": {
         "title": "Transformational Love",
-        "description": "Love is the lifestyle and primary language of the kingdom of God. We demonstrate God's love through tangible acts of service, compassion, and reconciliation, bringing the atmosphere of heaven into broken spaces."
+        "description": "Love is the lifestyle and primary language of the kingdom of God. We demonstrate God's love through tangible acts of service, compassion, and reconciliation, bringing the atmosphere of heaven into broken spaces.",
+        "scripture": ""
       },
       "templeOfGod": {
         "title": "We are the Temple of God",
@@ -288,7 +291,8 @@
       },
       "supernaturalLifestyle": {
         "title": "Supernatural Lifestyle",
-        "description": "We don't just talk about the kingdom; we expect to see it. We believe the present power of God to heal, to deliver and transform lives here and now."
+        "description": "We don't just talk about the kingdom; we expect to see it. We believe the present power of God to heal, to deliver and transform lives here and now.",
+        "scripture": ""
       }
     },
     "team": {
@@ -347,6 +351,7 @@
   },
   "contactInfo": {
     "phone": "+251 90 554 3858",
+    "phoneSecondary": "+251 99 703 6354",
     "email": "heavenonearthkingdomfamily@gmail.com",
     "address": "Bole Road, Addis Ababa, Ethiopia",
     "monFriHours": "Mon-Fri: 9AM-5PM",
