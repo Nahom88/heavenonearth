@@ -26,11 +26,11 @@
   },
   "mission": {
     "title": "Our Mission",
-    "description": "To make disciples of all nations, teaching them to observe all that Christ has commanded, and bringing the Kingdom of God to every home and community."
+    "description": "Our mission is to establish a kingdom culture within the family unit by disciplining every member in the word empowering them to manifest God's will on earth as it is in heaven. To preach the gospel of the kingdom and equip families to live out God's divine purposes, ensuring His will is done in our lives, our city and our world."
   },
   "vision": {
     "title": "Our Vision",
-    "description": "To see families transformed by the power of the Gospel, communities renewed by the love of Christ, and nations reached with the message of salvation."
+    "description": "Our vision is to see the reality of heaven manifested on earth through transformed lives, restored families, and communities aligned with the will of God, as declared in Matthew 6:10 — “Your kingdom come, Your will be done, on earth as it is in heaven.” We seek to build strong, spirit-led families that reflect God’s heart, and function as agents of transformation in the world. Our ultimate vision is a global movement of believers who embody the culture of heaven—where love reigns, faith overcomes, truth prevails, and God’s presence is experienced—until the earth reflects His glory."
   },
   "ministries": {
     "title": "Our Ministries",
@@ -196,34 +196,99 @@
   "aboutPage": {
     "hero": {
       "title": "About Our Ministry",
-      "description": "Discover our story, beliefs, and the team behind Heaven on Earth Kingdom Family Ministries"
+      "hook": "Our name is our mission",
+      "scripture": {
+        "ref": "Matthew 6:10 (KJV)",
+        "text": "“Thy kingdom come. Thy will be done in earth, as it is in heaven.”"
+      },
+      "commitment": "We are a kingdom minded family committed to bringing the heart of the father to our world to see heaven on earth.",
+      "vision": "We are longing to see the transformation of cities and nations through God's presence and His will."
     },
     "story": {
-      "title": "Our Story",
-      "description": "Heaven on Earth Kingdom Family Ministries was founded in 2005 with a vision to create a place where people can experience the love and power of God in their lives."
+      "title": "Our History",
+      "description": "Heaven on earth kingdom family ministries started our first gathering in 2018 by lidiya chanyalew in a church room. This gathering was the foundation of God's movement for the past few years in preaching the kingdom gospel and equipping the young generation."
     },
     "beliefs": {
-      "title": "Our Core Beliefs",
-      "subtitle": "What we stand for and believe in",
-      "bible": {
-        "title": "The Bible",
-        "description": "We believe the Bible is the inspired, infallible Word of God, the supreme authority for faith and life."
+      "title": "Our Beliefs",
+      "subtitle": "At Heaven on Earth Kingdom Family Ministries, our beliefs are rooted in the Word of God. We are committed to living out and advancing God’s kingdom through the following foundational truths:",
+      "wordOfGod": {
+        "title": "The Word of God",
+        "description": "We believe the Bible is the inspired, infallible, and authoritative Word of God. It is the final standard for truth, guidance, and righteous living."
       },
       "trinity": {
         "title": "The Trinity",
-        "description": "We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit."
+        "description": "We believe that there is only one true God who is the eternal King, Creator, and Redeemer of all that is. He is perfectly holy, just, loving, and truthful. He has revealed Himself to be eternally self-existent – one being in three persons: each fully God, yet distinct in person and function."
       },
-      "salvation": {
-        "title": "Salvation",
-        "description": "We believe salvation is by grace through faith in Jesus Christ alone, not by works."
+      "jesusChrist": {
+        "title": "Jesus Christ",
+        "description": "We believe that Jesus Christ is the Son of God, fully God and fully man. He lived a sinless life, died for our sins, rose again in victory, and is the only way to salvation."
+      },
+      "salvationNewBirth": {
+        "title": "Salvation and New Birth",
+        "description": "We believe salvation is a gift of grace received through faith in Jesus Christ. Through Him, we are forgiven, made new, and have relationship with God."
+      },
+      "kingdomOfGod": {
+        "title": "The Kingdom of God",
+        "description": "We believe the Kingdom of God is both present and advancing on the earth. As believers, we are called to live under God’s rule and demonstrate His will in our daily lives."
+      },
+      "holySpirit": {
+        "title": "The Holy Spirit",
+        "description": "We believe the Holy Spirit dwells within every believer, empowering us to live holy lives, walk in spiritual gifts, and fulfill God’s purpose on earth."
+      },
+      "prayerWorship": {
+        "title": "Prayer and Worship",
+        "description": "We believe in the power of prayer and the importance of worship as a lifestyle that invites God’s presence and aligns us with His will."
+      },
+      "familyCommunity": {
+        "title": "Family and Community",
+        "description": "We believe God places individuals into spiritual families for growth, accountability, and love. Strong, godly families are central to God’s design for society."
+      },
+      "loveTransformation": {
+        "title": "Love and Transformation",
+        "description": "We believe that God’s love transforms lives. We are called to reflect His love, bring healing to the broken, and restore hope to the world."
       },
       "church": {
-        "title": "The Church",
-        "description": "We believe in the universal church as the body of Christ, called to worship, fellowship, and mission."
+        "title": "Church",
+        "description": "We believe that the Church is the body of christ and consists of all who put their faith in Jesus Christ. He gave His Church the ordinances of baptism and communion. The Church exists to carry on the ministry of Jesus Christ."
       },
-      "returnOfChrist": {
-        "title": "The Return of Christ",
-        "description": "We believe in the personal, visible return of Jesus Christ to establish His Kingdom."
+      "greatCommission": {
+        "title": "The Great Commission",
+        "description": "We believe in sharing the gospel of Jesus Christ and making disciples of all nations, carrying the message and culture of heaven into every sphere of life."
+      },
+      "livingHeavenOnEarth": {
+        "title": "Living Heaven on Earth",
+        "description": "We believe that through Christ, believers are called to manifest heaven on earth—walking in righteousness, peace, joy, and the power of the Holy Spirit."
+      },
+      "footer": "These beliefs guide our mission as we seek to raise a generation that reflects heaven’s reality here on earth."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "subtitle": "Our values are the heart beat of everything we do. They guide how we live and how we serve.",
+      "kingdomFirst": {
+        "title": "Kingdom First",
+        "description": "We seek first the kingdom of God & His righteousness in every decision as we align with His will.",
+        "scripture": "“But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.” — Matthew 6:33 (KJV)"
+      },
+      "presenceFocused": {
+        "title": "Focused on His Presence",
+        "description": "As a lifestyle, we focus on spirit filled daily fellowship to be led by the spirit of God and transformed into Christ likeness."
+      },
+      "spiritLedSubmission": {
+        "title": "Spirit Led Submission",
+        "description": "We yield our personal agendas to God's divine will. We move by the revelation and power of the Holy Spirit to ensure His will, not ours, is done on earth."
+      },
+      "transformationalLove": {
+        "title": "Transformational Love",
+        "description": "Love is the lifestyle and primary language of the kingdom of God. We demonstrate God's love through tangible acts of service, compassion, and reconciliation, bringing the atmosphere of heaven into broken spaces."
+      },
+      "templeOfGod": {
+        "title": "We are the Temple of God",
+        "description": "We believe that our bodies are for the Lord and the Lord is for our bodies.",
+        "scripture": "“What? know ye not that your body is the temple of the Holy Ghost which is in you, which ye have of God, and ye are not your own?” — 1 Corinthians 6:19 (KJV)"
+      },
+      "supernaturalLifestyle": {
+        "title": "Supernatural Lifestyle",
+        "description": "We don't just talk about the kingdom; we expect to see it. We believe the present power of God to heal, to deliver and transform lives here and now."
       }
     },
     "team": {

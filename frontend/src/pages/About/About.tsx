@@ -9,7 +9,7 @@ const About = () => {
 
   // Define SEO properties for the About page
   const aboutTitle = `${t('aboutPage.hero.title')} | Heaven on Earth Kingdom Family Ministries`;
-  const aboutDescription = t('aboutPage.hero.description');
+  const aboutDescription = `${t('aboutPage.hero.hook')}. ${t('aboutPage.hero.commitment')}`;
   const aboutCanonicalUrl = 'https://heavenonearth.et/about'; // Replace with actual domain
 
   return (
@@ -32,10 +32,47 @@ const About = () => {
               transition={{ duration: 0.5 }}
               className="text-center text-white"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('aboutPage.hero.title')}</h1>
-              <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-                {t('aboutPage.hero.description')}
-              </p>
+              <h1 className="text-4xl md:text-6xl font-bold mb-8">{t('aboutPage.hero.title')}</h1>
+              
+              <div className="max-w-4xl mx-auto space-y-10">
+                <motion.p 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-2xl md:text-3xl font-heading font-medium text-gold italic border-y border-gold/30 py-4 inline-block"
+                >
+                  "{t('aboutPage.hero.hook')}"
+                </motion.p>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-2xl relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 left-0 w-1 h-full bg-gold" />
+                  <p className="text-xl md:text-3xl font-serif italic mb-4 leading-relaxed">
+                    {t('aboutPage.hero.scripture.text')}
+                  </p>
+                  <p className="text-lg text-primary-foreground/80 font-bold tracking-wider uppercase">
+                    {t('aboutPage.hero.scripture.ref')}
+                  </p>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="grid md:grid-cols-2 gap-10 text-lg md:text-xl text-primary-foreground/90 leading-relaxed text-left"
+                >
+                  <div className="relative pl-6 border-l-2 border-white/10">
+                    <p>{t('aboutPage.hero.commitment')}</p>
+                  </div>
+                  <div className="relative pl-6 border-l-2 border-white/10">
+                    <p>{t('aboutPage.hero.vision')}</p>
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -112,23 +149,80 @@ const About = () => {
               className="max-w-4xl mx-auto text-center mb-12"
             >
               <h2 className="text-3xl font-bold mb-4">{t('aboutPage.beliefs.title')}</h2>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-lg italic max-w-2xl mx-auto">
                 {t('aboutPage.beliefs.subtitle')}
               </p>
             </motion.div>
+ 
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {beliefs.map((belief, index) => {
+                const Icon = belief.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                    className="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all border border-navy/5 group"
+                  >
+                    <div className="mb-4 p-3 bg-primary/5 rounded-lg w-fit group-hover:bg-primary group-hover:text-white transition-colors">
+                      <Icon className="h-6 w-6 text-primary group-hover:text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-navy">{t(`aboutPage.beliefs.${belief.key}.title`)}</h3>
+                    <p className="text-muted-foreground leading-relaxed italic">{t(`aboutPage.beliefs.${belief.key}.description`)}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {beliefs.map((belief, index) => (
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="mt-12 text-center p-6 bg-primary/5 rounded-xl border border-primary/10 max-w-3xl mx-auto"
+            >
+              <p className="text-primary font-medium italic">
+                {t('aboutPage.beliefs.footer')}
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Core Values */}
+        <section className="py-20 bg-navy text-white">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="max-w-4xl mx-auto text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gold">{t('aboutPage.values.title')}</h2>
+              <p className="text-primary-foreground/80 text-lg">
+                {t('aboutPage.values.subtitle')}
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {values.map((value, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
                 >
-                  <h3 className="text-xl font-semibold mb-3">{t(`aboutPage.beliefs.${belief.key}.title`)}</h3>
-                  <p className="text-muted-foreground">{t(`aboutPage.beliefs.${belief.key}.description`)}</p>
+                  <h3 className="text-xl font-bold mb-4 text-gold uppercase tracking-wider">{t(`aboutPage.values.${value.key}.title`)}</h3>
+                  <p className="text-primary-foreground/90 leading-relaxed mb-4">{t(`aboutPage.values.${value.key}.description`)}</p>
+                  {t(`aboutPage.values.${value.key}.scripture`) && (
+                    <div className="pt-4 border-t border-gold/20">
+                      <p className="text-sm font-serif italic text-gold/90">
+                        {t(`aboutPage.values.${value.key}.scripture`)}
+                      </p>
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </div>
