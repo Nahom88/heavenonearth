@@ -136,20 +136,36 @@ const Home = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="section-title text-navy">{t('welcome.title')}</h2>
-              <p className="text-secondary font-heading text-xl mb-6 tracking-wide uppercase">{t('welcome.subtitle')}</p>
-              <p className="text-muted-foreground text-xl leading-relaxed mb-10 font-light">
-                {t('aboutPage.story.description').split('Lidiya Chanyalew').map((part, i, arr) => (
-                  <span key={i}>
-                    {part}
-                    {i < arr.length - 1 && <span className="font-bold text-navy underline decoration-gold/40 decoration-2 underline-offset-4">Lidiya Chanyalew</span>}
-                  </span>
-                ))}
-              </p>
-              <Link to="/about" className="btn-navy py-4 px-10 rounded-full transition-all hover:scale-105 shadow-lg group">
-                {t('welcome.cta')}
-                <ArrowRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <h2 className="section-title text-navy mb-2">{t('welcome.title')}</h2>
+              <p className="text-gold font-heading text-xl mb-12 tracking-widest uppercase">{t('welcome.subtitle')}</p>
+              
+              <div className="flex flex-col items-center gap-8">
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl border border-gold/10 relative max-w-3xl"
+                >
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-navy text-white px-6 py-1 rounded-full text-sm font-bold tracking-tighter uppercase">
+                    Our Calling
+                  </div>
+                  <h3 className="text-3xl font-bold text-navy mb-6">"Our name is our mission"</h3>
+                  <div className="space-y-4 text-navy/80 text-xl font-serif italic mb-8">
+                    <p className="leading-relaxed">
+                      “Thy kingdom come. Thy will be done in earth, as it is in heaven.”
+                    </p>
+                    <p className="text-gold font-sans font-bold not-italic">— Matthew 6:10 (KJV)</p>
+                  </div>
+                  <div className="h-px w-full bg-gold/20 mb-8" />
+                  <p className="text-muted-foreground text-lg leading-relaxed font-light">
+                    We are a kingdom minded family committed to bringing the heart of the father to our world to see heaven on earth. We are longing to see the transformation of cities and nations through God's presence and His will.
+                  </p>
+                </motion.div>
+                
+                <Link to="/about" className="btn-gold py-4 px-12 rounded-full transition-all hover:scale-105 shadow-xl group text-lg font-bold">
+                  {t('welcome.cta')}
+                  <ArrowRight size={22} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
             </motion.div>
           </div>
         </section>        <section className="bg-navy py-24 relative overflow-hidden">
@@ -196,7 +212,7 @@ const Home = () => {
               </motion.div>
             </div>
           </div>
-        </section>>
+        </section>
 
         {/* Ministries Preview */}
         <section className="section-container">
