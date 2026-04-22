@@ -145,25 +145,30 @@ const Home = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl border border-gold/10 relative max-w-3xl"
                 >
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-navy text-white px-6 py-1 rounded-full text-sm font-bold tracking-tighter uppercase">
-                    Our Calling
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-navy text-white px-6 py-1 rounded-full text-sm font-bold tracking-tighter uppercase whitespace-nowrap">
+                    {t('welcome.ourCalling')}
                   </div>
-                  <h3 className="text-3xl font-bold text-navy mb-6">"Our name is our mission"</h3>
+                  <h3 className="text-3xl font-bold text-navy mb-6 underline decoration-gold/30">“{t('welcome.nameIsMission')}”</h3>
                   <div className="space-y-4 text-navy/80 text-xl font-serif italic mb-8">
                     <p className="leading-relaxed">
-                      “Thy kingdom come. Thy will be done in earth, as it is in heaven.”
+                      {i18n.language === 'am' ? '“መንግሥትህ ትምጣ፤ ፈቃድህ በሰማይ እንደ ሆነች እንዲሁ በምድር ትሁን።”' : '“Thy kingdom come. Thy will be done in earth, as it is in heaven.”'}
                     </p>
-                    <p className="text-gold font-sans font-bold not-italic">— Matthew 6:10 (KJV)</p>
+                    <p className="text-gold font-sans font-bold not-italic">— {i18n.language === 'am' ? 'ማቴዎስ 6:10' : 'Matthew 6:10 (KJV)'}</p>
                   </div>
                   <div className="h-px w-full bg-gold/20 mb-8" />
                   <p className="text-muted-foreground text-lg leading-relaxed font-light">
-                    We are a kingdom minded family committed to bringing the heart of the father to our world to see heaven on earth. We are longing to see the transformation of cities and nations through God's presence and His will.
+                    {i18n.language === 'am' 
+                      ? 'እኛ ሰማይን በምድር ላይ ለማየት የአባትን ልብ ወደ ዓለማችን ለማምጣት የቆረጥን የመንግሥቱ ቤተሰቦች ነን። በከተሞች እና በአህዛብ ላይ በእግዚአብሔር መገኘት እና በፈቃዱ ለውጥን ለማየት እንናፍቃለን።' 
+                      : 'We are a kingdom minded family committed to bringing the heart of the father to our world to see heaven on earth. We are longing to see the transformation of cities and nations through God\'s presence and His will.'}
                   </p>
                 </motion.div>
                 
-                <Link to="/about" className="btn-gold py-4 px-12 rounded-full transition-all hover:scale-105 shadow-xl group text-lg font-bold">
+                <Link 
+                  to="/about" 
+                  className="btn-gold py-4 px-10 md:px-12 rounded-full transition-all hover:scale-105 shadow-xl group text-lg font-bold inline-flex items-center justify-center whitespace-nowrap"
+                >
                   {t('welcome.cta')}
-                  <ArrowRight size={22} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={22} className="ml-2 group-hover:translate-x-1 transition-transform flex-shrink-0" />
                 </Link>
               </div>
             </motion.div>
